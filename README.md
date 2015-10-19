@@ -50,7 +50,8 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
         h) Suppression(arbre,mot) --> arbre - [0%...]<br/><br/>
         
 #####Question 3 - Fonction complexes - [0%...]<br/><br/>
-3.7 - FusionBriandais(arbre1, arbre2) --> arbre - [0%...] (Expliquer les étapes importantes)<br/>
+3.7 - FusionBriandais(arbre1, arbre2) --> arbre - [0%...]<br>
+(Expliquer les étapes importantes)<br/>
 3.8 - Fonctions de conversion d'une structure d'arbre à l'autre - [0%...]<br/>
     a) BriandaisToTrieHybride(arbre) --> arbre- [0%...]<br/>
     (Prend en paramètres un Arbre de la Briandais et retourne un Trie Hybride) <br/>
