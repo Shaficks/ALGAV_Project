@@ -2,7 +2,7 @@
 #####Devoir de Programmation ALGAV<br/>
 #####Auteur - Chafik NOUIRA<br/><br/>
 
-UPMC - Master 1 Informatique STL - Semestre 1 - 2015-2016
+> UPMC - Master 1 Informatique STL - Semestre 1 - 2015-2016
 Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 
 ###I - Avancée globale du projet - [0%...]<br/>
@@ -60,16 +60,16 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 - AjoutAvecReequilibrage(arbre,mot) --> arbre - [0%...]<br/><br/>
 
 #####Question 4 - Complexités (Question théorique - Voir énoncé) - [0%...]<br/>
-4.10 - Voir énoncé.<br/><br/>
+4.10 - Voir énoncé - [0%...]<br/><br/>
 
 #####Question 5 - Étude expérimentale - [0%...]<br/>
-5.11 - Construire l'Arbre de la Briandais et le Trie Hybride en utilisant la base Shakespeare<br/>
+5.11 - Construire l'Arbre de la Briandais et le Trie Hybride en utilisant la base Shakespeare - [0%...]<br/>
 Lien : http://www-apr.lip6.fr/~genitrini/doc_ens/Shakespeare.tar<br/>
-     a) ChargerMots(ficher) --> liste|mots|<br/>
-     b) ConstruireBriandais(liste|mots|) --> arbre<br/>
-     c) ConstruireTrieHybride(liste|mots|) --> arbre<br/>
-5.12 - Comparaisons à faire sur machine - Voir énoncé pour les détails<br/>
-5.13 - Autres comparaisons - Voir énoncé<br/>
-5.14 - Représenter graphiquement les arbres <br/>
-    a) AfficheBriandaisSDL(arbre)<br/>
-    b) AfficheTrieHybrideSDL(arbre)<br/>
+     a) ChargerMots(ficher) --> liste|mots| - [0%...]<br/>
+     b) ConstruireBriandais(liste|mots|) --> arbre - [0%...]<br/>
+     c) ConstruireTrieHybride(liste|mots|) --> arbre - [0%...]<br/>
+5.12 - Comparaisons à faire sur machine - Voir énoncé pour les détails - [0%...]<br/>
+5.13 - Autres comparaisons - Voir énoncé - [0%...]<br/>
+5.14 - Représenter graphiquement les arbres - [0%...]<br/>
+    a) AfficheBriandaisSDL(arbre) - [0%...]<br/>
+    b) AfficheTrieHybrideSDL(arbre) - [0%...]<br/>
