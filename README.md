@@ -6,18 +6,25 @@ UPMC - Master 1 Informatique STL - Semestre 1 - 2015-2016
 Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 
 I - Avancée globale du projet - [0%...]
+
 1 - Implémentation de la structure des Arbres de la Briandais - [0%...]
+
 2 - Implémentaiton de la structure des Tries Hybrides - [0%...]
+
 3 - Implémentation des primitives de base des Arbres de la Briandais - [0%...]
+
 4 - Implémentation des primitives de base des Tries Hybrides - [0%...]
+
 5 - Implémentation de fonctions avancées pour chacune des structures - [0%...]
     5.1 - Arbres de la Briandais - [0%...]
-    
     5.2 - Tries Hybrides - [0%...]
+    
 6 - Implémentation de fonctions complexes pour chacune des structures - [0%...]
     6.1 - Arbres de la Briandais - [0%...]
     6.2 - Tries Hybrides - [0%...]
+    
 7 - Complexité - [0%...]
+
 8 - Étude Expérimentale - [0%...]
 
 
