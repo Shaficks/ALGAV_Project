@@ -12,6 +12,7 @@ I - Avancée globale du projet - [0%...]
 4 - Implémentation des primitives de base des Tries Hybrides - [0%...]
 5 - Implémentation de fonctions avancées pour chacune des structures - [0%...]
     5.1 - Arbres de la Briandais - [0%...]
+    
     5.2 - Tries Hybrides - [0%...]
 6 - Implémentation de fonctions complexes pour chacune des structures - [0%...]
     6.1 - Arbres de la Briandais - [0%...]
