@@ -6,10 +6,10 @@
 Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 
 ###I - Avancée globale du projet - [0%...]<br/>
-1 - Implémentation de la structure des Arbres de la Briandais - [0%...]<br/>
-2 - Implémentaiton de la structure des Tries Hybrides - [0%...]<br/>
-3 - Implémentation des primitives de base des Arbres de la Briandais - [0%...]<br/>
-4 - Implémentation des primitives de base des Tries Hybrides - [0%...]<br/>
+1 - Implémentation de la structure des Arbres de la Briandais - [100%...]<br/>
+2 - Implémentaiton de la structure des Tries Hybrides - [100%...]<br/>
+3 - Implémentation des primitives de base des Arbres de la Briandais - [10%...]<br/>
+4 - Implémentation des primitives de base des Tries Hybrides - [10%...]<br/>
 5 - Implémentation de fonctions avancées pour chacune des structures - [0%...]<br/>
     5.1 - Arbres de la Briandais - [0%...]<br/>
     5.2 - Tries Hybrides - [0%...]<br/>
@@ -21,8 +21,8 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 
 ###II - Avancée détaillée du projet (Avec réponses aux questions d'étude théorique):<br/>
 #####Question 1.1 - Structure 1 : Arbres de la Briandais - [0%...]<br/>
-1.1 - [0%...]<br/>
-1.2 - Voir TD pour la liste des Primitives - [0%...]<br/>
+1.1 - Le caractère indiquant la fin d'un mot est '\n'. C'est le caractère représentant un Retour à la Ligne. [100%...]<br/>
+1.2 - Voir TD pour la liste des Primitives - [10%...]<br/>
 1.3 - [0%...]<br/>
 #####Question 1.2 - Structure 2 : Tries Hybrides - [0%...]<br/>
 1.4 - Voir Cours pour la liste des Primitives - [0%...]<br/>
@@ -53,7 +53,7 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 3.7 - FusionBriandais(arbre1, arbre2) --> arbre - [0%...]<br>
 (Expliquer les étapes importantes)<br/>
 3.8 - Fonctions de conversion d'une structure d'arbre à l'autre - [0%...]<br/>
-    a) BriandaisToTrieHybride(arbre) --> arbre- [0%...]<br/>
+    a) BriandaisToTrieHybride(arbre) --> arbre - [0%...]<br/>
     (Prend en paramètres un Arbre de la Briandais et retourne un Trie Hybride) <br/>
     b) TrieHybrideToBriandais(arbre) --> arbre - [0%...]<br/>
     (Prend en paramètres un Trie Hybride et retourne un Arbre de la Briandais)<br/>
