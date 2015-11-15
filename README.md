@@ -8,7 +8,7 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 ###I - Avancée globale du projet - [0%...]<br/>
 1 - Implémentation de la structure des Arbres de la Briandais - [100%...]<br/>
 2 - Implémentaiton de la structure des Tries Hybrides - [100%...]<br/>
-3 - Implémentation des primitives de base des Arbres de la Briandais - [10%...]<br/>
+3 - Implémentation des primitives de base des Arbres de la Briandais - [99%...]<br/>
 4 - Implémentation des primitives de base des Tries Hybrides - [10%...]<br/>
 5 - Implémentation de fonctions avancées pour chacune des structures - [0%...]<br/>
     5.1 - Arbres de la Briandais - [0%...]<br/>
@@ -20,13 +20,31 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 8 - Étude Expérimentale - [0%...]<br/><br/>
 
 ###II - Avancée détaillée du projet (Avec réponses aux questions d'étude théorique):<br/>
-#####Question 1.1 - Structure 1 : Arbres de la Briandais - [0%...]<br/>
-1.1 - Le caractère indiquant la fin d'un mot est '\n'. C'est le caractère représentant un Retour à la Ligne. [100%...]<br/>
-1.2 - Voir TD pour la liste des Primitives - [10%...]<br/>
-1.3 - [0%...]<br/>
+#####Question 1.1 - Structure 1 : Arbres de la Briandais - [99%...]<br/>
+1.1 - Le caractère indiquant la fin d'un mot est '\0'. C'est le caractère NULL représentant la fin d'un mot en langage C', Son code ASCII est 0. [100%]<br/>
+1.2 - Voir TD pour la liste des Primitives - [99%...]<br/>
+      a) arbreVide --> arbre - [100%]
+      b) ajoutMotBriandais(arbre, mot) --> arbre - [100%]
+      c) ajoutSimpleBriandais(arbre, mot) --> arbre - [100%]
+      d) estArbreVide(arbre) --> entier - [100%...]
+      e) valAB(arbre) --> char - [100%...]
+      f) iemeArbre(arbre, entier) --> arbre - [100%...]
+      g) tousFreresSauf(arbre, entier) --> arbre - [100%...]
+      h) A_Briandais(entier, arbreI, arbre) --> arbre - [99%...]
+1.3 - Construction de l'Arbre de la Briandais en utilisant l'exemple de base - [100%...]<br/>
+      a) constructArbreBriandais(arbre, liste|mots|, taille) --> arbre - [100%...]
 #####Question 1.2 - Structure 2 : Tries Hybrides - [0%...]<br/>
 1.4 - Voir Cours pour la liste des Primitives - [0%...]<br/>
-1.5 - [0%...]<br/><br/>
+      a) trieVide() --> trie - [100%...]
+      b) ajoutMotTrie(trie, mot) --> trie - [0%...]
+      c) ajoutSimpleTrie(trie, mot) --> trie - [0%...]
+      d) estTrieVide(trie) --> entier - [0%...]
+      e) valTH(trie) --> char - [0%...]
+      f) sousArbreTH(trie, entier) --> trie - [0%...]
+      g) tousFilsSauf(trie, entier) --> trie - [0%...]
+      h) insertTrieHybride(trie, trie_i, entier) - [0%...]
+1.5 - Construction du Trie Hybride en utilisant l'exemple de base - [0%...]<br/><br/>
+      d) constructTrieHybride(trie, liste|mots|, taille) --> arbre - [0%...]
 
 #####Question 2 - Fonctions avancées pour chacune des structures - [0%...]<br/>
 2.6 - [0%...]<br/>
@@ -48,7 +66,7 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
         f) ProfondeurMoyenne(arbre) --> entier - [0%...]<br/>
         g) Prefixe(arbre,mot) --> entier - [0%...]<br/>
         h) Suppression(arbre,mot) --> arbre - [0%...]<br/><br/>
-        
+
 #####Question 3 - Fonction complexes - [0%...]<br/><br/>
 3.7 - FusionBriandais(arbre1, arbre2) --> arbre - [0%...]<br>
 (Expliquer les étapes importantes)<br/>
