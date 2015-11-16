@@ -138,10 +138,10 @@ void ajoutSimpleBriandais(ArbreBriandais a, char mot[]) {
 }
 
 //Fonction qui construit un arbre de la Briandais à partir d'une liste de mots.
-void constructArbreBriandais(ArbreBriandais a, char** mots, int taille) {
+void constructArbreBriandais(ArbreBriandais a, char** dictionnaire, int taille) {
     int i;
     for(i = 0; i < taille; i++)
-        ajoutMotBriandais(a, mots[i]);
+        ajoutMotBriandais(a, dictionnaire[i]);
 }
 
 //Retourne 1 si l'arbre est vide, 0 sinon.
@@ -257,66 +257,54 @@ void ajoutMotTrie(TrieHybride t, char mot[]) {
         printf("Il faut un mot !\n");
         return;
     }
-/*
-    //Au cas où l'arbre est vide
-    if(t->nextChild == NULL) {
-        ajoutSimpleTrie(t,mot,);
-        printf("\nLe mot \'%s\' a été ajouté avec succès !\n",mot);
-        return;
+
+    int i, option=3;
+    TrieHybride it = t, prec;
+    prec = it;
+    it = it->nextChild;
+    
+    for(i = 0; mot[i] != '\0'; i++) {      
+      while(it) {
+	//Si la lettre à ajouter est inférieure à la lettre du noeud
+	if(toupper(mot[i]) < toupper(it->val)) {
+	  prec = it;
+	  it = it->inferiorChild;
+	  option = 1;
+	}
+	//Siinon si la lettre à ajouter est supérieure à la lettre du noeud
+	else if(toupper(mot[i]) > toupper(it->val)) {
+	  prec = it;
+	  it = it->superiorChild;
+	  option = 2;
+	}
+	//Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
+	else if(toupper(mot[i]) == toupper(it->val)) {
+	  //Cas particulier : L'existence de toutes les lettres mais pas de la clé
+	  if(mot[i+1] == '\0') {
+	    if(it->cle == -1) {
+	      //Incrémentation du nobmre de mots existants dans le Trie Hybirde
+	      it->cle = ++nbMotsHybride;
+	      return;
+	    }
+	  }
+	  prec = it;
+	  it = it->nextChild;
+	  option = 3;
+	  break;
+	}
+      }
+      
+      
+      /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant.
+	 Donc appel de la fonction d'ajout simple d'un mot.
+	 Cette vérification gére aussi les Tries vides */ 
+      if((!it && mot[i+1] != '\0') || (strlen(mot) == 1) ) {
+	ajoutSimpleTrie(prec, resteMot(mot,i), option);
+	printf("\nMot \'%s\' ajouté avec succès.\n",mot);
+	return;
+      }
     }
-    //Sinon
-    else {
-    */
-        int i, option=3;
-        TrieHybride it = t, prec;
-        prec = it;
-        it = it->nextChild;
-
-
-        for(i = 0; mot[i] != '\0'; i++) {
-
-            /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant.
-               Donc appel de la fonction d'ajout simple d'un mot.7
-               Cette vérification a lieu avant la boucle while afin de traiter aussi les Tries vides */
-            if(!it) {
-                ajoutSimpleTrie(prec, resteMot(mot,i), option);
-                return;
-            }
-
-            while(it) {
-                //Si la lettre à ajouter est inférieure à la lettre du noeud
-                if(toupper(mot[i]) < toupper(it->val)) {
-                    prec = it;
-                    it = it->inferiorChild;
-                    option = 1;
-                }
-                //Siinon si la lettre à ajouter est supérieure à la lettre du noeud
-                else if(toupper(mot[i]) > toupper(it->val)) {
-                    prec = it;
-                    it = it->superiorChild;
-                    option = 2;
-                }
-                //Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
-                else if(toupper(mot[i]) == toupper(it->val)) {
-                    //Cas particulier : L'existence de toutes les lettres mais pas de la clé
-                    if(mot[i+1] == '\0') {
-                        if(it->cle == -1) {
-                            it->cle = ++nbMotsHybride;
-                            return;
-                        }
-                    }
-                    prec = it;
-                    it = it->nextChild;
-                    option = 3;
-                    break;
-                }
-
-            }
-
-        }
-
-    //}
-    printf("\nLe mot \'%s\' existe déjà dans le Trie !\n",mot);
+    printf("\nLe mot \'%s\' existe déjà dans le Trie !!!\n",mot);
 }
 
 //Ajoute un mot au Trie t et retourne le Trie résultat.
@@ -324,7 +312,7 @@ void ajoutMotTrie(TrieHybride t, char mot[]) {
 void ajoutSimpleTrie(TrieHybride t, char mot[], int option) {
     int i;
     TrieHybride it = t, noeud = my_malloc(sizeof(*noeud));
-    noeud->cle = (mot[1] == '\0')? ++nbMotsHybride : -1;
+    noeud->cle = -1;
     noeud->val = mot[0];
     noeud->superiorChild = NULL;
     noeud->inferiorChild = NULL;
@@ -348,40 +336,55 @@ void ajoutSimpleTrie(TrieHybride t, char mot[], int option) {
 
     default : break; //Cas par défaut, il n'y en a pas.
     }
-
-
-    //Au cas où le trie est vide ou ne ou ne contient pas de fils
-    //if(it->nextChild == NULL) {
-        //printf("\nit->nextChild == NULL\n");
-        //TrieHybride noeud;
-        for(i = 1; mot[i] != '\0'; i++) {
-          noeud = my_malloc(sizeof(*noeud));
-          noeud->cle = -1;
-          noeud->val = mot[i];
-          noeud->superiorChild = NULL;
-          noeud->inferiorChild = NULL;
-          noeud->nextChild = NULL;
-          it->nextChild = noeud;
-          it = it->nextChild;
-        }
-        it->cle = ++nbMotsHybride;
-        return;
+    
+    for(i = 1; mot[i] != '\0'; i++) {
+      noeud = my_malloc(sizeof(*noeud));
+      noeud->cle = -1;
+      noeud->val = mot[i];
+      noeud->superiorChild = NULL;
+      noeud->inferiorChild = NULL;
+      noeud->nextChild = NULL;
+      it->nextChild = noeud;
+      it = it->nextChild;
+    }
+    //Incrémentation du nombre de clés présents dans le Trie Hybride
+    it->cle = ++nbMotsHybride;
 }
 
 //Construit un Trie Hybride à partir d'un dictionnaire donné.
-void constructTrieHybride(char** dictionnaire);
+void constructTrieHybride(TrieHybride t, char** dictionnaire, int taille) {
+    int i;
+    for(i = 0; i < taille; i++)
+      ajoutMotTrie(t, dictionnaire[i]);
+}
 
 //Retourne 1(VRAI) si le Trie est vide, 0(FAUX) sinon.
-int estTrieVide(TrieHybride t);
+int estTrieVide(TrieHybride t) {
+  return t->nextChild == NULL;
+}
 
 //Retourne la valeur de la racine du Trie.
-char valTH(TrieHybride t);
+char valTH(TrieHybride t) {
+  return t->nextChild->val;
+}
 
-//Retourne une copie du i-ème sous arbre du Trie t. (1 =< i >= 3 car c'est un Trie Hybride)
-TrieHybride sousArbreTH(TrieHybride t, int i);
+//Retourne une copie du i-ème sous arbre du Trie t. (1 =< i >= 3 car c'est un Trie Hybride) - Par défaut cette fonction retourne le sous-arbre gauche.
+TrieHybride sousArbreTH(TrieHybride t, int i) {
+  switch(i) {
+  case 1 : return t->nextChild->inferiorChild;
+    break;
+  case 2 : return t->nextChild;
+    break;
+  case 3 : return t->nextChild->superiorChild;
+    break;
+  default : return t->nextChild->inferiorChild; break:
+  }
+}
 
 //Retourne la liste des sous-arbres du Trie t privée du i-ème sous-arbre.
-TrieHybride tousFilsSauf(TrieHybride t, int i);
+TrieHybride tousFilsSauf(TrieHybride t, int i) {
+  //On en a vraiment besoin ? 
+}
 
 //Retourne le Trie formé avec T en i-ème sous arbre inséré dans la liste (1 <= i <= 3).
 TrieHybride H_Trie(int i, TrieHybride* tList, TrieHybride t);
@@ -392,7 +395,7 @@ int main(void) {
 
   TrieHybride t = trieVide(), tmp = NULL;
 
-
+  /*
   printf("\nAjout 0 : VIDE\n");
   ajoutMotTrie(t, "");
   printf("\nAjout 1 : Chafik\n");
@@ -409,18 +412,25 @@ int main(void) {
   ajoutMotTrie(t, "Mamine");
   printf("\nAjout 7 : Zaza\n");
   ajoutMotTrie(t, "Zaza");
+  printf("\nAjout 8 : Baba\n");
+  ajoutMotTrie(t, "Baba");
+  printf("\nAjout 9 : Zaza\n");
+  ajoutMotTrie(t, "Zaza");
+  */
 
-
-
-  //Disfonctionnements à gérer au niveau de la fonction ajoutMotHybride !!!!!!
-
-  tmp = t->nextChild->inferiorChild;
+  constructTrieHybride(t,base,tailleBase);
+  printf("\nNombre de mots ajoutés dans le Trie Hybride : %ld\n",nbMotsHybride);
+  
+  tmp = t->nextChild;
 
   if(!tmp) printf("\nWTF : tmp is empty\n");
 
-  printf("\n1 %c",tmp->val);
-  printf("\n2 %c",tmp->nextChild->val);
-
+  printf("\n1 %c | %ld",tmp->val, tmp->cle);
+  printf("\n2 %c | %ld",tmp->nextChild->val, tmp->nextChild->cle);
+  printf("\n3 %c | %ld",tmp->nextChild->nextChild->val, tmp->nextChild->nextChild->cle);
+  printf("\n4 %c | %ld",tmp->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->cle);
+  //printf("\n5 %c | %ld",tmp->nextChild->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->nextChild->cle); 
+  //printf("\n6 %c | %ld",tmp->nextChild->nextChild->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->nextChild->nextChild->cle);
 
   printf("\n\n");
 

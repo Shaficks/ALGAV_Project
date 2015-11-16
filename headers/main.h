@@ -74,7 +74,7 @@ struct Hybride {
 ArbreBriandais arbreVide(); //Retourne un Arbre de la Briandais réduit à un noeud avec 2 liens vides.
 void ajoutMotBriandais(ArbreBriandais a, char mot[]); //Ajoute un mot à l'arbre a et retourne l'Arbre résultat.
 void ajoutSimpleBriandais(ArbreBriandais a, char mot[]); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines de la forêt.
-void constructArbreBriandais(ArbreBriandais a, char** mots, int taille); //Construit un Arbre de la Briandais à partir d'un dictionnaire donné.
+void constructArbreBriandais(ArbreBriandais a, char** dictionnaire, int taille); //Construit un Arbre de la Briandais à partir d'un dictionnaire donné.
 int estArbreVide(ArbreBriandais a); //Retourne 1(VRAI) si l'Arbre est vide, 0(FAUX) sinon.
 char valAB(ArbreBriandais a); //Retourne la valeur de la racine du premier arbre de a.
 ArbreBriandais iemeArbre(ArbreBriandais a, int i); //Retourne une copie du i-ème arbre de la forêt lexicographique(Arbre de la Briandais).
@@ -85,7 +85,7 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i);
 TrieHybride trieVide(); //Retourne un Trie Hybride réduit à un noeud avec 3 liens vides.
 void ajoutMotTrie(TrieHybride t, char mot[]); //Ajoute un mot au Trie t et retourne le Trie résultat.
 void ajoutSimpleTrie(TrieHybride t, char mot[], int option); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines du Trie.
-void constructTrieHybride(char** dictionnaire); //Construit un Trie Hybride à partir d'un dictionnaire donné.
+void constructTrieHybride(TrieHybride t, char** dictionnaire, int taille); //Construit un Trie Hybride à partir d'un dictionnaire donné.
 int estTrieVide(TrieHybride t); //Retourne 1(VRAI) si le Trie est vide, 0(FAUX) sinon.
 char valTH(TrieHybride t); //Retourne la valeur de la racine du Trie.
 TrieHybride sousArbreTH(TrieHybride t, int i); //Retourne une copie du i-ème sous arbre du Trie t. (1 =< i >= 3 car c'est un Trie Hybride)
