@@ -27,12 +27,17 @@ char* resteMot(char mot[], int i) {
 int main(void) {
 
 
+    if(1 == 1) printf("\nYes\n");
+    else if(2 == 2) printf("\nFuck yeah\n");
+    else printf("\nOh shit\n");
+
+/*
+
     printf("Chafik à partir de %d : %s\n",2,resteMot("Chafik",2));
 
 
     printf("New Test :\nA : %d | a : %d | Fin : %d\n", 'A', 'B', '\0');
 
-
-
+*/
     return EXIT_SUCCESS;
 }

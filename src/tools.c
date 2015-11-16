@@ -54,7 +54,7 @@ void *my_malloc(size_t size) {
 }
 
 
-
+//Retourne le reste d'un mot à partir de l'ième lettre incluse
 char* resteMot(char mot[], int i) {
     char *res = malloc(sizeof(res));
     int j, n = strlen(mot);

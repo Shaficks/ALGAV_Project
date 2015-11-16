@@ -15,6 +15,8 @@
 #define VRAI 1
 #define FAUX 0
 
+long int nbMotsBriandais = 0; //Entier représentant le nombre de mots de l'Arbre de la Briandais
+long int nbMotsHybride = 0; //Entier représentant le nombre de mots du Trie Hybride
 int tailleBase = 40; //Taille de la liste de mots courante. à revoir.
 char* base[] = {"A","quel","genial","professeur","de","dactylographie","sommes","nous","redevables","de","la","superbe","phrase",
 		"ci","dessous","un","modele","du","genre","que","toute","dactylo","connait","par","coeur","puisque","elle","fait",
@@ -29,15 +31,6 @@ char** shakespeare;
 
 /* II - Différents types et structures utilisés dans le programme */
 
-/**
- * \struct Briandais
- * \brief Structure représentant un noeud d'un Arbre de la Briandais.
- */
-struct Briandais {
-  char val;           /*!< Valeur contenue dans le noeud. */
-  struct Briandais *sibling;  /*!< Pointeur sur le frère suivant. */
-  struct Briandais *child; /*!< Pointeur sur le premier fils. */
-};
 
 /**
  * \typedef ArbreBriandais
@@ -47,21 +40,35 @@ struct Briandais {
 typedef struct Briandais* ArbreBriandais;
 
 /**
- * \struct Hybride
- * \brief Structure représentant un noeud d'un Arbre de la Briandais
+ * \struct Briandais
+ * \brief Structure représentant un noeud d'un Arbre de la Briandais.
  */
-struct Hybride {
+struct Briandais {
+  //On doit rajouter un entier pour stocker le nombre de mots - A VOIR (Peut être utiliser une union??? OU une variable GLOBALE???)
   char val;           /*!< Valeur contenue dans le noeud. */
-  struct Hybride *superiorChild; /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
-  struct Hybirde *inferiorChild; /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
-  struct Hybirde *nextChild; /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
+  ArbreBriandais sibling;  /*!< Pointeur sur le frère suivant. */
+  ArbreBriandais child; /*!< Pointeur sur le premier fils. */
 };
+
 
 /**
  * \typedef TrieHybride
  * \brief Type représentant un Trie Hybride, il contient un pointeur vers la racine du Trie.
  */
 typedef struct Hybride* TrieHybride;
+
+/**
+ * \struct Hybride
+ * \brief Structure représentant un noeud d'un Arbre de la Briandais
+ */
+struct Hybride {
+  long int cle;       /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
+  char val;           /*!< Champs représentant le caractère contenu dans le noeud. */
+  TrieHybride superiorChild; /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
+  TrieHybride inferiorChild; /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
+  TrieHybride nextChild; /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
+};
+
 
 /* III - Liste des primitives de base d'un Arbre de la Briandais */
 ArbreBriandais arbreVide(); //Retourne un Arbre de la Briandais réduit à un noeud avec 2 liens vides.
@@ -77,7 +84,7 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i);
 /* IV - Liste des primitives de base d'un Trie Hybride */
 TrieHybride trieVide(); //Retourne un Trie Hybride réduit à un noeud avec 3 liens vides.
 void ajoutMotTrie(TrieHybride t, char mot[]); //Ajoute un mot au Trie t et retourne le Trie résultat.
-void ajoutSimpleTrie(TrieHybride t, char mot[]); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines du Trie.
+void ajoutSimpleTrie(TrieHybride t, char mot[], int option); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines du Trie.
 void constructTrieHybride(char** dictionnaire); //Construit un Trie Hybride à partir d'un dictionnaire donné.
 int estTrieVide(TrieHybride t); //Retourne 1(VRAI) si le Trie est vide, 0(FAUX) sinon.
 char valTH(TrieHybride t); //Retourne la valeur de la racine du Trie.
@@ -118,6 +125,6 @@ void afficheBriandaisSDL(ArbreBriandais a); //Affiche l'Arbre a en SDL.
 void afficheTrieHybrideSDL(TrieHybride t); //Affiche le Trie t en SDL.
 void menuPrincipal(); //Menu permettant d'utiliser l'ensemble des fonctionnalités du programme. (à détailler)
 void *my_malloc(size_t size); //alloue de la memoire avec malloc mais quitte le programme en cas de probleme
-char* resteMot(char mot[], int i); //Renvoie le reste d'un mot à partir d'une position i.
+char* resteMot(char mot[], int i); //Renvoie le reste d'un mot à partir d'une position i - ième lettre incluse.
 
 #endif

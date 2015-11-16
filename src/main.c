@@ -30,8 +30,7 @@ ArbreBriandais arbreVide() {
 
 //Fonction d'ajout d'un mot dans un arbre de la Briandais. Elle ne retourne rien car elle modifie directement via les pointeurs.
 void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
-  int i, n = strlen(mot);
-  ArbreBriandais it = a, prec = NULL;
+  int n = strlen(mot);
 
   //Au cas où le mot est vide
   if(!strlen(mot)) {
@@ -40,13 +39,15 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
   }
 
   //Au cas où l'arbre est vide, faire un ajout simple en utilisant la fonction correspondante.
-  if(it->sibling == NULL) {
-    ajoutSimpleBriandais(it,mot);
+  if(a->sibling == NULL) {
+    ajoutSimpleBriandais(a,mot);
     printf("Mot \'%s\' ajouté avec succès !\n",mot);
     return;
   }
   //Au cas où l'arbre n'est pas vide
   else {
+    int i;
+    ArbreBriandais it = a, prec;
     prec = it; //Noeud précédant
     it = a->sibling; //Noeud courant
 
@@ -117,26 +118,14 @@ void ajoutSimpleBriandais(ArbreBriandais a, char mot[]) {
     ArbreBriandais it = NULL, noeud = NULL;
     it = a;
 
-    //Si le noeud n'a pas de frère
-    if(it->sibling == NULL) {
-        //Ajout de la première lettre et avancement de l'itérateur
-        noeud = my_malloc(sizeof(*noeud));
-        noeud->val = mot[0];
-        noeud->sibling = NULL;
-        noeud->child = NULL;
-        it->sibling = noeud;
-        it = it->sibling;
-    }
-    //Sinon
-    else {
-        //Ajout de la première lettre et modification des pointeurs
-        noeud = my_malloc(sizeof(*noeud));
-        noeud->val = mot[0];
-        noeud->sibling = it->sibling;
-        noeud->child = NULL;
-        it->sibling = noeud;
-        it = it->sibling;
-    }
+    //Ajout de la première lettre et modification des pointeurs afin de valider l'insertion
+    //P.S : La première version gérait 2 cas : Insertion au milieu et en fin de la liste
+    noeud = my_malloc(sizeof(*noeud));
+    noeud->val = mot[0];
+    noeud->sibling = it->sibling;
+    noeud->child = NULL;
+    it->sibling = noeud;
+    it = it->sibling;
 
     //Ajout des lettres suivantes
     for(i = 1; i < n+1; i++, it = it->child) {
@@ -184,6 +173,7 @@ ArbreBriandais iemeArbre(ArbreBriandais a, int i) {
     }
     else {
         ArbreBriandais resultat = arbreVide();
+        it->sibling = NULL;
         resultat->sibling = it;
         return resultat;
     }
@@ -237,7 +227,7 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
         prec->sibling = ai;
     }
     else {
-        //Ici on suppose que la racine ai n'existe pas dans l'arbre a, sinon on aura une duplication
+        //Ici on suppose que la racine 'ai' n'existe pas dans l'arbre a, sinon on aura une duplication
         ai->sibling = it->sibling;
         it->sibling = ai;
     }
@@ -252,7 +242,7 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
 TrieHybride trieVide() {
   TrieHybride t;
   t = my_malloc(sizeof(*t));
-  // t->val n'a pas besoin d'initialisation car c'est la cellule sentinelle
+  // t->cle et t->val n'ont pas besoin d'initialisation car c'est la cellule sentinelle
   t->superiorChild = NULL;
   t->inferiorChild = NULL;
   t->nextChild = NULL;
@@ -262,33 +252,120 @@ TrieHybride trieVide() {
 //Ajoute un mot au Trie t et retourne le Trie résultat.
 void ajoutMotTrie(TrieHybride t, char mot[]) {
 
+    //Au cas où le mot est vide
+    if(!strlen(mot)) {
+        printf("Il faut un mot !\n");
+        return;
+    }
+/*
     //Au cas où l'arbre est vide
-    if(!t->nextChild) {
-        ajoutSimpleTrie(t,mot);
+    if(t->nextChild == NULL) {
+        ajoutSimpleTrie(t,mot,);
         printf("\nLe mot \'%s\' a été ajouté avec succès !\n",mot);
         return;
     }
+    //Sinon
+    else {
+    */
+        int i, option=3;
+        TrieHybride it = t, prec;
+        prec = it;
+        it = it->nextChild;
 
 
+        for(i = 0; mot[i] != '\0'; i++) {
+
+            /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant.
+               Donc appel de la fonction d'ajout simple d'un mot.7
+               Cette vérification a lieu avant la boucle while afin de traiter aussi les Tries vides */
+            if(!it) {
+                ajoutSimpleTrie(prec, resteMot(mot,i), option);
+                return;
+            }
+
+            while(it) {
+                //Si la lettre à ajouter est inférieure à la lettre du noeud
+                if(toupper(mot[i]) < toupper(it->val)) {
+                    prec = it;
+                    it = it->inferiorChild;
+                    option = 1;
+                }
+                //Siinon si la lettre à ajouter est supérieure à la lettre du noeud
+                else if(toupper(mot[i]) > toupper(it->val)) {
+                    prec = it;
+                    it = it->superiorChild;
+                    option = 2;
+                }
+                //Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
+                else if(toupper(mot[i]) == toupper(it->val)) {
+                    //Cas particulier : L'existence de toutes les lettres mais pas de la clé
+                    if(mot[i+1] == '\0') {
+                        if(it->cle == -1) {
+                            it->cle = ++nbMotsHybride;
+                            return;
+                        }
+                    }
+                    prec = it;
+                    it = it->nextChild;
+                    option = 3;
+                    break;
+                }
+
+            }
+
+        }
+
+    //}
+    printf("\nLe mot \'%s\' existe déjà dans le Trie !\n",mot);
 }
 
 //Ajoute un mot au Trie t et retourne le Trie résultat.
-void ajoutSimpleTrie(TrieHybride t, char mot[]) {
-    int i, n = strlen(mot);
-    TrieHybride it = t;
+//PS : L'entier option sert
+void ajoutSimpleTrie(TrieHybride t, char mot[], int option) {
+    int i;
+    TrieHybride it = t, noeud = my_malloc(sizeof(*noeud));
+    noeud->cle = (mot[1] == '\0')? ++nbMotsHybride : -1;
+    noeud->val = mot[0];
+    noeud->superiorChild = NULL;
+    noeud->inferiorChild = NULL;
+    noeud->nextChild = NULL;
 
-    if(!t->nextChild) {
-        TrieHybride noeud;
-        for(i = 0; i < n+1; i++) {
+    switch(option) {
+    case 1 : //Inférieur
+        it->inferiorChild = noeud;
+        it = it->inferiorChild;
+        break;
+
+    case 2 : //Supérieur
+        it->superiorChild = noeud;
+        it = it->superiorChild;
+        break;
+
+    case 3 : //Suivant
+        it->nextChild = noeud;
+        it = it->nextChild;
+        break;
+
+    default : break; //Cas par défaut, il n'y en a pas.
+    }
+
+
+    //Au cas où le trie est vide ou ne ou ne contient pas de fils
+    //if(it->nextChild == NULL) {
+        //printf("\nit->nextChild == NULL\n");
+        //TrieHybride noeud;
+        for(i = 1; mot[i] != '\0'; i++) {
           noeud = my_malloc(sizeof(*noeud));
+          noeud->cle = -1;
           noeud->val = mot[i];
           noeud->superiorChild = NULL;
           noeud->inferiorChild = NULL;
           noeud->nextChild = NULL;
-          it->nextChild = (TrieHybride)noeud;
-          it = (TrieHybride)it->nextChild;
+          it->nextChild = noeud;
+          it = it->nextChild;
         }
-    }
+        it->cle = ++nbMotsHybride;
+        return;
 }
 
 //Construit un Trie Hybride à partir d'un dictionnaire donné.
@@ -312,23 +389,43 @@ TrieHybride H_Trie(int i, TrieHybride* tList, TrieHybride t);
 
 int main(void) {
 
-  TrieHybride t = trieVide();
+
+  TrieHybride t = trieVide(), tmp = NULL;
 
 
+  printf("\nAjout 0 : VIDE\n");
+  ajoutMotTrie(t, "");
+  printf("\nAjout 1 : Chafik\n");
   ajoutMotTrie(t, "Chafik");
+  printf("\nAjout 2 : Chafik\n");
+  ajoutMotTrie(t, "Chafik");
+  printf("\nAjout 3 : Chafi\n");
+  ajoutMotTrie(t, "Chafi");
+  printf("\nAjout 4 : Chabi\n");
+  ajoutMotTrie(t, "Chabi");
+  printf("\nAjout 5 : Amira\n");
+  ajoutMotTrie(t, "Amira");
+  printf("\nAjout 6 : Mamine\n");
+  ajoutMotTrie(t, "Mamine");
+  printf("\nAjout 7 : Zaza\n");
+  ajoutMotTrie(t, "Zaza");
 
-  printf("\n%c\n",t->nextChild->val);
-  /*
-  printf("\n%c\n",t->nextChild->nextChild->val);
-  printf("\n%c\n",t->nextChild->nextChild->nextChild->val);
-  printf("\n%c\n",t->nextChild->nextChild->nextChild->nextChild->val);
-  */
 
 
+  //Disfonctionnements à gérer au niveau de la fonction ajoutMotHybride !!!!!!
+
+  tmp = t->nextChild->inferiorChild;
+
+  if(!tmp) printf("\nWTF : tmp is empty\n");
+
+  printf("\n1 %c",tmp->val);
+  printf("\n2 %c",tmp->nextChild->val);
 
 
+  printf("\n\n");
 
-  /*
+/*
+  //Test Arbre Briandais
   ArbreBriandais a = arbreVide(), tmp;
   constructArbreBriandais(a,base,tailleBase);
 
@@ -357,7 +454,7 @@ int main(void) {
   printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->child->val);
   printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->child->child->val);
   printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->child->child->child->val);
-  */
+*/
 
 
   return EXIT_SUCCESS;
