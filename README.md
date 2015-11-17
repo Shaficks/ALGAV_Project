@@ -23,28 +23,28 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 #####Question 1.1 - Structure 1 : Arbres de la Briandais - [99%...]<br/>
 1.1 - Le caractère indiquant la fin d'un mot est '\0'. C'est le caractère NULL représentant la fin d'un mot en langage C', Son code ASCII est 0. [100%]<br/>
 1.2 - Voir TD pour la liste des Primitives - [99%...]<br/>
-      a) arbreVide --> arbre - [100%]
-      b) ajoutMotBriandais(arbre, mot) --> arbre - [100%]
-      c) ajoutSimpleBriandais(arbre, mot) --> arbre - [100%]
-      d) estArbreVide(arbre) --> entier - [100%...]
-      e) valAB(arbre) --> char - [100%...]
-      f) iemeArbre(arbre, entier) --> arbre - [100%...]
-      g) tousFreresSauf(arbre, entier) --> arbre - [100%...]
-      h) A_Briandais(entier, arbreI, arbre) --> arbre - [99%...]
+      a) arbreVide --> arbre - [100%]<br/>
+      b) ajoutMotBriandais(arbre, mot) --> arbre - [100%]<br/>
+      c) ajoutSimpleBriandais(arbre, mot) --> arbre - [100%]<br/>
+      d) estArbreVide(arbre) --> entier - [100%...]<br/>
+      e) valAB(arbre) --> char - [100%...]<br/>
+      f) iemeArbre(arbre, entier) --> arbre - [100%...]<br/>
+      g) tousFreresSauf(arbre, entier) --> arbre - [100%...]<br/>
+      h) A_Briandais(entier, arbreI, arbre) --> arbre - [99%...]<br/>
 1.3 - Construction de l'Arbre de la Briandais en utilisant l'exemple de base - [100%...]<br/>
-      a) constructArbreBriandais(arbre, liste|mots|, taille) --> arbre - [100%...]
+      a) constructArbreBriandais(arbre, liste|mots|, taille) --> arbre - [100%...]<br/>
 #####Question 1.2 - Structure 2 : Tries Hybrides - [0%...]<br/>
 1.4 - Voir Cours pour la liste des Primitives - [0%...]<br/>
-      a) trieVide() --> trie - [100%...]
-      b) ajoutMotTrie(trie, mot) --> trie - [0%...]
-      c) ajoutSimpleTrie(trie, mot) --> trie - [0%...]
-      d) estTrieVide(trie) --> entier - [0%...]
-      e) valTH(trie) --> char - [0%...]
-      f) sousArbreTH(trie, entier) --> trie - [0%...]
-      g) tousFilsSauf(trie, entier) --> trie - [0%...]
-      h) insertTrieHybride(trie, trie_i, entier) - [0%...]
+      a) trieVide() --> trie - [100%...]<br/>
+      b) ajoutMotTrie(trie, mot) --> trie - [0%...]<br/>
+      c) ajoutSimpleTrie(trie, mot) --> trie - [0%...]<br/>
+      d) estTrieVide(trie) --> entier - [0%...]<br/>
+      e) valTH(trie) --> char - [0%...]<br/>
+      f) sousArbreTH(trie, entier) --> trie - [0%...]<br/>
+      g) tousFilsSauf(trie, entier) --> trie - [0%...]<br/>
+      h) insertTrieHybride(trie, trie_i, entier) - [0%...]<br/>
 1.5 - Construction du Trie Hybride en utilisant l'exemple de base - [0%...]<br/><br/>
-      d) constructTrieHybride(trie, liste|mots|, taille) --> arbre - [0%...]
+      d) constructTrieHybride(trie, liste|mots|, taille) --> arbre - [0%...]<br/>
 
 #####Question 2 - Fonctions avancées pour chacune des structures - [0%...]<br/>
 2.6 - [0%...]<br/>
