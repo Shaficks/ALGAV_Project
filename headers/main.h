@@ -94,7 +94,8 @@ TrieHybride insertTrieHybride(TrieHybride t, TrieHybride ti, int i); //Retourne 
 
 /* V - Liste des fonctions avancées pour les Arbres de la Briandais */
 int rechercheMotBriandais(ArbreBriandais a, char mot[]); //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
-int comptageMotsBriandais(ArbreBriandais a); //Retourne le nombre de mots présents dans l'Arbre a.
+long int comptageMotsBriandais_V1(); //Retourne le nombre de mots présents dans l'Arbre a. Solution simple | Complexité O(1)
+int comptageMotsBriandais_V2(ArbreBriandais a); //Retourne le nombre de mots présents dans l'Arbre a. Solution complexe | Appel récursif sur les noeuds de l'Arbre de la Briandais.
 char** listeMotsBriandais(ArbreBriandais a); //Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
 int comptageNilBriandais(ArbreBriandais a); //Retourne le nombre de pointeurs vers Nil présents dans l'Arbre a.
 int hauteurBriandais(ArbreBriandais a); //Calcule et retourne la hauteur de l'Arbre a.
@@ -104,7 +105,8 @@ ArbreBriandais suppressionMotBriandais(ArbreBriandais a, char mot[]); //Supprime
 
 /* VI - Liste des fonctions avancées pour les Tries Hybrides */
 int rechercheMotTrie(TrieHybride t, char mot[]); //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
-int comptageMotsTrie(TrieHybride t); //Retourne le nombre de mots présents dans le Trie t.
+long int comptageMotsTrie_V1(); //Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
+int comptageMotsTrie_V2(TrieHybride t); //Retourne le nombre de mots présents dans le Trie t. Solution Complexte | Appel récursif sur les noeuds du Trie Hybride.
 char** listeMotsTrie(TrieHybride t); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
 int comptageNilTrie(TrieHybride t); //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int hauteurTrie(TrieHybride t); //Calcule et retourne la hauteur du Trie t.

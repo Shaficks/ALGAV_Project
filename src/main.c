@@ -390,43 +390,217 @@ TrieHybride sousArbreTH(TrieHybride t, int i) {
 TrieHybride tousFilsSauf(TrieHybride t, int i); //On en a vraiment besoin ??
 
 //Retourne le Trie formé avec T en i-ème sous arbre inséré dans la liste (1 <= i <= 3).
-TrieHybride H_Trie(int i, TrieHybride* tList, TrieHybride t);
+TrieHybride insertTrieHybride(TrieHybride t, TrieHybride ti, int i);
+
+/* V - Liste des fonctions avancées pour les Arbres de la Briandais */
+
+//Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
+int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
+  int n = strlen(mot);
+
+  //Au cas où le mot est vide
+  if(!strlen(mot)) {
+    printf("Il faut un mot !\n");
+    return FAUX;
+  }
+
+  //Au cas où l'arbre est vide
+  if(a->sibling == NULL) {
+    printf("L'arbre est vide !\n");
+    return FAUX;
+  }
+  //Au cas où l'arbre n'est pas vide
+  else {
+    int i;
+    ArbreBriandais it = a;
+    it = a->sibling; //Noeud courant
+
+    //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
+    for(i = 0; i < n+1; i++) {
+        //Boucle principale servant à parcourir les noeuds de l'arbre
+        while(it) {
+            //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
+            while(toupper(mot[i]) > toupper(it->val)) {
+                it = it->sibling;
+                if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
+            }
+
+            //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique. Donc le mot n'existe pas.
+            if(it == NULL) {
+	      printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
+	      return FAUX;
+            }
+	    
+            //Au cas où le noeud n'est pas vide
+            else {
+                //Si le noeud courant contient la même lettre, passage direct au fils
+                if(toupper(mot[i]) == toupper(it->val)) {
+                    it = it->child;
+                    break;
+                }
+                //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique ==> Donc le mot n'existe pas
+                else {
+		  printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+		  return FAUX;
+		}
+	    }
+	}
+    }
+  }
+  printf("Le mot \'%s\' existe dans l'Arbre !!!\n",mot);
+  return VRAI;
+}
+
+
+//Retourne le nombre de mots présents dans l'Arbre a. Solution simple | Complexité O(1)
+long int comptageMotsBriandais_V1() {
+  return nbMotsBriandais;
+}
+
+//Retourne le nombre de mots présents dans l'Arbre a. Solution complexe | Appel récursif sur les noeuds de l'Arbre de la Briandais.
+int comptageMotsBriandais_V2(ArbreBriandais a) {
+  if(!a) return 0; //Si le noeud est NULL
+  else if(a->val == '\0') return 1 + comptageMotsBriandais_V2(a->sibling); //Si le noeud représente la fin d'un mot. Il peut aussi avoir un frère
+  return comptageMotsBriandais_V2(a->sibling) + comptageMotsBriandais_V2(a->child); //Cas général
+}
+
+//Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
+char** listeMotsBriandais(ArbreBriandais a);
+
+//Retourne le nombre de pointeurs vers Nil présents dans l'Arbre a.
+int comptageNilBriandais(ArbreBriandais a) {
+  if(!a) return 1; //Si le noeud est NULL
+  return comptageNilBriandais(a->sibling) + comptageNilBriandais(a->child); //Cas général
+}
+
+//Calcule et retourne la hauteur de l'Arbre a.
+int hauteurBriandais(ArbreBriandais a);
+
+//Calcule et retourne la profondeur moyenne des feuilles de l'Arbre a.
+int profondeurMoyenneBriandais(ArbreBriandais a);
+
+//Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
+int prefixeBriandais(ArbreBriandais a, char mot[]) {
+  int i, n = strlen(mot);
+  ArbreBriandais it = a;
+  //Au cas où le mot est vide
+  if(!strlen(mot)) {
+    printf("Il faut un mot !\n");
+    return FAUX;
+  }
+
+  //Au cas où l'arbre est vide
+  if(a->sibling == NULL) {
+    printf("L'arbre est vide !\n");
+    return FAUX;
+  }
+  //Au cas où l'arbre n'est pas vide
+  else {
+    it = a->sibling; //Noeud courant
+
+    //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
+    for(i = 0; i < n; i++) {
+        //Boucle principale servant à parcourir les noeuds de l'arbre
+        while(it) {
+            //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
+            while(toupper(mot[i]) > toupper(it->val)) {
+                it = it->sibling;
+                if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
+            }
+
+            //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique. Donc le mot n'existe pas.
+            if(it == NULL) {
+	      printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
+	      break;
+            }
+	    
+            //Au cas où le noeud n'est pas vide
+            else {
+                //Si le noeud courant contient la même lettre, passage direct au fils
+                if(toupper(mot[i]) == toupper(it->val)) {
+                    it = it->child;
+                    break;
+                }
+                //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique ==> Donc le mot n'existe pas
+                else {
+		  printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+		  break;
+		}
+	    }
+	}
+    }
+  }
+  
+  if(i == n) return comptageMotsBriandais_V2(it);
+  return 0;
+}
+
+//Supprime un mot de l'Arbre a et retourne l'Arbre résultat.
+ArbreBriandais suppressionMotBriandais(ArbreBriandais a, char mot[]);
+
+
+/* VI - Liste des fonctions avancées pour les Tries Hybrides */
+
+//Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
+int rechercheMotTrie(TrieHybride t, char mot[]);
+
+//Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
+long int comptageMotsTrie_V1() {
+  return nbMotsHybride;
+}
+
+//Retourne le nombre de mots présents dans le Trie t. Solution Complexte | Appel récursif sur les noeuds du Trie Hybride.
+int comptageMotsTrie_V2(TrieHybride t) {
+  if(!t) return 0; //Si le noeud est NULL
+  //Cas où le noeud représente une clé
+  else if(t->cle != -1) return 1 + comptageMotsTrie_V2(t->nextChild) + comptageMotsTrie_V2(t->inferiorChild) + comptageMotsTrie_V2(t->superiorChild);
+  return  comptageMotsTrie_V2(t->nextChild) + comptageMotsTrie_V2(t->inferiorChild) + comptageMotsTrie_V2(t->superiorChild); //Cas général
+}
+
+//Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+char** listeMotsTrie(TrieHybride t);
+
+//Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
+int comptageNilTrie(TrieHybride t) {
+  if(!t) return 1; //Si le noeud est NULL
+  return  comptageNilTrie(t->nextChild) + comptageNilTrie(t->inferiorChild) + comptageNilTrie(t->superiorChild); //Cas général
+}
+
+//Calcule et retourne la hauteur du Trie t.
+int hauteurTrie(TrieHybride t);
+
+//Calcule et retourne la profondeur moyenne des feuilles du Trie t.
+int profondeurMoyenneTrie(ArbreBriandais t);
+
+//Retourne le nombre de mots présents dans le Trie t pour lesquels le mot donné est préfixe et les affiche.
+int prefixeTrie(TrieHybride t, char mot[]);
+
+//Supprime un mot du Trie t et retourne le Trie résultat.
+TrieHybride suppressionMotTrie(TrieHybride t, char mot[]);
 
 
 int main(void) {
 
-/*
-  TrieHybride t = trieVide(), tmp = NULL;
+
+  
+
+  TrieHybride t = trieVide();
 
 
-  printf("\nAjout 0 : VIDE\n");
-  ajoutMotTrie(t, "");
-  printf("\nAjout 1 : Chafik\n");
-  ajoutMotTrie(t, "Chafik");
-  printf("\nAjout 2 : Chafik\n");
-  ajoutMotTrie(t, "Chafik");
-  printf("\nAjout 3 : Chafi\n");
-  ajoutMotTrie(t, "Chafi");
-  printf("\nAjout 4 : Chabi\n");
-  ajoutMotTrie(t, "Chabi");
-  printf("\nAjout 5 : Amira\n");
-  ajoutMotTrie(t, "Amira");
-  printf("\nAjout 6 : Mamine\n");
-  ajoutMotTrie(t, "Mamine");
-  printf("\nAjout 7 : Zaza\n");
-  ajoutMotTrie(t, "Zaza");
-  printf("\nAjout 8 : Baba\n");
-  ajoutMotTrie(t, "Baba");
-  printf("\nAjout 9 : Zaza\n");
-  ajoutMotTrie(t, "Zaza");
 
-
-  constructTrieHybride(t,base,tailleBase);
+  //constructTrieHybride(t,base,tailleBase);
+  ajoutMotTrie(t,"A");
+  ajoutMotTrie(t,"Que");
   printf("\nNombre de mots ajoutés dans le Trie Hybride : %ld\n",nbMotsHybride);
+
+  printf("\nEn utilisant la fonction de comptage Version 1 : %ld\n",comptageMotsTrie_V1());
+  printf("\nEn utilisant la fonction de comptage Version 2 : %d\n",comptageMotsTrie_V2(t->nextChild));
+  printf("\nComptage Nil Trie Hybride : %d\n",comptageNilTrie(t->nextChild));
+  
+  /*
 
   tmp = t->nextChild->superiorChild;
 
-  if(!tmp) printf("\nWTF : tmp is empty\n");
 
   printf("\n1 %c | %ld",tmp->val, tmp->cle);
   printf("\n2 %c | %ld",tmp->nextChild->val, tmp->nextChild->cle);
@@ -434,16 +608,39 @@ int main(void) {
   printf("\n4 %c | %ld",tmp->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->cle);
   //printf("\n5 %c | %ld",tmp->nextChild->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->nextChild->cle);
   //printf("\n6 %c | %ld",tmp->nextChild->nextChild->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->nextChild->nextChild->cle);
-
+  */
   printf("\n\n");
-*/
+  
 
+
+  /*
   //Test Arbre Briandais
   ArbreBriandais a = arbreVide(); //tmp;
-  constructArbreBriandais(a,base,tailleBase);
+  //constructArbreBriandais(a,base,tailleBase);
+  ajoutMotBriandais(a,"AZ");
+  ajoutMotBriandais(a,"BW");
+  ajoutMotBriandais(a,"C");
+ 
   printf("\nNombre de mots dans l'arbre de la briandais : %ld\n",nbMotsBriandais);
 
-/*
+  printf("\nEn utilisant la fonction de comptage Version 1 : %ld\n",comptageMotsBriandais_V1());
+  printf("\nEn utilisant la fonction de comptage Version 2 : %d\n",comptageMotsBriandais_V2(a->sibling));
+
+  printf("\nFonction de recherche d'un mot : Chafik\n");
+  int res = rechercheMotBriandais(a,"Chafik");
+  printf("\nFonction de recherche d'un mot : Dactylo\n");
+  res = rechercheMotBriandais(a,"a");
+  printf("\nFonction de recherche d'un mot : Dactylographie\n");
+  res = rechercheMotBriandais(a,"dactylograzphie");
+  printf("\nRes : %d\n\n",res);
+
+  printf("\nComptage Nil : %d\n",comptageNilBriandais(a->sibling));
+
+  res = prefixeBriandais(a,"Dactylo");
+  printf("\nPrefixe : Dactylo | %d\n",res);
+  
+
+
   //a = iemeArbre(a->sibling,3);
   //a = tousFreresSauf(a->sibling,3);
   //tmp = iemeArbre(a->sibling,3);
