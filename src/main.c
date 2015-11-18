@@ -430,7 +430,7 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
 	      printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
 	      return FAUX;
             }
-	    
+
             //Au cas où le noeud n'est pas vide
             else {
                 //Si le noeud courant contient la même lettre, passage direct au fils
@@ -482,7 +482,7 @@ int profondeurMoyenneBriandais(ArbreBriandais a);
 //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
 int prefixeBriandais(ArbreBriandais a, char mot[]) {
   int i, n = strlen(mot);
-  ArbreBriandais it = a;
+  ArbreBriandais it = a->sibling;
   //Au cas où le mot est vide
   if(!strlen(mot)) {
     printf("Il faut un mot !\n");
@@ -490,13 +490,12 @@ int prefixeBriandais(ArbreBriandais a, char mot[]) {
   }
 
   //Au cas où l'arbre est vide
-  if(a->sibling == NULL) {
+  if(it == NULL) {
     printf("L'arbre est vide !\n");
     return FAUX;
   }
   //Au cas où l'arbre n'est pas vide
   else {
-    it = a->sibling; //Noeud courant
 
     //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
     for(i = 0; i < n; i++) {
@@ -510,10 +509,10 @@ int prefixeBriandais(ArbreBriandais a, char mot[]) {
 
             //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique. Donc le mot n'existe pas.
             if(it == NULL) {
-	      printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
-	      break;
+                printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
+                break;
             }
-	    
+
             //Au cas où le noeud n'est pas vide
             else {
                 //Si le noeud courant contient la même lettre, passage direct au fils
@@ -523,14 +522,13 @@ int prefixeBriandais(ArbreBriandais a, char mot[]) {
                 }
                 //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique ==> Donc le mot n'existe pas
                 else {
-		  printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
-		  break;
-		}
-	    }
-	}
+                    printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+                    break;
+                }
+            }
+        }
     }
   }
-  
   if(i == n) return comptageMotsBriandais_V2(it);
   return 0;
 }
@@ -542,7 +540,58 @@ ArbreBriandais suppressionMotBriandais(ArbreBriandais a, char mot[]);
 /* VI - Liste des fonctions avancées pour les Tries Hybrides */
 
 //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
-int rechercheMotTrie(TrieHybride t, char mot[]);
+int rechercheMotTrie(TrieHybride t, char mot[]) {
+    //Au cas où le mot est vide
+    if(!strlen(mot)) {
+        printf("Il faut un mot !\n");
+        return FAUX;
+    }
+    if(!t->nextChild) {
+        printf("Le Trie est vide !\n");
+        return FAUX;
+    }
+
+    int i;
+    TrieHybride it = t->nextChild;
+
+    for(i = 0; mot[i] != '\0'; i++) {
+      while(it) {
+        //Si la lettre à ajouter est inférieure à la lettre du noeud
+        if(toupper(mot[i]) < toupper(it->val)) {
+            it = it->inferiorChild;
+        }
+        //Siinon si la lettre à ajouter est supérieure à la lettre du noeud
+        else if(toupper(mot[i]) > toupper(it->val)) {
+            it = it->superiorChild;
+        }
+        //Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
+        else if(toupper(mot[i]) == toupper(it->val)) {
+            //Cas particulier : L'existence de toutes les lettres mais pas de la clé
+            if(mot[i+1] == '\0') {
+                //Pas de clé, on retourner FAUX
+                if(it->cle == -1) {
+                    printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
+                    return FAUX;
+                }
+            }
+            it = it->nextChild;
+            if(!it) ++i;
+            break;
+        }
+      }
+
+      /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant.
+	 Donc appel de la fonction d'ajout simple d'un mot.
+	 Cette vérification gére aussi les Tries vides */
+
+      if(!it && (strlen(resteMot(mot,i)) >= 1)) {
+        printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
+        return FAUX;
+      }
+    }
+    printf("\nLe mot \'%s\' existe dans le Trie !!!\n",mot);
+    return VRAI;
+}
 
 //Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
 long int comptageMotsTrie_V1() {
@@ -582,21 +631,23 @@ TrieHybride suppressionMotTrie(TrieHybride t, char mot[]);
 int main(void) {
 
 
-  
+
 
   TrieHybride t = trieVide();
 
 
 
-  //constructTrieHybride(t,base,tailleBase);
-  ajoutMotTrie(t,"A");
-  ajoutMotTrie(t,"Que");
+  constructTrieHybride(t,base,tailleBase);
   printf("\nNombre de mots ajoutés dans le Trie Hybride : %ld\n",nbMotsHybride);
 
   printf("\nEn utilisant la fonction de comptage Version 1 : %ld\n",comptageMotsTrie_V1());
   printf("\nEn utilisant la fonction de comptage Version 2 : %d\n",comptageMotsTrie_V2(t->nextChild));
   printf("\nComptage Nil Trie Hybride : %d\n",comptageNilTrie(t->nextChild));
-  
+  printf("\nChercher Mot 'Chafik' : %d\n",rechercheMotTrie(t,"Chafik"));
+  printf("\nChercher Mot 'Dactylo' : %d\n",rechercheMotTrie(t,"Dactylo"));
+  printf("\nChercher Mot 'DACTYLOGRAPHIE' : %d\n",rechercheMotTrie(t,"DACTYLOGRAPHIE"));
+
+
   /*
 
   tmp = t->nextChild->superiorChild;
@@ -610,7 +661,7 @@ int main(void) {
   //printf("\n6 %c | %ld",tmp->nextChild->nextChild->nextChild->nextChild->nextChild->val, tmp->nextChild->nextChild->nextChild->nextChild->nextChild->cle);
   */
   printf("\n\n");
-  
+
 
 
   /*
@@ -620,7 +671,7 @@ int main(void) {
   ajoutMotBriandais(a,"AZ");
   ajoutMotBriandais(a,"BW");
   ajoutMotBriandais(a,"C");
- 
+
   printf("\nNombre de mots dans l'arbre de la briandais : %ld\n",nbMotsBriandais);
 
   printf("\nEn utilisant la fonction de comptage Version 1 : %ld\n",comptageMotsBriandais_V1());
@@ -638,7 +689,7 @@ int main(void) {
 
   res = prefixeBriandais(a,"Dactylo");
   printf("\nPrefixe : Dactylo | %d\n",res);
-  
+
 
 
   //a = iemeArbre(a->sibling,3);
