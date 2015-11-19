@@ -101,7 +101,8 @@ int comptageNilBriandais(ArbreBriandais a); //Retourne le nombre de pointeurs ve
 int hauteurBriandais(ArbreBriandais a); //Calcule et retourne la hauteur de l'Arbre a.
 int profondeurMoyenneBriandais(ArbreBriandais a); //Calcule et retourne la profondeur moyenne des feuilles de l'Arbre a.
 int prefixeBriandais(ArbreBriandais a, char mot[]); //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
-ArbreBriandais suppressionMotBriandais(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat.
+void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Simple 
+void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 
 /* VI - Liste des fonctions avancées pour les Tries Hybrides */
 int rechercheMotTrie(TrieHybride t, char mot[]); //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
@@ -112,7 +113,8 @@ int comptageNilTrie(TrieHybride t); //Retourne le nombre de pointeurs vers Nil p
 int hauteurTrie(TrieHybride t); //Calcule et retourne la hauteur du Trie t.
 int profondeurMoyenneTrie(ArbreBriandais t); //Calcule et retourne la profondeur moyenne des feuilles du Trie t.
 int prefixeTrie(TrieHybride t, char mot[]); //Retourne le nombre de mots présents dans le Trie t pour lesquels le mot donné est préfixe et les affiche.
-TrieHybride suppressionMotTrie(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat.
+void suppressionMotTrie_V1(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat | Version Simple
+void suppressionMotTrie_V2(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
 
 /* VII - Liste des fonctions complextes pour les 2 structures */
 ArbreBriandais fusionBriandais(ArbreBriandais a1, ArbreBriandais a2); //Fusionne les Arbres a1 et a2 et retourne l'Arbre résultat.
