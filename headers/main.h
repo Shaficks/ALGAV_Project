@@ -76,6 +76,8 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]); //Ajoute un mot à l'arbre
 void ajoutSimpleBriandais(ArbreBriandais a, char mot[]); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines de la forêt.
 void constructArbreBriandais(ArbreBriandais a, char** dictionnaire, int taille); //Construit un Arbre de la Briandais à partir d'un dictionnaire donné.
 int estArbreVide(ArbreBriandais a); //Retourne 1(VRAI) si l'Arbre est vide, 0(FAUX) sinon.
+int estFeuilleBriandais(ArbreBriandais a); //Retourne 1(VRAI) si le neoud est une feuille, 0(FAUX) sinon.
+int comptageFeuillesBriandais(ArbreBriandais a); //Retourne le nombre de feuilles de l'Arbre de la Briandais.
 char valAB(ArbreBriandais a); //Retourne la valeur de la racine du premier arbre de a.
 ArbreBriandais iemeArbre(ArbreBriandais a, int i); //Retourne une copie du i-ème arbre de la forêt lexicographique(Arbre de la Briandais).
 ArbreBriandais tousFreresSauf(ArbreBriandais a, int i); //Retourne la liste de tous les Arbres de la forêt lexicographique a privée du i-ème Arbre.
@@ -87,6 +89,8 @@ void ajoutMotTrie(TrieHybride t, char mot[]); //Ajoute un mot au Trie t et retou
 void ajoutSimpleTrie(TrieHybride t, char mot[], int option); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines du Trie.
 void constructTrieHybride(TrieHybride t, char** dictionnaire, int taille); //Construit un Trie Hybride à partir d'un dictionnaire donné.
 int estTrieVide(TrieHybride t); //Retourne 1(VRAI) si le Trie est vide, 0(FAUX) sinon.
+int estFeuilleTrie(TrieHybride t); //Retourne 1(VRAI) si le noeud est une feuille, 0(FAUX) sinon.
+int comptageFeuillesTrie(TrieHybride t); //Retourne le nombre de feuilles du Trie Hybride.
 char valTH(TrieHybride t); //Retourne la valeur de la racine du Trie.
 TrieHybride sousArbreTH(TrieHybride t, int i); //Retourne une copie du i-ème sous arbre du Trie t. (1 =< i >= 3 car c'est un Trie Hybride)
 TrieHybride tousFilsSauf(TrieHybride t, int i); //Retourne la liste des sous-arbres du Trie t privée du i-ème sous-arbre.
@@ -96,12 +100,13 @@ TrieHybride insertTrieHybride(TrieHybride t, TrieHybride ti, int i); //Retourne 
 int rechercheMotBriandais(ArbreBriandais a, char mot[]); //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
 long int comptageMotsBriandais_V1(); //Retourne le nombre de mots présents dans l'Arbre a. Solution simple | Complexité O(1)
 int comptageMotsBriandais_V2(ArbreBriandais a); //Retourne le nombre de mots présents dans l'Arbre a. Solution complexe | Appel récursif sur les noeuds de l'Arbre de la Briandais.
-char** listeMotsBriandais(ArbreBriandais a); //Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
+void listeMotsBriandais(ArbreBriandais a, char mot[]); //Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
 int comptageNilBriandais(ArbreBriandais a); //Retourne le nombre de pointeurs vers Nil présents dans l'Arbre a.
 int hauteurBriandais(ArbreBriandais a); //Calcule et retourne la hauteur de l'Arbre a.
-int profondeurMoyenneBriandais(ArbreBriandais a); //Calcule et retourne la profondeur moyenne des feuilles de l'Arbre a.
+int profondeurTotaleBriandais(ArbreBriandais a, int n); //Calcule et retourne la somme des profondeurs des feuilles de l'Arbre a. n départ = 0.
+float profondeurMoyenneBriandais(ArbreBriandais a); //Calcule et retourne la profondeur moyenne des feuilles de l'Arbre a.
 int prefixeBriandais(ArbreBriandais a, char mot[]); //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
-void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Simple 
+void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Simple
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 
 /* VI - Liste des fonctions avancées pour les Tries Hybrides */
@@ -111,7 +116,8 @@ int comptageMotsTrie_V2(TrieHybride t); //Retourne le nombre de mots présents d
 char** listeMotsTrie(TrieHybride t); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
 int comptageNilTrie(TrieHybride t); //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int hauteurTrie(TrieHybride t); //Calcule et retourne la hauteur du Trie t.
-int profondeurMoyenneTrie(ArbreBriandais t); //Calcule et retourne la profondeur moyenne des feuilles du Trie t.
+int profondeurTotaleTrie(TrieHybride t, int n); //Retourne la somme des profondeurs de toutes les feuilles du Trie. n = 0 lors de l'appel.
+float profondeurMoyenneTrie(TrieHybride t); //Calcule et retourne la profondeur moyenne des feuilles du Trie t.
 int prefixeTrie(TrieHybride t, char mot[]); //Retourne le nombre de mots présents dans le Trie t pour lesquels le mot donné est préfixe et les affiche.
 void suppressionMotTrie_V1(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat | Version Simple
 void suppressionMotTrie_V2(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
@@ -130,5 +136,7 @@ void afficheTrieHybrideSDL(TrieHybride t); //Affiche le Trie t en SDL.
 void menuPrincipal(); //Menu permettant d'utiliser l'ensemble des fonctionnalités du programme. (à détailler)
 void *my_malloc(size_t size); //alloue de la memoire avec malloc mais quitte le programme en cas de probleme
 char* resteMot(char mot[], int i); //Renvoie le reste d'un mot à partir d'une position i - ième lettre incluse.
+int max2(int a, int b); //Fonction qui retourne l'entier le plus grand entre a et b
+int max3(int a, int b, int c); //Fonction qui retourne l'entier le plus grand entre a, b et c
 
 #endif

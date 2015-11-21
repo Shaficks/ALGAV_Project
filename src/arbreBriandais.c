@@ -1,62 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-
-
-
-
-
-
-char* resteMot(char mot[], int i) {
-    char *res = malloc(sizeof(res));
-    int j;
-
-    for(j = 0; mot[i+j] != '\0'; j++) {
-        res[j] = mot[i+j];
-    }
-    return res;
-}
-
-
-int max2(int a, int b) {
-    return (a>b)?a:b;
-}
-
-
-
-
-
-
-
-int main(void) {
-
-
-  printf("%d\n",max2(5,2));
-
-
-/*
-
-    if(1 == 1) printf("\nYes\n");
-    else if(2 == 2) printf("\nFuck yeah\n");
-    else printf("\nOh shit\n");
-
-    printf("Chafik à partir de %d : %s\n",2,resteMot("Chafik",2));
-
-
-    printf("New Test :\nA : %d | a : %d | Fin : %d\n", 'A', 'B', '\0');
-
-*/
-    return EXIT_SUCCESS;
-}
-
-
-
-
-
-
-
+#include "../headers/main.h"
 
 
 
@@ -196,6 +138,20 @@ int estArbreVide(ArbreBriandais a) {
   return a->sibling == NULL;
 }
 
+//Retourne 1(VRAI) si le neoud est une feuille, 0(FAUX) sinon.
+int estFeuilleBriandais(ArbreBriandais a) {
+    if(!a) return FAUX;
+    return (!a->child && !a->sibling)?VRAI:FAUX;
+}
+
+//Retourne le nombre de feuilles de l'Arbre de la Briandais.
+int comptageFeuillesBriandais(ArbreBriandais a) {
+    if(!a) return 0;
+    if(estFeuilleBriandais(a)) return 1;
+    return comptageFeuillesBriandais(a->child) + comptageFeuillesBriandais(a->sibling);
+}
+
+
 //Retourne la valeur de la racine du premier arbre de a.
 char valAB(ArbreBriandais a) {
   return a->sibling->val;
@@ -284,168 +240,22 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
 
 
 
-/* IV - Liste des primitives de base d'un Trie Hybride */
-//Retourne un Trie Hybride réduit à un noeud avec 3 liens vides.
-TrieHybride trieVide() {
-  TrieHybride t;
-  t = my_malloc(sizeof(*t));
-  // t->cle et t->val n'ont pas besoin d'initialisation car c'est la cellule sentinelle
-  t->superiorChild = NULL;
-  t->inferiorChild = NULL;
-  t->nextChild = NULL;
-  return t;
-}
-
-//Ajoute un mot au Trie t et retourne le Trie résultat.
-void ajoutMotTrie(TrieHybride t, char mot[]) {
-
-    //Au cas où le mot est vide
-    if(!strlen(mot)) {
-        printf("Il faut un mot !\n");
-        return;
-    }
-
-    int i, option=3;
-    TrieHybride it = t, prec;
-    prec = it;
-    it = it->nextChild;
-
-    for(i = 0; mot[i] != '\0'; i++) {
-      while(it) {
-        //Si la lettre à ajouter est inférieure à la lettre du noeud
-        if(toupper(mot[i]) < toupper(it->val)) {
-            prec = it;
-            it = it->inferiorChild;
-            option = 1;
-        }
-        //Siinon si la lettre à ajouter est supérieure à la lettre du noeud
-        else if(toupper(mot[i]) > toupper(it->val)) {
-            prec = it;
-            it = it->superiorChild;
-            option = 2;
-        }
-        //Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
-        else if(toupper(mot[i]) == toupper(it->val)) {
-            //Cas particulier : L'existence de toutes les lettres mais pas de la clé
-            if(mot[i+1] == '\0') {
-                if(it->cle == -1) {
-                    //Incrémentation du nobmre de mots existants dans le Trie Hybirde
-                    it->cle = ++nbMotsHybride;
-                    return;
-                }
-            }
-            prec = it;
-            it = it->nextChild;
-            if(!it) ++i;
-            option = 3;
-            break;
-        }
-      }
-
-      /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant.
-	 Donc appel de la fonction d'ajout simple d'un mot.
-	 Cette vérification gére aussi les Tries vides */
-
-      if(!it && (strlen(resteMot(mot,i)) >= 1)) {
-        ajoutSimpleTrie(prec, resteMot(mot,i), option);
-        printf("\nMot \'%s\' ajouté avec succès.\n",mot);
-        return;
-      }
-    }
-    printf("\nLe mot \'%s\' existe déjà dans le Trie !!!\n",mot);
-}
-
-//Ajoute un mot au Trie t et retourne le Trie résultat.
-//PS : L'entier option sert à préciser s'il s'agit d'une lettre supérieure, inférieure ou suivante
-void ajoutSimpleTrie(TrieHybride t, char mot[], int option) {
-    int i;
-    TrieHybride it = t, noeud = my_malloc(sizeof(*noeud));
-    noeud->cle = -1;
-    noeud->val = mot[0];
-    noeud->superiorChild = NULL;
-    noeud->inferiorChild = NULL;
-    noeud->nextChild = NULL;
-
-    switch(option) {
-    case 1 : //Inférieur
-        it->inferiorChild = noeud;
-        it = it->inferiorChild;
-        break;
-
-    case 2 : //Supérieur
-        it->superiorChild = noeud;
-        it = it->superiorChild;
-        break;
-
-    case 3 : //Suivant
-        it->nextChild = noeud;
-        it = it->nextChild;
-        break;
-
-    default : break; //Cas par défaut, il n'y en a pas.
-    }
-
-    for(i = 1; mot[i] != '\0'; i++) {
-      noeud = my_malloc(sizeof(*noeud));
-      noeud->cle = -1;
-      noeud->val = mot[i];
-      noeud->superiorChild = NULL;
-      noeud->inferiorChild = NULL;
-      noeud->nextChild = NULL;
-      it->nextChild = noeud;
-      it = it->nextChild;
-    }
-    //Incrémentation du nombre de clés présents dans le Trie Hybride
-    it->cle = ++nbMotsHybride;
-}
-
-//Construit un Trie Hybride à partir d'un dictionnaire donné.
-void constructTrieHybride(TrieHybride t, char** dictionnaire, int taille) {
-    int i;
-    for(i = 0; i < taille; i++)
-      ajoutMotTrie(t, dictionnaire[i]);
-}
-
-//Retourne 1(VRAI) si le Trie est vide, 0(FAUX) sinon.
-int estTrieVide(TrieHybride t) {
-  return t->nextChild == NULL;
-}
-
-//Retourne la valeur de la racine du Trie.
-char valTH(TrieHybride t) {
-  return t->nextChild->val;
-}
-
-//Retourne une copie du i-ème sous arbre du Trie t. (1 =< i >= 3 car c'est un Trie Hybride) - Par défaut cette fonction retourne le sous-arbre gauche.
-TrieHybride sousArbreTH(TrieHybride t, int i) {
-  switch(i) {
-  case 1 : return t->nextChild->inferiorChild;
-    break;
-  case 2 : return t->nextChild;
-    break;
-  case 3 : return t->nextChild->superiorChild;
-    break;
-  default : return t->nextChild->inferiorChild; break;
-  }
-}
-
-//Retourne la liste des sous-arbres du Trie t privée du i-ème sous-arbre.
-TrieHybride tousFilsSauf(TrieHybride t, int i); //On en a vraiment besoin ??
-
-//Retourne le Trie formé avec T en i-ème sous arbre inséré dans la liste (1 <= i <= 3).
-TrieHybride insertTrieHybride(TrieHybride t, TrieHybride ti, int i);
-
 /* V - Liste des fonctions avancées pour les Arbres de la Briandais */
 
 //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
 int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
-  int n = strlen(mot);
+  int i, n = strlen(mot);
+
+    ArbreBriandais it = a;
+    it = a->sibling; //Noeud courant
+
 
   //Au cas où le mot est vide
   if(!strlen(mot)) {
     printf("Il faut un mot !\n");
     return FAUX;
   }
+
 
   //Au cas où l'arbre est vide
   if(a->sibling == NULL) {
@@ -454,9 +264,9 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
   }
   //Au cas où l'arbre n'est pas vide
   else {
-    int i;
-    ArbreBriandais it = a;
-    it = a->sibling; //Noeud courant
+    //int i;
+    //ArbreBriandais it = a;
+    //it = a->sibling; //Noeud courant
 
     //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
     for(i = 0; i < n+1; i++) {
@@ -470,12 +280,19 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
 
             //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique. Donc le mot n'existe pas.
             if(it == NULL) {
-	      printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
-	      return FAUX;
+                printf("Le mot \'%s\' n'existe pas dans l'Arbre.\n",mot);
+                return FAUX;
             }
 
             //Au cas où le noeud n'est pas vide
             else {
+            /*
+                if(i == n) {
+                     printf("\nit->val : %d\n",it->val);
+                     printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+                     return FAUX;
+                }
+            */
                 //Si le noeud courant contient la même lettre, passage direct au fils
                 if(toupper(mot[i]) == toupper(it->val)) {
                     it = it->child;
@@ -483,17 +300,22 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
                 }
                 //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique ==> Donc le mot n'existe pas
                 else {
-		  printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
-		  return FAUX;
-		}
-	    }
-	}
+                    printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+                    return FAUX;
+                }
+            }
+        }
     }
   }
+  if(it) printf("%c\n",it->val);
+  if(mot[i] == '\0') printf("\nOui 1\n");
+  printf("\nMot[i-1] : %c\n",mot[i-1]);
+  printf("\nMot[i-2] : %c\n",mot[i-2]);
+
+
   printf("Le mot \'%s\' existe dans l'Arbre !!!\n",mot);
   return VRAI;
 }
-
 
 //Retourne le nombre de mots présents dans l'Arbre a. Solution simple | Complexité O(1)
 long int comptageMotsBriandais_V1() {
@@ -537,8 +359,18 @@ int hauteurBriandais(ArbreBriandais a) {
     return max2(1+hauteurBriandais(a->child) , hauteurBriandais(a->sibling));
 }
 
+//Calcule et retourne la somme des profondeurs des feuilles de l'Arbre a. n départ = 0.
+int profondeurTotaleBriandais(ArbreBriandais a, int n) {
+    if(!a) return 0;
+    if(estFeuilleBriandais(a)) return n+1;
+    return profondeurTotaleBriandais(a->child,n+1) + profondeurTotaleBriandais(a->sibling,n);
+}
+
 //Calcule et retourne la profondeur moyenne des feuilles de l'Arbre a.
-int profondeurMoyenneBriandais(ArbreBriandais a);
+float profondeurMoyenneBriandais(ArbreBriandais a) {
+    if(!a) return 0;
+    return ((float)profondeurTotaleBriandais(a,0)/(float)comptageFeuillesBriandais(a));
+}
 
 //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
 int prefixeBriandais(ArbreBriandais a, char mot[]) {
@@ -619,36 +451,37 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
     for(i = 0; mot[i] != '\0'; i++) {
       //Boucle principale servant à parcourir les noeuds de l'arbre
       while(it) {
-	//Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
-	while(toupper(mot[i]) > toupper(it->val)) {
-	  prec = it;
-	  it = it->sibling;
-	  if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
-	}
+            //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
+        while(toupper(mot[i]) > toupper(it->val)) {
+            prec = it;
+            it = it->sibling;
+            if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
+        }
 
-	//Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique - Donc le mot n'existe pas dans l'Arbre
-	if(it == NULL) {
-	  printf("\nLe mot \'%s\' n'existe pas dans l'Arbre de la Briandais.\n",mot);
-	  return;
-	}
-	//Au cas où le noeud n'est pas vide
-	else {
-	  //Si le noeud courant contient la même lettre, passage direct au fils
-	  if(toupper(mot[i]) == toupper(it->val)) {
-	    prec = it;
-	    it = it->child;
-	    break;
-	  }
-	  //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique - Donc le mot n'existe pas
-	  else {
-	    printf("\nLe mot \'%s\' n'existe pas dans l'Arbre de la Briandais.\n",mot);
-	    return;
-	  }
-	}
+        //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique - Donc le mot n'existe pas dans l'Arbre
+        if(it == NULL) {
+            printf("\nLe mot \'%s\' n'existe pas dans l'Arbre de la Briandais.\n",mot);
+            return;
+        }
+        //Au cas où le noeud n'est pas vide
+        else {
+            //Si le noeud courant contient la même lettre, passage direct au fils
+            if(toupper(mot[i]) == toupper(it->val)) {
+                prec = it;
+                it = it->child;
+                break;
+            }
+            //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique - Donc le mot n'existe pas
+            else {
+                printf("\nLe mot \'%s\' n'existe pas dans l'Arbre de la Briandais.\n",mot);
+                return;
+            }
+        }
       }
     }
   }
-  prec->child = it->sibling;
+  prec->child = (it->sibling)?it->sibling:NULL;
+
   free(it);
   --nbMotsBriandais;
   printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
@@ -657,200 +490,3 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
 
 //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]);
-
-
-/* VI - Liste des fonctions avancées pour les Tries Hybrides */
-
-//Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
-int rechercheMotTrie(TrieHybride t, char mot[]) {
-    //Au cas où le mot est vide
-    if(!strlen(mot)) {
-        printf("Il faut un mot !\n");
-        return FAUX;
-    }
-    if(!t->nextChild) {
-        printf("Le Trie est vide !\n");
-        return FAUX;
-    }
-
-    int i;
-    TrieHybride it = t->nextChild;
-
-    for(i = 0; mot[i] != '\0'; i++) {
-      while(it) {
-        //Si la lettre à ajouter est inférieure à la lettre du noeud
-        if(toupper(mot[i]) < toupper(it->val)) {
-            it = it->inferiorChild;
-        }
-        //Siinon si la lettre à ajouter est supérieure à la lettre du noeud
-        else if(toupper(mot[i]) > toupper(it->val)) {
-            it = it->superiorChild;
-        }
-        //Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
-        else if(toupper(mot[i]) == toupper(it->val)) {
-            //Cas particulier : L'existence de toutes les lettres mais pas de la clé
-            if(mot[i+1] == '\0') {
-                //Pas de clé, on retourner FAUX
-                if(it->cle == -1) {
-                    printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
-                    return FAUX;
-                }
-            }
-            it = it->nextChild;
-            if(!it) ++i;
-            break;
-        }
-      }
-
-      /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant.
-	 Donc appel de la fonction d'ajout simple d'un mot.
-	 Cette vérification gére aussi les Tries vides */
-
-      if(!it && (strlen(resteMot(mot,i)) >= 1)) {
-        printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
-        return FAUX;
-      }
-    }
-    printf("\nLe mot \'%s\' existe dans le Trie !!!\n",mot);
-    return VRAI;
-}
-
-//Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
-long int comptageMotsTrie_V1() {
-  return nbMotsHybride;
-}
-
-//Retourne le nombre de mots présents dans le Trie t. Solution Complexte | Appel récursif sur les noeuds du Trie Hybride.
-int comptageMotsTrie_V2(TrieHybride t) {
-  if(!t) return 0; //Si le noeud est NULL
-  //Cas où le noeud représente une clé
-  else if(t->cle != -1) return 1 + comptageMotsTrie_V2(t->nextChild) + comptageMotsTrie_V2(t->inferiorChild) + comptageMotsTrie_V2(t->superiorChild);
-  return  comptageMotsTrie_V2(t->nextChild) + comptageMotsTrie_V2(t->inferiorChild) + comptageMotsTrie_V2(t->superiorChild); //Cas général
-}
-
-//Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
-char** listeMotsTrie(TrieHybride t);
-
-//Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
-int comptageNilTrie(TrieHybride t) {
-  if(!t) return 1; //Si le noeud est NULL
-  return  comptageNilTrie(t->nextChild) + comptageNilTrie(t->inferiorChild) + comptageNilTrie(t->superiorChild); //Cas général
-}
-
-//Calcule et retourne la hauteur du Trie t.
-int hauteurTrie(TrieHybride t) {
-	if(!t) return 0;
-    return max3(1+hauteurTrie(t->nextChild), 1+hauteurTrie(t->superiorChild), 1+hauteurTrie(t->inferiorChild));
-}
-
-//Calcule et retourne la profondeur moyenne des feuilles du Trie t.
-int profondeurMoyenneTrie(ArbreBriandais t);
-
-//Retourne le nombre de mots présents dans le Trie t pour lesquels le mot donné est préfixe et les affiche.
-int prefixeTrie(TrieHybride t, char mot[]) {
-
-    //Au cas où le mot est vide
-    if(!strlen(mot)) {
-        printf("Il faut un mot !\n");
-        return 0;
-    }
-    //Au cas où le Trie est vide
-    if(!t->nextChild) {
-        printf("Le Trie est vide !\n");
-        return 0;
-    }
-
-    int i;
-    TrieHybride it = t, prec;
-    prec = it;
-    it = it->nextChild;
-
-    for(i = 0; mot[i] != '\0'; i++) {
-      while(it) {
-        //Si la lettre i est inférieure à la lettre du noeud
-        if(toupper(mot[i]) < toupper(it->val)) {
-            prec = it;
-            it = it->inferiorChild;
-        }
-        //Siinon si la lettre i est supérieure à la lettre du noeud
-        else if(toupper(mot[i]) > toupper(it->val)) {
-            prec = it;
-            it = it->superiorChild;
-        }
-        //Sinon si la lettre i est la même que celle du noeud. On passe à la lettre suivante, d'où le break
-        else if(toupper(mot[i]) == toupper(it->val)) {
-            prec = it;
-            it = it->nextChild;
-            if(!it) ++i;
-            break;
-        }
-      }
-
-      /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant - Donc le préfixe n'existe pas dans le Trie */
-      if(!it && (strlen(resteMot(mot,i)) >= 1)) {
-        return 0;
-      }
-    }
-    return comptageMotsTrie_V2(prec);
-}
-
-//Supprime un mot du Trie t et retourne le Trie résultat | Version Simple
-void suppressionMotTrie_V1(TrieHybride t, char mot[]) {
-
-    //Au cas où le mot est vide
-    if(!strlen(mot)) {
-        printf("Il faut un mot !\n");
-        return;
-    }
-    //Au cas où le Trie est vide
-    if(!t->nextChild) {
-        printf("Le Trie est vide !\n");
-        return;
-    }
-
-    int i;
-    TrieHybride it = t, prec;
-    prec = it;
-    it = it->nextChild;
-
-    for(i = 0; mot[i] != '\0'; i++) {
-      while(it) {
-        //Si la lettre i est inférieure à la lettre du noeud
-        if(toupper(mot[i]) < toupper(it->val)) {
-            prec = it;
-            it = it->inferiorChild;
-        }
-        //Siinon si la lettre i est supérieure à la lettre du noeud
-        else if(toupper(mot[i]) > toupper(it->val)) {
-            prec = it;
-            it = it->superiorChild;
-        }
-        //Sinon si la lettre i est la même que celle du noeud. On passe à la lettre suivante, d'où le break
-        else if(toupper(mot[i]) == toupper(it->val)) {
-	  //Cas particulier : L'existence de toutes les lettres mais pas de la clé
-	  if(mot[i+1] == '\0') {
-	    if(it->cle == -1) {
-	      printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
-	      return;
-	    }
-	  }
-	  prec = it;
-	  it = it->nextChild;
-	  if(!it) ++i;
-	  break;
-        }
-      }
-
-      /* Si it est NULL, ça veut dire absence de la lettre dans le trie correspondant - Donc absence du mot dans le Trie - Pas de suppression possible */
-      if(!it && (strlen(resteMot(mot,i)) >= 1)) {
-	printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
-        return;
-      }
-    }
-    prec->cle = -1;
-    --nbMotsHybride; //Décrémentation du nombre des mots
-    printf("\nLe mot \'%s\' a été supprimé du Trie.\n",mot);
-}
-
-//Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
-void suppressionMotTrie_V2(TrieHybride t, char mot[]);

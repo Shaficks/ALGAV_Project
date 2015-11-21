@@ -36,36 +36,36 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 #####Question 1.2 - Structure 2 : Tries Hybrides - [0%...]<br/>
 1.4 - Voir Cours pour la liste des Primitives - [0%...]<br/>
       a) trieVide() --> trie - [100%...]<br/>
-      b) ajoutMotTrie(trie, mot) --> trie - [0%...]<br/>
-      c) ajoutSimpleTrie(trie, mot) --> trie - [0%...]<br/>
-      d) estTrieVide(trie) --> entier - [0%...]<br/>
-      e) valTH(trie) --> char - [0%...]<br/>
-      f) sousArbreTH(trie, entier) --> trie - [0%...]<br/>
+      b) ajoutMotTrie(trie, mot) --> trie - [100%...]<br/>
+      c) ajoutSimpleTrie(trie, mot) --> trie - [100%...]<br/>
+      d) estTrieVide(trie) --> entier - [100%...]<br/>
+      e) valTH(trie) --> char - [100%...]<br/>
+      f) sousArbreTH(trie, entier) --> trie - [100%...]<br/>
       g) tousFilsSauf(trie, entier) --> trie - [0%...]<br/>
       h) insertTrieHybride(trie, trie_i, entier) - [0%...]<br/>
-1.5 - Construction du Trie Hybride en utilisant l'exemple de base - [0%...]<br/><br/>
-      d) constructTrieHybride(trie, liste|mots|, taille) --> arbre - [0%...]<br/>
+1.5 - Construction du Trie Hybride en utilisant l'exemple de base - [100%...]<br/><br/>
+      d) constructTrieHybride(trie, liste|mots|, taille) --> arbre - [100%...]<br/>
 
-#####Question 2 - Fonctions avancées pour chacune des structures - [0%...]<br/>
+#####Question 2 - Fonctions avancées pour chacune des structures - [70%...]<br/>
 2.6 - [0%...]<br/>
-  2.6.1 - Arbres de la Briandais - [0%...]<br/>
-        a) Recherche(arbre,mot) --> boolean - [0%...]<br/>
-        b) ComptageMots(arbre) --> entier - [0%...]<br/>
+  2.6.1 - Arbres de la Briandais - [70%...]<br/>
+        a) Recherche(arbre,mot) --> boolean - [1000%...]<br/>
+        b) ComptageMots(arbre) --> entier - [100%...]<br/>
         c) ListeMots(arbre) --> liste|mots| - [0%...]<br/>
-        d) ComptageNil(arbre) --> entier - [0%...]<br/>
+        d) ComptageNil(arbre) --> entier - [100%...]<br/>
         e) Hauteur(arbre) --> entier - [0%...]<br/>
         f) ProfondeurMoyenne(arbre) --> entier - [0%...]<br/>
-        g) Prefixe(arbre,mot) --> entier - [0%...]<br/>
-        h) Suppression(arbre,mot) --> arbre - [0%...]<br/>
-  2.6.2 - Tries Hybrides - [0%...]<br/>
-        a) Recherche(arbre,mot) --> boolean - [0%...]<br/>
-        b) ComptageMots(arbre) --> entier - [0%...]<br/>
+        g) Prefixe(arbre,mot) --> entier - [100%...]<br/>
+        h) Suppression(arbre,mot) --> arbre - [50%...]<br/>
+  2.6.2 - Tries Hybrides - [70%...]<br/>
+        a) Recherche(arbre,mot) --> boolean - [100%...]<br/>
+        b) ComptageMots(arbre) --> entier - [100%...]<br/>
         c) ListeMots(arbre) --> liste|mots| - [0%...]<br/>
-        d) ComptageNil(arbre) --> entier - [0%...]<br/>
+        d) ComptageNil(arbre) --> entier - [100%...]<br/>
         e) Hauteur(arbre) --> entier - [0%...]<br/>
         f) ProfondeurMoyenne(arbre) --> entier - [0%...]<br/>
-        g) Prefixe(arbre,mot) --> entier - [0%...]<br/>
-        h) Suppression(arbre,mot) --> arbre - [0%...]<br/><br/>
+        g) Prefixe(arbre,mot) --> entier - [100%...]<br/>
+        h) Suppression(arbre,mot) --> arbre - [50%...]<br/><br/>
 
 #####Question 3 - Fonction complexes - [0%...]<br/><br/>
 3.7 - FusionBriandais(arbre1, arbre2) --> arbre - [0%...]<br>
@@ -84,9 +84,9 @@ Devoir de Programmation ALGAV : 20% de la moyenne générale de l'UE.
 #####Question 5 - Étude expérimentale - [0%...]<br/>
 5.11 - Construire l'Arbre de la Briandais et le Trie Hybride en utilisant la base Shakespeare - [0%...]<br/>
 Lien : http://www-apr.lip6.fr/~genitrini/doc_ens/Shakespeare.tar<br/>
-     a) ChargerMots(ficher) --> liste|mots| - [0%...]<br/>
-     b) ConstruireBriandais(liste|mots|) --> arbre - [0%...]<br/>
-     c) ConstruireTrieHybride(liste|mots|) --> arbre - [0%...]<br/>
+     a) ChargerMots(ficher) --> liste|mots| - [100%...]<br/>
+     b) ConstruireBriandais(liste|mots|) --> arbre - [100%...]<br/>
+     c) ConstruireTrieHybride(liste|mots|) --> arbre - [100%...]<br/>
 5.12 - Comparaisons à faire sur machine - Voir énoncé pour les détails - [0%...]<br/>
 5.13 - Autres comparaisons - Voir énoncé - [0%...]<br/>
 5.14 - Représenter graphiquement les arbres - [0%...]<br/>

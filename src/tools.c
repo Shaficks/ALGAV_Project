@@ -65,3 +65,15 @@ char* resteMot(char mot[], int i) {
     return res;
 }
 
+int max2(int a, int b) {
+    return (a>b)?a:b;
+}
+
+
+int max3(int a, int b, int c) {
+    if(a>b && a>c) return a;
+    if(b>a && b>c) return b;
+    return c;
+}
+
+
