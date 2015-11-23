@@ -329,23 +329,29 @@ int comptageMotsBriandais_V2(ArbreBriandais a) {
   return comptageMotsBriandais_V2(a->sibling) + comptageMotsBriandais_V2(a->child); //Cas général
 }
 
+/*
 //Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
 void listeMotsBriandais(ArbreBriandais a, char mot[])  {
-  if(a) {
-    mot[strlen(mot)+1] = '\0';
-    mot[strlen(mot)] = a->val;
-    if(a->val == '\0') {
-        printf("\n");
-        if(a->sibling) {
-            mot[strlen(mot)-1] = '\0';
-            printf("%s",mot);
-        }
-    }
+    if(!a) return;
+    if(a->val == '\0') printf("\n");
     printf("%c",a->val);
     listeMotsBriandais(a->child, mot); //Visite du fils
     listeMotsBriandais(a->sibling, mot); //Visite du frère
-  }
 }
+*/
+
+
+void listeMotsBriandais(ArbreBriandais a, char mot[])  {
+    int n = strlen(mot);
+    char* tmp = malloc(sizeof(*tmp));
+    if(!a) return;
+    if(a->val == '\0') printf("%s\n",mot);
+    strcpy(tmp,mot);
+    mot[n+1] = '\0'; mot[n] = a->val;
+    listeMotsBriandais(a->child, mot); //Visite du fils
+    listeMotsBriandais(a->sibling, tmp); //Visite du frère
+}
+
 
 //Retourne le nombre de pointeurs vers Nil présents dans l'Arbre a.
 int comptageNilBriandais(ArbreBriandais a) {
@@ -490,3 +496,22 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
 
 //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]);
+
+
+/* Fonction qui affiche un aperçu visuel de l'Arbre de la Briandais a */
+void afficheStructureBriandais(ArbreBriandais a, int profondeur) {
+    int i;
+    for (i=0; i < profondeur; i++) {
+        fputs("|___ ", stdout);
+    }
+    if(a) {
+        if(a->val == '\0') {
+            printf("[!]");
+            if(estFeuilleBriandais(a)) printf("[%d]\n",profondeur+1);
+            else printf("\n");
+        }
+        else printf("[%c]\n", a->val);
+    }
+    if (a->child) afficheStructureBriandais(a->child, profondeur + 1);
+    if (a->sibling) afficheStructureBriandais(a->sibling, profondeur);
+}

@@ -4,7 +4,7 @@
  * /author Chafik NOUIRA
  * /date 24 octobre 2015
  * /version 1.0
- *0
+ *
  * Projet ALGAV - Fichier main du programme :
  *      - Implémentation des Arbres de la Briandais et Tries Hybrides
  *      - Implémentation des Primitives de chaque structure
@@ -23,7 +23,7 @@
 int main(void) {
 
 
-/*
+
   //Test Trie Hybride
   TrieHybride t = trieVide();
 
@@ -31,11 +31,12 @@ int main(void) {
 
   //constructTrieHybride(t,base,tailleBase);
 
+  ajoutMotTrie(t,"LM");
   ajoutMotTrie(t,"AB");
-  ajoutMotTrie(t,"CBD");
-  ajoutMotTrie(t,"ZABCD");
+  ajoutMotTrie(t,"DF");
+  ajoutMotTrie(t,"GH");
 
-
+/*
   printf("\nNombre de mots ajoutés dans le Trie Hybride : %ld\n",nbMotsHybride);
 
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(t->nextChild),comptageMotsTrie_V2(t->nextChild));
@@ -58,9 +59,9 @@ int main(void) {
   printf("\nProfondeur Totale Trie : %d \n",profondeurTotaleTrie(t,0));
 
   printf("\nProfondeur Moyenne Trie : %f \n",profondeurMoyenneTrie(t));
-
 */
 
+  afficheStructureHybride(t->nextChild,0);
 
   //tmp = t->nextChild->superiorChild;
 
@@ -76,19 +77,21 @@ int main(void) {
 
 
 
-
+/*
   //Test Arbre Briandais
   ArbreBriandais a = arbreVide(); //tmp;
   constructArbreBriandais(a,base,tailleBase);
-
+*/
 /*
   ajoutMotBriandais(a,"AB");
-  ajoutMotBriandais(a,"CBD");
+  ajoutMotBriandais(a,"ACBD");
+  ajoutMotBriandais(a,"ACUlmk");
+  ajoutMotBriandais(a,"ACZlmk");
   ajoutMotBriandais(a,"TABCD");
   ajoutMotBriandais(a,"ZABCDEFGHI");
 */
 
-
+/*
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
   //rechercheMotBriandais(a,"dactylo");
   suppressionMotBriandais_V1(a,"dactylographie");
@@ -97,7 +100,10 @@ int main(void) {
   rechercheMotBriandais(a,"dactylo");
   rechercheMotBriandais(a,"dactylographie");
 
-/*
+  //char mot[50];
+  //listeMotsBriandais(a,mot);
+
+
   printf("\nHauteur Briandais : %d\n",hauteurBriandais(a));
 
 
@@ -106,16 +112,19 @@ int main(void) {
   printf("\nProfondeur Totale Briandais : %d\n",profondeurTotaleBriandais(a,0));
 
   printf("\nProfondeur Totale Briandais : %f --> %d\n",profondeurMoyenneBriandais(a),(int)profondeurMoyenneBriandais(a));
+
 */
+  //afficheStructureBriandais(a->sibling,0);
+
   printf("\n\n");
 
 
 
-
+/*
   //char mot[50];
   //listeMotsBriandais(a->sibling,mot);
 
-/*
+
   ArbreBriandais c = a->sibling->sibling->sibling;
   printf("\n\n");
   printf("%c\n",c->val);

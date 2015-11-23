@@ -239,7 +239,7 @@ int comptageMotsTrie_V2(TrieHybride t) {
 }
 
 //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
-char** listeMotsTrie(TrieHybride t);
+void listeMotsTrie(TrieHybride t);
 
 //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int comptageNilTrie(TrieHybride t) {
@@ -373,3 +373,38 @@ void suppressionMotTrie_V1(TrieHybride t, char mot[]) {
 
 //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
 void suppressionMotTrie_V2(TrieHybride t, char mot[]);
+
+
+
+/* Fonction qui affiche un aperçu visuel du Trie Hybride t */
+void afficheStructureHybride(TrieHybride t, int profondeur) {
+    int i;
+    FILE* fichier = fopen("Trie.xml","w+");
+    for (i=0; i < profondeur; i++)
+    {
+        fputs("|___ ", stdout);
+    }
+
+    if(t) {
+        printf("[%c]", t->val);
+        if(t->cle != -1) printf("[%ld]", t->cle);
+        printf("\n");
+    }
+    if (t->inferiorChild) {
+        fprintf(fichier,"<%c>\n",t->inferiorChild->val);
+        afficheStructureHybride(t->inferiorChild, profondeur);
+        fprintf(fichier,"</%c>\n",t->inferiorChild->val);
+    }
+    if (t->nextChild) {
+        fprintf(fichier,"<%c>\n",t->nextChild->val);
+        afficheStructureHybride(t->nextChild, profondeur+1);
+        fprintf(fichier,"</%c>\n",t->nextChild->val);
+    }
+    if (t->superiorChild) {
+        fprintf(fichier,"<%c>\n",t->superiorChild->val);
+        afficheStructureHybride(t->superiorChild, profondeur);
+        fprintf(fichier,"</%c>\n",t->superiorChild->val);
+    }
+    //fclose(fichier);
+}
+

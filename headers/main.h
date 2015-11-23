@@ -21,7 +21,8 @@ int tailleBase = 40; //Taille de la liste de mots courante. à revoir.
 char* base[] = {"A","quel","genial","professeur","de","dactylographie","sommes","nous","redevables","de","la","superbe","phrase",
 		"ci","dessous","un","modele","du","genre","que","toute","dactylo","connait","par","coeur","puisque","elle","fait",
 		"appel","a","chacune","des","touches","du","clavier","de","la","machine","a","ecrire"};
-char** shakespeare;
+int tailleShakespeare = 0; //Taille de la liste de mots d'une oeuvre quelconque de Shakespeare
+char** shakespeare; //Tableau contenant les mots d'une oeuvre de Shakespeare
 
 /* I - Bibliothèques utilisées dans le programme */
 #include <stdio.h>
@@ -44,9 +45,8 @@ typedef struct Briandais* ArbreBriandais;
  * \brief Structure représentant un noeud d'un Arbre de la Briandais.
  */
 struct Briandais {
-  //On doit rajouter un entier pour stocker le nombre de mots - A VOIR (Peut être utiliser une union??? OU une variable GLOBALE???)
-  char val;           /*!< Valeur contenue dans le noeud. */
-  ArbreBriandais sibling;  /*!< Pointeur sur le frère suivant. */
+  char val; /*!< Valeur contenue dans le noeud. */
+  ArbreBriandais sibling; /*!< Pointeur sur le frère suivant. */
   ArbreBriandais child; /*!< Pointeur sur le premier fils. */
 };
 
@@ -62,12 +62,14 @@ typedef struct Hybride* TrieHybride;
  * \brief Structure représentant un noeud d'un Arbre de la Briandais
  */
 struct Hybride {
-  long int cle;       /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
-  char val;           /*!< Champs représentant le caractère contenu dans le noeud. */
-  TrieHybride superiorChild; /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
-  TrieHybride inferiorChild; /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
-  TrieHybride nextChild; /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
+  long int cle;                             /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
+  char val;                                 /*!< Champs représentant le caractère contenu dans le noeud. */
+  TrieHybride superiorChild;                /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
+  TrieHybride inferiorChild;                /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
+  TrieHybride nextChild;                    /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
 };
+
+
 
 
 /* III - Liste des primitives de base d'un Arbre de la Briandais */
@@ -105,7 +107,7 @@ int comptageNilBriandais(ArbreBriandais a); //Retourne le nombre de pointeurs ve
 int hauteurBriandais(ArbreBriandais a); //Calcule et retourne la hauteur de l'Arbre a.
 int profondeurTotaleBriandais(ArbreBriandais a, int n); //Calcule et retourne la somme des profondeurs des feuilles de l'Arbre a. n départ = 0.
 float profondeurMoyenneBriandais(ArbreBriandais a); //Calcule et retourne la profondeur moyenne des feuilles de l'Arbre a.
-int prefixeBriandais(ArbreBriandais a, char mot[]); //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
+int prefixeBriandais(ArbreBriandais a, char mot[]); //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe.
 void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Simple
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]); //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 
@@ -113,7 +115,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]); //Supprime un mot
 int rechercheMotTrie(TrieHybride t, char mot[]); //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
 long int comptageMotsTrie_V1(); //Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
 int comptageMotsTrie_V2(TrieHybride t); //Retourne le nombre de mots présents dans le Trie t. Solution Complexte | Appel récursif sur les noeuds du Trie Hybride.
-char** listeMotsTrie(TrieHybride t); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+void listeMotsTrie(TrieHybride t); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
 int comptageNilTrie(TrieHybride t); //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int hauteurTrie(TrieHybride t); //Calcule et retourne la hauteur du Trie t.
 int profondeurTotaleTrie(TrieHybride t, int n); //Retourne la somme des profondeurs de toutes les feuilles du Trie. n = 0 lors de l'appel.
@@ -123,7 +125,7 @@ void suppressionMotTrie_V1(TrieHybride t, char mot[]); //Supprime un mot du Trie
 void suppressionMotTrie_V2(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
 
 /* VII - Liste des fonctions complextes pour les 2 structures */
-ArbreBriandais fusionBriandais(ArbreBriandais a1, ArbreBriandais a2); //Fusionne les Arbres a1 et a2 et retourne l'Arbre résultat.
+void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res); //Fusionne les Arbres a et b dans res.
 TrieHybride BriandaisToTrieHybride(ArbreBriandais a); //Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
 ArbreBriandais TrieHybrideToBriandais(TrieHybride t); //Convertit un Trie Hybride en Arbre de la Briandais et retourne ce dernier.
 TrieHybride ajoutAvecReequilibrage(TrieHybride t, char mot[]); //Ajout d'un mot dans un Trie suivi par un rééquilibrage si nécessaire.
@@ -138,5 +140,10 @@ void *my_malloc(size_t size); //alloue de la memoire avec malloc mais quitte le 
 char* resteMot(char mot[], int i); //Renvoie le reste d'un mot à partir d'une position i - ième lettre incluse.
 int max2(int a, int b); //Fonction qui retourne l'entier le plus grand entre a et b
 int max3(int a, int b, int c); //Fonction qui retourne l'entier le plus grand entre a, b et c
+
+
+/* IX - Fonctions d'affichage des Structures */
+void afficheStructureBriandais(ArbreBriandais a, int profondeur); //Fonction qui affiche un aperçu visuel d'un arbre de la Briandais.
+void afficheStructureHybride(TrieHybride t, int profondeur); //Fonction qui affiche un aperçu visuel d'un Trie Hybride.
 
 #endif
