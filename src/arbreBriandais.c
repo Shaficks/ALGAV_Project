@@ -505,13 +505,10 @@ void afficheStructureBriandais(ArbreBriandais a, int profondeur) {
         fputs("|___ ", stdout);
     }
     if(a) {
-        if(a->val == '\0') {
-            printf("[!]");
-            if(estFeuilleBriandais(a)) printf("[%d]\n",profondeur+1);
-            else printf("\n");
-        }
-        else printf("[%c]\n", a->val);
+        if(a->val == '\0') 
+	  printf("[!][%d]\n",profondeur+1);
+	else printf("[%c]\n", a->val);
     }
-    if (a->child) afficheStructureBriandais(a->child, profondeur + 1);
-    if (a->sibling) afficheStructureBriandais(a->sibling, profondeur);
+    if (a->child) afficheStructureBriandais(a->child, profondeur + 1); //Les fils sont affichés au niveau inféreieur, d'où le +1
+    if (a->sibling) afficheStructureBriandais(a->sibling, profondeur); //Les frère sont dans le même niveau
 }

@@ -115,7 +115,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]); //Supprime un mot
 int rechercheMotTrie(TrieHybride t, char mot[]); //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
 long int comptageMotsTrie_V1(); //Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
 int comptageMotsTrie_V2(TrieHybride t); //Retourne le nombre de mots présents dans le Trie t. Solution Complexte | Appel récursif sur les noeuds du Trie Hybride.
-void listeMotsTrie(TrieHybride t); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+void listeMotsTrie(TrieHybride t, char mot[]); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
 int comptageNilTrie(TrieHybride t); //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int hauteurTrie(TrieHybride t); //Calcule et retourne la hauteur du Trie t.
 int profondeurTotaleTrie(TrieHybride t, int n); //Retourne la somme des profondeurs de toutes les feuilles du Trie. n = 0 lors de l'appel.
@@ -145,5 +145,11 @@ int max3(int a, int b, int c); //Fonction qui retourne l'entier le plus grand en
 /* IX - Fonctions d'affichage des Structures */
 void afficheStructureBriandais(ArbreBriandais a, int profondeur); //Fonction qui affiche un aperçu visuel d'un arbre de la Briandais.
 void afficheStructureHybride(TrieHybride t, int profondeur); //Fonction qui affiche un aperçu visuel d'un Trie Hybride.
+
+
+void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]);
+void visualiseTrie(TrieHybride t);
+
+
 
 #endif

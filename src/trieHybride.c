@@ -239,7 +239,18 @@ int comptageMotsTrie_V2(TrieHybride t) {
 }
 
 //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
-void listeMotsTrie(TrieHybride t);
+void listeMotsTrie(TrieHybride t, char mot[]) {
+  int n = strlen(mot);
+  char* tmp = malloc(sizeof(*tmp));
+  if(!t) return;
+  if(t->cle != -1 ) printf("%s\n",mot);
+  strcpy(tmp,mot);
+  mot[n] = t->val; mot[n+1] = '\0';
+
+  listeMotsTrie(t->inferiorChild, tmp); //Visite du fils inférieur
+  listeMotsTrie(t->nextChild, mot); //Visite du fils suivant
+  listeMotsTrie(t->superiorChild, tmp); //Visite du fils supérieur
+}
 
 //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int comptageNilTrie(TrieHybride t) {
@@ -407,4 +418,69 @@ void afficheStructureHybride(TrieHybride t, int profondeur) {
     }
     //fclose(fichier);
 }
+
+void visualiseTrie(TrieHybride t) {
+	char res[5000];
+	FILE* fichier = fopen("trie.txt","w+");
+	fprintf(fichier,"digraph G {\n");
+	visualize_recTrie(t,fichier, res);
+	fprintf(fichier,"%s",res);
+	fprintf(fichier,"}");
+	printf("\nFichier généré avec succès\n");
+	fclose(fichier);
+}
+
+
+
+void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]) {
+
+        if (t) {
+	    fprintf(fichier,"%d;",t);
+	    
+	  if(t->inferiorChild) {
+	    char tmp[50];
+  	    sprintf(tmp,"%d-%d",t,t->inferiorChild);
+	    strcat(res,tmp);
+  	    fprintf(fichier,"%d - %d;",t,t->inferiorChild);
+	    visualize_recTrie(t->inferiorChild,fichier,res);
+          }
+	  if(t->inferiorChild) {
+	    char tmp[50];
+  	    sprintf(tmp,"%d-%d",t,t->nextChild);
+	    strcat(res,tmp);
+  	    fprintf(fichier,"%d - %d;",t,t->nextChild);
+	    visualize_recTrie(t->nextChild,fichier,res);
+          }
+	  if(t->inferiorChild) {
+	    char tmp[50];
+  	    sprintf(tmp,"%d-%d",t,t->superiorChild);
+	    strcat(res,tmp);
+  	    fprintf(fichier,"%d - %d;",t,t->superiorChild);
+	    visualize_recTrie(t->superiorChild,fichier,res);
+          }	
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

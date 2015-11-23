@@ -28,9 +28,9 @@ int main(void) {
   TrieHybride t = trieVide();
 
 
-
+  
   //constructTrieHybride(t,base,tailleBase);
-
+  
   ajoutMotTrie(t,"LM");
   ajoutMotTrie(t,"AB");
   ajoutMotTrie(t,"DF");
@@ -61,9 +61,14 @@ int main(void) {
   printf("\nProfondeur Moyenne Trie : %f \n",profondeurMoyenneTrie(t));
 */
 
-  afficheStructureHybride(t->nextChild,0);
+  //afficheStructureHybride(t->nextChild,0);
 
   //tmp = t->nextChild->superiorChild;
+
+  //char mot[50];
+  //listeMotsTrie(t->nextChild,mot);
+  
+  visualiseTrie(t);
 
 /*
   printf("\n1 %c | %ld",tmp->val, tmp->cle);
@@ -77,11 +82,11 @@ int main(void) {
 
 
 
-/*
+
   //Test Arbre Briandais
-  ArbreBriandais a = arbreVide(); //tmp;
-  constructArbreBriandais(a,base,tailleBase);
-*/
+  //ArbreBriandais a = arbreVide(); //tmp;
+  //constructArbreBriandais(a,base,tailleBase);
+
 /*
   ajoutMotBriandais(a,"AB");
   ajoutMotBriandais(a,"ACBD");
@@ -100,8 +105,6 @@ int main(void) {
   rechercheMotBriandais(a,"dactylo");
   rechercheMotBriandais(a,"dactylographie");
 
-  //char mot[50];
-  //listeMotsBriandais(a,mot);
 
 
   printf("\nHauteur Briandais : %d\n",hauteurBriandais(a));
@@ -116,6 +119,10 @@ int main(void) {
 */
   //afficheStructureBriandais(a->sibling,0);
 
+
+  //char mot[50];
+  //listeMotsBriandais(a,mot);
+  
   printf("\n\n");
 
 
