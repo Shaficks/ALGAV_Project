@@ -25,7 +25,7 @@ int main(void) {
   /*=======================================================*/
   /*                    Trie Hybride                       */
   /*=======================================================*/
-  
+
   /********** Test n°1 - Construction Shakespeare **********
 
   TrieHybride t = trieVide(); //Déclaration et initialisation du Trie du départ
@@ -67,12 +67,12 @@ int main(void) {
   constructShakespeareTrie(t,"../files/Shakespeare/twelfth_night.txt");
   constructShakespeareTrie(t,"../files/Shakespeare/two_gentlement.txt");
   constructShakespeareTrie(t,"../files/Shakespeare/winters_tale.txt");
-  
 
-  printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(t->nextChild),comptageMotsTrie_V2(t->nextChild));
-  */
 
-  
+  printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(),comptageMotsTrie_V2(t->nextChild));
+*/
+
+
   //constructTrieHybride(t,base,tailleBase);
   /*
   ajoutMotTrie(t,"LM");
@@ -111,7 +111,7 @@ int main(void) {
 
   //char mot[50];
   //listeMotsTrie(t->nextChild,mot);
-  
+
   //visualiseTrie(t);
 
 /*
@@ -130,7 +130,47 @@ int main(void) {
 
   /********** Test n°1 - Construction Shakespeare **********/
 
-  ArbreBriandais a = arbreVide(); 
+  ArbreBriandais a = arbreVide();
+
+  constructShakespeareBriandais(a,"../files/Shakespeare/1henryiv.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/1henryvi.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/2henryiv.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/2henryvi.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/3henryvi.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/allswell.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/asyoulikeit.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/cleopatra.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/comedy_errors.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/coriolanus.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/cymbeline.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/hamlet.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/henryv.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/henryviii.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/john.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/julius_caesar.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/lear.txt");
+  //constructShakespeareBriandais(a,"../files/Shakespeare/lll.txt"); //Fichier binaire
+  constructShakespeareBriandais(a,"../files/Shakespeare/macbeth.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/measure.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/merchant.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/merry_wives.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/midsummer.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/mucho_ado.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/othello.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/pericles.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/richardii.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/richardiii.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/romeo_juliet.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/taming_shrew.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/tempest.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/timon.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/titus.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/troilus_cressida.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/twelfth_night.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/two_gentlement.txt");
+  constructShakespeareBriandais(a,"../files/Shakespeare/winters_tale.txt");
+
+  printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
 
 /*
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
@@ -158,7 +198,7 @@ int main(void) {
 
   //char mot[50];
   //listeMotsBriandais(a,mot);
-  
+
   printf("\n\n");
 
 

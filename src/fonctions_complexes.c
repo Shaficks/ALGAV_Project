@@ -1,17 +1,30 @@
 #include "../headers/main.h"
 
-
-//Fusionne les Arbres a et b dans res.
 /*
-void fusionBriandais(ArbreBriandais a1, ArbreBriandais a2, ArbreBriandais res) {
-if(a) ArbreBriandais ita = a;
-if(b) ArbreBriandais itb = b;
-ArbreBriandais itres = res;
+//Fusionne les Arbres a et b dans res.
+void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res) {
+    if(a)
+        if(a->sibling) ArbreBriandais ita = a->sibling;
+    if(b)
+        if(b->sibling) ArbreBriandais itb = b->sibling;
+    ArbreBriandais itres = res;
 
-for()
+    while(ita && itb) {
+        if(itres->sibling) {
+            itres = itres->sibling;
+            continue;
+        }
+        if(ita->val <= itb->val) {
+            noeud = my_malloc(sizeof(*noeud));
+            noeud->val = ita->val;
+            noeud->sibling = NULL;
+            noeud->child = NULL;
+            itres->sibling = noeud;
+        }
+        else if(toupper(itb->val) < toupper(ita->val)) {
 
-
-
+        }
+    }
 }
 */
 //Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
