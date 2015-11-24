@@ -77,3 +77,44 @@ int max3(int a, int b, int c) {
 }
 
 
+void constructShakespeareBriandais(ArbreBriandais a, char chemin[]) {
+  FILE* f = NULL;
+  char mot[50];  
+  f = fopen(chemin,"r+");
+  if(f == NULL) {
+    printf("Chargement \'%s\' échoué...",chemin);
+    return;
+  }
+  else printf("Chargement Réussi !!\n");
+
+  
+  do {
+    fgets(mot, sizeof mot, f);
+    //printf("%s",mot);
+    ajoutMotBriandais(a,mot);
+  } while (!feof(f));
+  fclose(f);
+
+  printf("\nC'est fini !\n");
+}
+
+
+void constructShakespeareTrie(TrieHybride t, char chemin[]) {
+  FILE* f = NULL;
+  char mot[50];  
+  f = fopen(chemin,"r+");
+  if(f == NULL) {
+    printf("Chargement \'%s\' échoué...",chemin);
+    return;
+  }
+  else printf("Chargement Réussi !!\n");
+
+  do {
+    fgets(mot, sizeof mot, f);
+    //printf("%s",mot);
+    ajoutMotTrie(t,mot);
+  } while (!feof(f));
+  fclose(f);
+
+  printf("\nC'est fini !\n");
+}

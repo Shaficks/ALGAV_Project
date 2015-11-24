@@ -25,7 +25,25 @@ int max2(int a, int b) {
 }
 
 
+void chargerMots(char chemin[]) {
+  FILE* f = NULL;
+  char mot[50];  
+  f = fopen(chemin,"r+");
+  if(f == NULL) {
+    printf("Chargement échoué...");
+    return;
+  }
+  else printf("Chargement Réussi !!\n");
 
+  
+  do {
+    fgets(mot, sizeof mot, f);
+    printf("%s",mot);
+  } while (!feof(f));
+  fclose(f);
+
+  printf("\nC'est fini !\n");
+}
 
 
 
@@ -33,13 +51,9 @@ int max2(int a, int b) {
 int main(void) {
 
 
-  int a = 5;
-  int b = &a;
 
-  printf("\nValeur de a : %d\n",a);
-  printf("\nAdresse de a : %d\n",&a);
-  printf("\nAdresse de a : %d\n",b);
-
+  chargerMots("../files/Shakespeare/titus.txt");
+  
 
 /*
 

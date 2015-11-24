@@ -22,20 +22,64 @@
 
 int main(void) {
 
+  /*=======================================================*/
+  /*                    Trie Hybride                       */
+  /*=======================================================*/
+  
+  /********** Test n°1 - Construction Shakespeare **********
 
+  TrieHybride t = trieVide(); //Déclaration et initialisation du Trie du départ
 
-  //Test Trie Hybride
-  TrieHybride t = trieVide();
+  constructShakespeareTrie(t,"../files/Shakespeare/1henryiv.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/1henryvi.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/2henryiv.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/2henryvi.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/3henryvi.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/allswell.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/asyoulikeit.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/cleopatra.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/comedy_errors.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/coriolanus.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/cymbeline.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/hamlet.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/henryv.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/henryviii.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/john.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/julius_caesar.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/lear.txt");
+  //constructShakespeareTrie(t,"../files/Shakespeare/lll.txt"); //Fichier binaire
+  constructShakespeareTrie(t,"../files/Shakespeare/macbeth.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/measure.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/merchant.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/merry_wives.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/midsummer.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/mucho_ado.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/othello.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/pericles.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/richardii.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/richardiii.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/romeo_juliet.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/taming_shrew.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/tempest.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/timon.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/titus.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/troilus_cressida.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/twelfth_night.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/two_gentlement.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/winters_tale.txt");
+  
 
+  printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(t->nextChild),comptageMotsTrie_V2(t->nextChild));
+  */
 
   
   //constructTrieHybride(t,base,tailleBase);
-  
+  /*
   ajoutMotTrie(t,"LM");
   ajoutMotTrie(t,"AB");
   ajoutMotTrie(t,"DF");
   ajoutMotTrie(t,"GH");
-
+  */
 /*
   printf("\nNombre de mots ajoutés dans le Trie Hybride : %ld\n",nbMotsHybride);
 
@@ -68,7 +112,7 @@ int main(void) {
   //char mot[50];
   //listeMotsTrie(t->nextChild,mot);
   
-  visualiseTrie(t);
+  //visualiseTrie(t);
 
 /*
   printf("\n1 %c | %ld",tmp->val, tmp->cle);
@@ -80,21 +124,13 @@ int main(void) {
 */
   printf("\n\n");
 
+  /*=======================================================*/
+  /*                Arbre de la Briandais                  */
+  /*=======================================================*/
 
+  /********** Test n°1 - Construction Shakespeare **********/
 
-
-  //Test Arbre Briandais
-  //ArbreBriandais a = arbreVide(); //tmp;
-  //constructArbreBriandais(a,base,tailleBase);
-
-/*
-  ajoutMotBriandais(a,"AB");
-  ajoutMotBriandais(a,"ACBD");
-  ajoutMotBriandais(a,"ACUlmk");
-  ajoutMotBriandais(a,"ACZlmk");
-  ajoutMotBriandais(a,"TABCD");
-  ajoutMotBriandais(a,"ZABCDEFGHI");
-*/
+  ArbreBriandais a = arbreVide(); 
 
 /*
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));

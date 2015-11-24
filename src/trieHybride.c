@@ -418,7 +418,7 @@ void afficheStructureHybride(TrieHybride t, int profondeur) {
     }
     //fclose(fichier);
 }
-
+/*
 void visualiseTrie(TrieHybride t) {
 	char res[5000];
 	FILE* fichier = fopen("trie.txt","w+");
@@ -460,27 +460,4 @@ void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]) {
           }	
         }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
