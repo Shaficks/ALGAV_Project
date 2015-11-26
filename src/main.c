@@ -16,8 +16,35 @@
 #include "../headers/main.h"
 #include "arbreBriandais.c"
 #include "trieHybride.c"
+#include "fonctions_complexes.c"
 #include "tools.c"
 
+
+void listerBriandais(ArbreBriandais a, char mot[], int profondeur) {
+  if(a) {
+    mot[profondeur] = a->val;
+    if(a->val == '\0') {
+      mot[profondeur] = a->val;
+      printf("\n%s",mot);
+    }
+    listerBriandais(a->child,mot,profondeur+1);
+    listerBriandais(a->sibling,mot,profondeur);
+  }
+}
+
+
+void listerTrie(TrieHybride t, char mot[], int profondeur) {
+  if(t) {
+    mot[profondeur] = t->val;
+    if(t->cle != -1) {
+      mot[profondeur+1] = '\0';
+      printf("\n%s",mot);
+    }
+    listerTrie(t->inferiorChild,mot,profondeur);
+    listerTrie(t->nextChild,mot,profondeur+1);
+    listerTrie(t->superiorChild,mot,profondeur);
+  }
+}
 
 
 int main(void) {
@@ -71,9 +98,14 @@ int main(void) {
 
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(),comptageMotsTrie_V2(t->nextChild));
 */
+  /*
+  TrieHybride t = trieVide();
+  constructTrieHybride(t,base,tailleBase);
 
-
-  //constructTrieHybride(t,base,tailleBase);
+  char mot[50];
+  listerTrie(t->nextChild,mot,0);
+  afficheStructureHybride(t->nextChild,0);
+  */
   /*
   ajoutMotTrie(t,"LM");
   ajoutMotTrie(t,"AB");
@@ -128,10 +160,10 @@ int main(void) {
   /*                Arbre de la Briandais                  */
   /*=======================================================*/
 
-  /********** Test n°1 - Construction Shakespeare **********/
-
+  /********** Test n°1 - Construction Shakespeare **********
+  
   ArbreBriandais a = arbreVide();
-
+  
   constructShakespeareBriandais(a,"../files/Shakespeare/1henryiv.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/1henryvi.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/2henryiv.txt");
@@ -169,9 +201,9 @@ int main(void) {
   constructShakespeareBriandais(a,"../files/Shakespeare/twelfth_night.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/two_gentlement.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/winters_tale.txt");
-
+  
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
-
+  */
 /*
   printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
   //rechercheMotBriandais(a,"dactylo");
@@ -194,40 +226,19 @@ int main(void) {
 
 */
   //afficheStructureBriandais(a->sibling,0);
+  ArbreBriandais a = arbreVide();
+  TrieHybride t = trieVide();
+  char mot[50];
+  constructArbreBriandais(a,base,tailleBase);
 
+  listerBriandais(a->sibling,mot,0);
+  BriandaisToTrieHybrideV1(a->sibling, t, mot, 0);
 
-  //char mot[50];
-  //listeMotsBriandais(a,mot);
+  
+  printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(t->nextChild),comptageMotsTrie_V2(t->nextChild));
 
-  printf("\n\n");
-
-
-
-/*
-  //char mot[50];
-  //listeMotsBriandais(a->sibling,mot);
-
-
-  ArbreBriandais c = a->sibling->sibling->sibling;
-  printf("\n\n");
-  printf("%c\n",c->val);
-  printf("%c\n",c->child->val);
-  printf("%c\n",c->child->child->val);
-  printf("%c\n",c->child->child->child->val);
-
-  printf("%c\n",c->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->child->child->val);
-  printf("%c\n",c->child->child->child->child->child->child->child->sibling->child->child->child->child->child->child->child->val);
-*/
+  printf("\n\n"); 
+  
 
 
   return EXIT_SUCCESS;

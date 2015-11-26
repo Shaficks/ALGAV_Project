@@ -495,7 +495,70 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
 
 
 //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
-void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]);
+void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
+  ArbreBriandais it = a, prec, potentiel;
+  
+  //Au cas où le mot est vide
+  if(!strlen(mot)) {
+    printf("Il faut un mot !\n");
+    return;
+  }
+
+  //Au cas où l'arbre est vide, faire un ajout simple en utilisant la fonction correspondante.
+  if(a->sibling == NULL) {
+    printf("L'arbre est vide !\n");
+    return;
+  }
+  //Au cas où l'arbre n'est pas vide
+  else {
+    int i;
+    prec = it; //Noeud précédant
+    potentiel = prec; //Noeud potentiel à partir duquel on va supprimer
+    it = a->sibling; //Noeud courant
+
+    //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
+    for(i = 0; mot[i] != '\0'; i++) {
+      //Boucle principale servant à parcourir les noeuds de l'arbre
+      while(it) {
+	//Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
+        while(toupper(mot[i]) > toupper(it->val)) {
+            prec = it;
+	    //potentiel = ()
+            it = it->sibling;
+            if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
+        }
+
+        //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique - Donc le mot n'existe pas dans l'Arbre
+        if(it == NULL) {
+            printf("\nLe mot \'%s\' n'existe pas dans l'Arbre de la Briandais.\n",mot);
+            return;
+        }
+        //Au cas où le noeud n'est pas vide
+        else {
+            //Si le noeud courant contient la même lettre, passage direct au fils
+            if(toupper(mot[i]) == toupper(it->val)) {
+	      
+                prec = it;
+                it = it->child;
+                break;
+            }
+            //Sinon, si la lettre n'est pas la même, c'est qu'elle n'existe pas dans la forêt lexicgrpahique - Donc le mot n'existe pas
+            else {
+                printf("\nLe mot \'%s\' n'existe pas dans l'Arbre de la Briandais.\n",mot);
+                return;
+            }
+        }
+      }
+    }
+  }
+  prec->child = (it->sibling)?it->sibling:NULL;
+
+  free(it);
+  --nbMotsBriandais;
+  printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
+
+
+}
 
 
 /* Fonction qui affiche un aperçu visuel de l'Arbre de la Briandais a */

@@ -28,7 +28,17 @@ void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res) {
 }
 */
 //Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
-TrieHybride BriandaisToTrieHybride(ArbreBriandais a);
+void BriandaisToTrieHybrideV1(ArbreBriandais a, TrieHybride t, char mot[], int profondeur) {
+  if(a) {
+    mot[profondeur] = a->val;
+    if(a->val == '\0') {
+      mot[profondeur] = a->val;
+      ajoutMotTrie(t,mot);
+    }
+    BriandaisToTrieHybrideV1(a->child,t,mot,profondeur+1);
+    BriandaisToTrieHybrideV1(a->sibling,t,mot,profondeur);
+  }
+}
 
 //Convertit un Trie Hybride en Arbre de la Briandais et retourne ce dernier.
 ArbreBriandais TrieHybrideToBriandais(TrieHybride t);
