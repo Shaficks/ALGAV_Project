@@ -12,6 +12,39 @@
 /* Inclusion du Header du programme */
 #include "../headers/main.h"
 
+char graph[5000][20];
+
+
+void graphiz(TrieHybride t, int profondeur) {
+    if(t) {
+        graph[profondeur][0] = t->val; graph[profondeur][1] = ';';
+        if(t->inferiorChild) {
+            graph[++profondeur][0] = t->val;
+            graph[profondeur][1] = '-';
+            graph[profondeur][2] = '>';
+            graph[profondeur][3] = t->inferiorChild->val;
+            graph[profondeur][4] = ';';
+            graphiz(t->inferiorChild, ++profondeur);
+        }
+        if(t->nextChild) {
+            graph[++profondeur][0] = t->val;
+            graph[profondeur][1] = '-';
+            graph[profondeur][2] = '>';
+            graph[profondeur][3] = t->nextChild->val;
+            graph[profondeur][4] = ';';
+            graphiz(t->nextChild, profondeur+4);
+        }
+        if(t->superiorChild) {
+            graph[++profondeur][0] = t->val;
+            graph[profondeur][1] = '-';
+            graph[profondeur][2] = '>';
+            graph[profondeur][3] = t->superiorChild->val;
+            graph[profondeur][4] = ';';
+            graphiz(t->superiorChild, profondeur+8);
+        }
+    }
+}
+
 
 /* VIII - Fonction utilitaires */
 void chargerMots() {
@@ -35,13 +68,11 @@ void chargerMots() {
 
 }
 
-
 void afficheListeMots() {
   int i;
   for (i=0; i<30; i++)
     printf("%s\n",base[i]);
 }
-
 
 void *my_malloc(size_t size) {
   void *p;
@@ -52,7 +83,6 @@ void *my_malloc(size_t size) {
   }
   return p;
 }
-
 
 //Retourne le reste d'un mot à partir de l'ième lettre incluse
 char* resteMot(char mot[], int i) {
@@ -69,52 +99,8 @@ int max2(int a, int b) {
     return (a>b)?a:b;
 }
 
-
 int max3(int a, int b, int c) {
     if(a>b && a>c) return a;
     if(b>a && b>c) return b;
     return c;
-}
-
-
-void constructShakespeareBriandais(ArbreBriandais a, char chemin[]) {
-  FILE* f = NULL;
-  char mot[50];  
-  f = fopen(chemin,"r+");
-  if(f == NULL) {
-    printf("Chargement \'%s\' échoué...",chemin);
-    return;
-  }
-  else printf("Chargement Réussi !!\n");
-
-  
-  do {
-    fgets(mot, sizeof mot, f);
-    //printf("%s",mot);
-    ajoutMotBriandais(a,mot);
-  } while (!feof(f));
-  fclose(f);
-
-  printf("\nC'est fini !\n");
-}
-
-
-void constructShakespeareTrie(TrieHybride t, char chemin[]) {
-  FILE* f = NULL;
-  char mot[50];  
-  f = fopen(chemin,"r+");
-  if(f == NULL) {
-    printf("Chargement \'%s\' échoué...",chemin);
-    return;
-  }
-  else printf("Chargement Réussi !!\n");
-
-  do {
-    fgets(mot, sizeof mot, f);
-    //printf("%s",mot);
-    ajoutMotTrie(t,mot);
-  } while (!feof(f));
-  fclose(f);
-
-  printf("\nC'est fini !\n");
 }

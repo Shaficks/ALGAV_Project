@@ -29,6 +29,7 @@ char** shakespeare; //Tableau contenant les mots d'une oeuvre de Shakespeare
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 /* II - Différents types et structures utilisés dans le programme */
 
@@ -57,18 +58,19 @@ struct Briandais {
  */
 typedef struct Hybride* TrieHybride;
 
+struct Hybride {
+  long int cle; /*!< Clé du mot - Sinon -1. */                                   /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
+  char val; /*!< Valeur contenue dans le noeud. */                                /*!< Champs représentant le caractère contenu dans le noeud. */
+  TrieHybride superiorChild; /*!< Pointeur sur le fils supérieur. */                /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
+  TrieHybride inferiorChild; /*!< Pointeur sur le fils inférieur. */                /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
+  TrieHybride nextChild; /*!< Pointeur sur le fils suivant. */                     /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
+};
+
+
 /**
  * \struct Hybride
  * \brief Structure représentant un noeud d'un Arbre de la Briandais
  */
-struct Hybride {
-  long int cle;                             /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
-  char val;                                 /*!< Champs représentant le caractère contenu dans le noeud. */
-  TrieHybride superiorChild;                /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
-  TrieHybride inferiorChild;                /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
-  TrieHybride nextChild;                    /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
-};
-
 
 
 
@@ -151,5 +153,8 @@ void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]);
 void visualiseTrie(TrieHybride t);
 
 
+/* Fonctions de construction à partir d'un fichier de Shakespeare */
+void constructShakespeareBriandais(ArbreBriandais a, char chemin[]);
+void constructShakespeareTrie(TrieHybride t, char chemin[]);
 
 #endif

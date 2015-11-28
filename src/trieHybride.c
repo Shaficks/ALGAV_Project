@@ -385,10 +385,9 @@ void suppressionMotTrie_V1(TrieHybride t, char mot[]) {
 //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
 void suppressionMotTrie_V2(TrieHybride t, char mot[]);
 
-
-
 /* Fonction qui affiche un aperçu visuel du Trie Hybride t */
 void afficheStructureHybride(TrieHybride t, int profondeur) {
+
     int i;
     FILE* fichier = fopen("Trie.xml","w+");
     for (i=0; i < profondeur; i++)
@@ -436,7 +435,7 @@ void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]) {
 
         if (t) {
 	    fprintf(fichier,"%d;",t);
-	    
+
 	  if(t->inferiorChild) {
 	    char tmp[50];
   	    sprintf(tmp,"%d-%d",t,t->inferiorChild);
@@ -457,7 +456,28 @@ void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]) {
 	    strcat(res,tmp);
   	    fprintf(fichier,"%d - %d;",t,t->superiorChild);
 	    visualize_recTrie(t->superiorChild,fichier,res);
-          }	
+          }
         }
 }
 */
+
+
+/*********************** Fonction de construction à partir d'un fichier de Shakespeare *******************************/
+void constructShakespeareTrie(TrieHybride t, char chemin[]) {
+  FILE* f = NULL;
+  char mot[50];
+  f = fopen(chemin,"r+");
+  if(f == NULL) {
+    printf("Chargement \'%s\' échoué...",chemin);
+    return;
+  }
+  else printf("Chargement Réussi !!\n");
+
+  do {
+    fgets(mot, sizeof mot, f);
+    //printf("%s",mot);
+    ajoutMotTrie(t,mot);
+  } while (!feof(f));
+  fclose(f);
+}
+/*********************** Fonction de construction à partir d'un fichier de Shakespeare *******************************/

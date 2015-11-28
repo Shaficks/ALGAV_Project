@@ -239,7 +239,6 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
 }
 
 
-
 /* V - Liste des fonctions avancées pour les Arbres de la Briandais */
 
 //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
@@ -307,12 +306,11 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
         }
     }
   }
-  if(it) printf("%c\n",it->val);
-  if(mot[i] == '\0') printf("\nOui 1\n");
-  printf("\nMot[i-1] : %c\n",mot[i-1]);
-  printf("\nMot[i-2] : %c\n",mot[i-2]);
 
-
+  if(!it) {
+    printf("\nLe mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+    return FAUX;
+  }
   printf("Le mot \'%s\' existe dans l'Arbre !!!\n",mot);
   return VRAI;
 }
@@ -486,7 +484,7 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
       }
     }
   }
-  prec->child = (it->sibling)?it->sibling:NULL;
+  prec->child = it->sibling;
 
   free(it);
   --nbMotsBriandais;
@@ -496,8 +494,9 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
 
 //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
-  ArbreBriandais it = a, prec, potentiel;
-  
+  ArbreBriandais it = a, prec; //potentiel;
+  int n = strlen(mot);
+
   //Au cas où le mot est vide
   if(!strlen(mot)) {
     printf("Il faut un mot !\n");
@@ -513,11 +512,11 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
   else {
     int i;
     prec = it; //Noeud précédant
-    potentiel = prec; //Noeud potentiel à partir duquel on va supprimer
+    //potentiel = prec; //Noeud potentiel à partir duquel on va supprimer
     it = a->sibling; //Noeud courant
 
     //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
-    for(i = 0; mot[i] != '\0'; i++) {
+    for(i = 0; mot[i] <= n; i++) {
       //Boucle principale servant à parcourir les noeuds de l'arbre
       while(it) {
 	//Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
@@ -537,7 +536,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
         else {
             //Si le noeud courant contient la même lettre, passage direct au fils
             if(toupper(mot[i]) == toupper(it->val)) {
-	      
+
                 prec = it;
                 it = it->child;
                 break;
@@ -568,7 +567,7 @@ void afficheStructureBriandais(ArbreBriandais a, int profondeur) {
         fputs("|___ ", stdout);
     }
     if(a) {
-        if(a->val == '\0') 
+        if(a->val == '\0')
 	  printf("[!][%d]\n",profondeur+1);
 	else printf("[%c]\n", a->val);
     }
