@@ -1,9 +1,9 @@
 /**
- * /file test.c
- * /brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
- * /author Chafik NOUIRA
- * /date 24 octobre 2015
- * /version 1.0
+ * \file test.c
+ * \brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
+ * \author Chafik NOUIRA
+ * \date 24 octobre 2015
+ * \version 1.0
  *
  * Projet ALGAV - Fichier test du programme :
  * Fichier contenant des fonctions effectuant des séries de test destinées à être utilisées lors de la soutenance.
@@ -24,7 +24,7 @@ void stop_chrono() {
 }
 
 
-/*********************** Fonction de construction à partir d'un fichier de Shakespeare *******************************/
+/*********************** Fonction de construction d'un Arbre de la Briandais à partir d'un fichier de Shakespeare *******************************/
 void constructShakespeareBriandais(ArbreBriandais a, char chemin[]) {
   FILE* f = NULL;
   char mot[50];
@@ -43,6 +43,24 @@ void constructShakespeareBriandais(ArbreBriandais a, char chemin[]) {
   fclose(f);
 }
 
+/*********************** Fonction de construction d'un Trie Hybride à partir d'un fichier de Shakespeare *******************************/
+void constructShakespeareTrie(TrieHybride t, char chemin[]) {
+  FILE* f = NULL;
+  char mot[50];
+  f = fopen(chemin,"r+");
+  if(f == NULL) {
+    printf("Chargement \'%s\' échoué...",chemin);
+    return;
+  }
+  else printf("Chargement Réussi !!\n");
+
+  do {
+    fgets(mot, sizeof mot, f);
+    //printf("%s",mot);
+    ajoutMotTrie(t,mot);
+  } while (!feof(f));
+  fclose(f);
+}
 
 
 
@@ -63,7 +81,7 @@ void testShakespeareBriandais() {
   constructShakespeareBriandais(a,"../files/Shakespeare/3henryvi.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/allswell.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/asyoulikeit.txt");
-  constructShakespeareBriandais(a,"../files/Shakespeare/cleopatra.txt");
+  /*constructShakespeareBriandais(a,"../files/Shakespeare/cleopatra.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/comedy_errors.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/coriolanus.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/cymbeline.txt");
@@ -93,34 +111,116 @@ void testShakespeareBriandais() {
   constructShakespeareBriandais(a,"../files/Shakespeare/twelfth_night.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/two_gentlement.txt");
   constructShakespeareBriandais(a,"../files/Shakespeare/winters_tale.txt");
-
+*/
   printf("\nTemps de construction à partir des fichiers Shakespeare : ");
   stop_chrono(); printf("\n");
 
   /* Affichage des différentes informations de l'arbre :
      - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
   demarrer_chrono();
-  printf("Comptage Mots : V1 %ld - V2 %d | Temps d'exécution : ",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
+  printf("Comptage Mots : V1 %ld - V2 %d | Nb d'opérations : ... | Temps d'exécution : ",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
   stop_chrono(); printf("\n");
   demarrer_chrono();
-  printf("Comptage Pointeurs vers Nil : %d | Temps d'exécution : ",comptageNilBriandais(a->sibling));
+  printf("Comptage Pointeurs vers Nil : %d | Nb d'opérations : ... | Temps d'exécution : ",comptageNilBriandais(a->sibling));
   stop_chrono(); printf("\n");
   demarrer_chrono();
-  printf("Hauteur de l'Arbre : %d | Temps d'exécution : ",hauteurBriandais(a));
+  printf("Hauteur de l'Arbre : %d | Nb d'opérations : ... | Temps d'exécution : ",hauteurBriandais(a));
   stop_chrono(); printf("\n");
   demarrer_chrono();
-  printf("Comptage Feuilles : %d | Temps d'exécution : ",comptageFeuillesBriandais(a));
+  printf("Comptage Feuilles : %d | Nb d'opérations : ... | Temps d'exécution : ",comptageFeuillesBriandais(a));
   stop_chrono(); printf("\n");
   demarrer_chrono();
-  printf("Profondeur Moyenne de l'Arbre : %f --> %d | Temps d'exécution : ",profondeurMoyenneBriandais(a),(int)profondeurMoyenneBriandais(a));
+  printf("Profondeur Moyenne de l'Arbre : %f --> %d | Nb d'opérations : ... | Temps d'exécution : ",profondeurMoyenneBriandais(a),(int)profondeurMoyenneBriandais(a));
   stop_chrono(); printf("\n");
 }
 
 
+
+void testBaseBriandais() {
+  ArbreBriandais a = arbreVide(); //Déclaration de l'Arbre de la Briandais
+
+  demarrer_chrono(); //Fonction qui fixe le temps de départ, sert pour calculer le temps d'exécution par la suite.
+  constructArbreBriandais(a,base,tailleBase); //Construction de l'arbre à partir de l'Exemple de Base
+
+
+  printf("\nTemps de construction à partir de l'Exemple de Base : ");
+  stop_chrono(); printf("\n");
+
+  /* Affichage des différentes informations de l'arbre :
+     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
+  demarrer_chrono();
+  printf("Comptage Mots : V1 %ld - V2 %d | Nb d'opérations : ... | Temps d'exécution : ",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
+  stop_chrono(); printf("\n");
+  demarrer_chrono();
+  printf("Comptage Pointeurs vers Nil : %d | Nb d'opérations : ... | Temps d'exécution : ",comptageNilBriandais(a->sibling));
+  stop_chrono(); printf("\n");
+  demarrer_chrono();
+  printf("Hauteur de l'Arbre : %d | Nb d'opérations : ... | Temps d'exécution : ",hauteurBriandais(a));
+  stop_chrono(); printf("\n");
+  demarrer_chrono();
+  printf("Comptage Feuilles : %d | Nb d'opérations : ... | Temps d'exécution : ",comptageFeuillesBriandais(a));
+  stop_chrono(); printf("\n");
+  demarrer_chrono();
+  printf("Profondeur Moyenne de l'Arbre : %f --> %d | Nb d'opérations : ... | Temps d'exécution : ",profondeurMoyenneBriandais(a),(int)profondeurMoyenneBriandais(a));
+  stop_chrono(); printf("\n");
+
+  char mot[50];
+  //Ajout d'un mot
+  printf("\nEntrez un mot à ajouter : "); scanf("%s",mot);
+  demarrer_chrono();
+  ajoutMotBriandais(a,mot);
+  printf("\nNb d'opérations : ... | Temps d'exécution : ");
+  stop_chrono();printf("\n");
+
+  //Test de la fonction préfixe
+  printf("Entrez une chaine afin de voir de combien de mots elle est préfixe : "); scanf("%s",mot);
+  demarrer_chrono();
+  printf("\nNb de mots qui ont \'%s\' comme préfixe : %d | Nb d'opérations : ... | Temps d'exécution : ",mot,prefixeBriandais(a,mot));
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono();
+  rechercheMotBriandais(a,mot);
+  printf("\nNb d'opérations : ... | Temps d'exécution : ");
+  stop_chrono();
+
+  //Suppression d'un mot
+  printf("\nEntrez un mot à supprimer : "); scanf("%s",mot);
+  demarrer_chrono();
+  suppressionMotBriandais_V1(a,mot);
+  printf("\nNb d'opérations : ... | Temps d'exécution : ");
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono();
+  rechercheMotBriandais(a,mot);
+  printf("\nNb d'opérations : ... | Temps d'exécution : ");
+  stop_chrono();
+
+  //Lister les mots
+  printf("\nEntrez n'importe quel chiffre pour voir la liste des mots : "); scanf("%s",mot);
+  demarrer_chrono();
+  listeMotsBriandais(a->sibling, mot, 0);
+  printf("\nNb d'opérations : ... | Temps d'exécution : ");
+  stop_chrono();
+
+  //Et finalement, affichage de la structure
+  printf("\nEntrez n'importe quel chiffre pour avoir un affichage de l'arbre : "); scanf("%s",mot);
+  demarrer_chrono();
+  afficheStructureBriandais(a->sibling,0);
+  printf("\nNb d'opérations : ... | Temps d'exécution : ");
+  stop_chrono();
+}
+
+
+void testComplexeBriandais() {
+
+}
 /*=======================================================*/
 /*                  Tests Trie Hybride                   */
 /*=======================================================*/
-
 
 /* Construction d'un Trie Hybride à partir de tous les fichiers de Shakespeare et affichage des différentes informations */
 void testShakespeareTrieHybride() {

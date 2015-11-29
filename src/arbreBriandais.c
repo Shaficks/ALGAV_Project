@@ -1,5 +1,15 @@
-#include "../headers/main.h"
+/**
+ * \file arbreBriandais.c
+ * \brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
+ * \author Chafik NOUIRA
+ * \date 24 octobre 2015
+ * \version 1.0
+ *
+ * Projet ALGAV - Fichier test du programme :
+ * Fichier contenant les implémentations des primitives et fonctions avancées des Arbres de la Briandais.
+ */
 
+#include "../headers/main.h"
 
 
 /* III - Liste des primitives de base d'un Arbre de la Briandais */
@@ -151,7 +161,6 @@ int comptageFeuillesBriandais(ArbreBriandais a) {
     return comptageFeuillesBriandais(a->child) + comptageFeuillesBriandais(a->sibling);
 }
 
-
 //Retourne la valeur de la racine du premier arbre de a.
 char valAB(ArbreBriandais a) {
   return a->sibling->val;
@@ -240,7 +249,6 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
 
 
 /* V - Liste des fonctions avancées pour les Arbres de la Briandais */
-
 //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
 int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
   int i, n = strlen(mot);
@@ -268,7 +276,7 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
     //it = a->sibling; //Noeud courant
 
     //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
-    for(i = 0; i < n+1; i++) {
+    for(i = 0; mot[i] != '\0'; i++) {
         //Boucle principale servant à parcourir les noeuds de l'arbre
         while(it) {
             //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
@@ -307,9 +315,12 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
     }
   }
 
-  if(!it) {
-    printf("\nLe mot \'%s\' n'existe pas dans l'Arbre\n",mot);
-    return FAUX;
+  if(it) {
+    if(it->val != '\0') {
+        printf("\nit->val : %c\n",it->val);
+        printf("Le mot \'%s\' n'existe pas dans l'Arbre.",mot);
+        return FAUX;
+    }
   }
   printf("Le mot \'%s\' existe dans l'Arbre !!!\n",mot);
   return VRAI;
@@ -327,29 +338,18 @@ int comptageMotsBriandais_V2(ArbreBriandais a) {
   return comptageMotsBriandais_V2(a->sibling) + comptageMotsBriandais_V2(a->child); //Cas général
 }
 
-/*
 //Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
-void listeMotsBriandais(ArbreBriandais a, char mot[])  {
-    if(!a) return;
-    if(a->val == '\0') printf("\n");
-    printf("%c",a->val);
-    listeMotsBriandais(a->child, mot); //Visite du fils
-    listeMotsBriandais(a->sibling, mot); //Visite du frère
+void listeMotsBriandais(ArbreBriandais a, char mot[], int profondeur) {
+  if(a) {
+    mot[profondeur] = a->val;
+    if(a->val == '\0') {
+      mot[profondeur] = a->val;
+      printf("\n%s",mot);
+    }
+    listeMotsBriandais(a->child,mot,profondeur+1);
+    listeMotsBriandais(a->sibling,mot,profondeur);
+  }
 }
-*/
-
-
-void listeMotsBriandais(ArbreBriandais a, char mot[])  {
-    int n = strlen(mot);
-    char* tmp = malloc(sizeof(*tmp));
-    if(!a) return;
-    if(a->val == '\0') printf("%s\n",mot);
-    strcpy(tmp,mot);
-    mot[n+1] = '\0'; mot[n] = a->val;
-    listeMotsBriandais(a->child, mot); //Visite du fils
-    listeMotsBriandais(a->sibling, tmp); //Visite du frère
-}
-
 
 //Retourne le nombre de pointeurs vers Nil présents dans l'Arbre a.
 int comptageNilBriandais(ArbreBriandais a) {
@@ -491,7 +491,6 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
   printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
 }
 
-
 //Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
   ArbreBriandais it = a, prec; //potentiel;
@@ -558,7 +557,6 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
 
 
 }
-
 
 /* Fonction qui affiche un aperçu visuel de l'Arbre de la Briandais a */
 void afficheStructureBriandais(ArbreBriandais a, int profondeur) {

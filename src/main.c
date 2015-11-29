@@ -1,9 +1,9 @@
 /**
- * /file main.c
- * /brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
- * /author Chafik NOUIRA
- * /date 24 octobre 2015
- * /version 1.0
+ * \file main.c
+ * \brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
+ * \author Chafik NOUIRA
+ * \date 24 octobre 2015
+ * \version 1.0
  *
  * Projet ALGAV - Fichier main du programme :
  *      - Implémentation des Arbres de la Briandais et Tries Hybrides
@@ -21,35 +21,18 @@
 #include "test.c"
 
 
-void listerBriandais(ArbreBriandais a, char mot[], int profondeur) {
-  if(a) {
-    mot[profondeur] = a->val;
-    if(a->val == '\0') {
-      mot[profondeur] = a->val;
-      printf("\n%s",mot);
-    }
-    listerBriandais(a->child,mot,profondeur+1);
-    listerBriandais(a->sibling,mot,profondeur);
-  }
-}
 
 
-void listerTrie(TrieHybride t, char mot[], int profondeur) {
-  if(t) {
-    mot[profondeur] = t->val;
-    if(t->cle != -1) {
-      mot[profondeur+1] = '\0';
-      printf("\n%s",mot);
-    }
-    listerTrie(t->inferiorChild,mot,profondeur);
-    listerTrie(t->nextChild,mot,profondeur+1);
-    listerTrie(t->superiorChild,mot,profondeur);
-  }
-}
+
+
 
 
 int main(void) {
 
+
+  testBaseBriandais();
+
+/*
   //Construction d'un Arbre de la Briandais à partir de TOUS les fichiers de Shakespeare
   //testShakespeareBriandais();
   TrieHybride t = trieVide();
@@ -62,7 +45,7 @@ int main(void) {
 
 
 
-
+*/
 
   printf("\n\n");
 

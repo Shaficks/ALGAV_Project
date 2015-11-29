@@ -1,9 +1,9 @@
 /**
- * /file tools.c
- * /brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
- * /author Chafik NOUIRA
- * /date 24 octobre 2015
- * /version 1.0
+ * \file tools.c
+ * \brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
+ * \author Chafik NOUIRA
+ * \date 24 octobre 2015
+ * \version 1.0
  *
  * Projet ALGAV - Fichier tools du programme :
  *      - Implémentation des fonctions utilitaires du programme.

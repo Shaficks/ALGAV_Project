@@ -1,3 +1,14 @@
+/**
+ * \file trieHybride.c
+ * \brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
+ * \author Chafik NOUIRA
+ * \date 24 octobre 2015
+ * \version 1.0
+ *
+ * Projet ALGAV - Fichier test du programme :
+ * Fichier contenant les implémentations des primitives et fonctions avancées des Tries Hybrides.
+ */
+
 #include "../headers/main.h"
 
 
@@ -142,7 +153,6 @@ int comptageFeuillesTrie(TrieHybride t) {
     return comptageFeuillesTrie(t->nextChild) + comptageFeuillesTrie(t->inferiorChild) + comptageFeuillesTrie(t->superiorChild);
 }
 
-
 //Retourne la valeur de la racine du Trie.
 char valTH(TrieHybride t) {
   return t->nextChild->val;
@@ -239,17 +249,17 @@ int comptageMotsTrie_V2(TrieHybride t) {
 }
 
 //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
-void listeMotsTrie(TrieHybride t, char mot[]) {
-  int n = strlen(mot);
-  char* tmp = malloc(sizeof(*tmp));
-  if(!t) return;
-  if(t->cle != -1 ) printf("%s\n",mot);
-  strcpy(tmp,mot);
-  mot[n] = t->val; mot[n+1] = '\0';
-
-  listeMotsTrie(t->inferiorChild, tmp); //Visite du fils inférieur
-  listeMotsTrie(t->nextChild, mot); //Visite du fils suivant
-  listeMotsTrie(t->superiorChild, tmp); //Visite du fils supérieur
+void listeMotsTrie(TrieHybride t, char mot[], int profondeur) {
+  if(t) {
+    mot[profondeur] = t->val;
+    if(t->cle != -1) {
+      mot[profondeur+1] = '\0';
+      printf("\n%s",mot);
+    }
+    listeMotsTrie(t->inferiorChild,mot,profondeur);
+    listeMotsTrie(t->nextChild,mot,profondeur+1);
+    listeMotsTrie(t->superiorChild,mot,profondeur);
+  }
 }
 
 //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
@@ -417,6 +427,7 @@ void afficheStructureHybride(TrieHybride t, int profondeur) {
     }
     //fclose(fichier);
 }
+
 /*
 void visualiseTrie(TrieHybride t) {
 	char res[5000];
@@ -462,22 +473,3 @@ void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]) {
 */
 
 
-/*********************** Fonction de construction à partir d'un fichier de Shakespeare *******************************/
-void constructShakespeareTrie(TrieHybride t, char chemin[]) {
-  FILE* f = NULL;
-  char mot[50];
-  f = fopen(chemin,"r+");
-  if(f == NULL) {
-    printf("Chargement \'%s\' échoué...",chemin);
-    return;
-  }
-  else printf("Chargement Réussi !!\n");
-
-  do {
-    fgets(mot, sizeof mot, f);
-    //printf("%s",mot);
-    ajoutMotTrie(t,mot);
-  } while (!feof(f));
-  fclose(f);
-}
-/*********************** Fonction de construction à partir d'un fichier de Shakespeare *******************************/

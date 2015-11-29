@@ -1,3 +1,14 @@
+/**
+ * \file fonctions_complexes.c
+ * \brief Master 1 Informatique - Spécialité STL - 2015-2016 Semestre 1 - Algorithmique Avancée
+ * \author Chafik NOUIRA
+ * \date 24 octobre 2015
+ * \version 1.0
+ *
+ * Projet ALGAV - Fichier test du programme :
+ * Fichier contenant les implémentations des fonctions complexes.
+ */
+
 #include "../headers/main.h"
 
 /*
