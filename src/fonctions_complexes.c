@@ -113,7 +113,20 @@ void BriandaisToTrieHybrideV1(ArbreBriandais a, TrieHybride t, char mot[], int p
 
 
 //Convertit un Trie Hybride en Arbre de la Briandais et retourne ce dernier.
-ArbreBriandais TrieHybrideToBriandais(TrieHybride t);
+void TrieHybrideToBriandaisV1(TrieHybride t, ArbreBriandais a) {
+  ++nb_operations;
+  if(t) {
+    if(t->cle != -1) {
+      ajoutMotBriandais(a,t->mot);
+    }
+    if(t->inferiorChild)
+      TrieHybrideToBriandaisV1(t->inferiorChild,a);
+    if(t->nextChild)
+      TrieHybrideToBriandaisV1(t->nextChild,a);
+    if(t->superiorChild)
+      TrieHybrideToBriandaisV1(t->superiorChild,a);
+  }
+}
 
 //Ajout d'un mot dans un Trie suivi par un rééquilibrage si nécessaire.
 TrieHybride ajoutAvecReequilibrage(TrieHybride t, char mot[]);

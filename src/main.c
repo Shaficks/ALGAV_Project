@@ -32,12 +32,25 @@ int compteHybride(TrieHybride t) {
 
 
 int main(void) {
-
-
-
-  testFusionBriandais();
-
   printf("\n\n");
 
+
+  ArbreBriandais a = arbreVide();
+  char mot[50];
+
+  constructArbreBriandais(a,base,tailleBase);
+
+  listeMotsBriandais(a->sibling, mot, 0);
+
+  
+  printf("\n\n");
+
+  
+  suppressionMotBriandais_V2(a,"dactylo");
+
+  listeMotsBriandais(a->sibling, mot, 0);
+  
+
+  printf("\n\n");
   return EXIT_SUCCESS;
 }

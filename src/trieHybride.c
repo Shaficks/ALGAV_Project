@@ -30,8 +30,8 @@ void ajoutMotTrie(TrieHybride t, char mot[]) {
 
     //Au cas où le mot est vide
     if(!strlen(mot)) {
-        //printf("Il faut un mot !\n");
-        return;
+      //printf("Il faut un mot !\n");
+      return;
     }
 
     int i, option=3;
@@ -61,7 +61,9 @@ void ajoutMotTrie(TrieHybride t, char mot[]) {
             if(mot[i+1] == '\0') {
                 if(it->cle == -1) {
                     //Incrémentation du nobmre de mots existants dans le Trie Hybirde
+		    //printf("\nMot \'%s\' ajouté avec succès.\n",mot);
                     it->cle = ++nbMotsHybride;
+		    strcpy(it->mot,mot);
                     return;
                 }
             }
@@ -79,7 +81,7 @@ void ajoutMotTrie(TrieHybride t, char mot[]) {
 	 Cette vérification gére aussi les Tries vides */
 
       if(!it && (strlen(resteMot(mot,i)) >= 1)) {
-        ajoutSimpleTrie(prec, resteMot(mot,i), option);
+        ajoutSimpleTrie(prec, resteMot(mot,i), mot, option);
         //printf("\nMot \'%s\' ajouté avec succès.\n",mot);
         return;
       }
@@ -89,7 +91,7 @@ void ajoutMotTrie(TrieHybride t, char mot[]) {
 
 //Ajoute un mot au Trie t et retourne le Trie résultat.
 //PS : L'entier option sert à préciser s'il s'agit d'une lettre supérieure, inférieure ou suivante
-void ajoutSimpleTrie(TrieHybride t, char mot[], int option) {
+void ajoutSimpleTrie(TrieHybride t, char mot[], char original[], int option) {
     int i;
     TrieHybride it = t, noeud = my_malloc(sizeof(*noeud));
     noeud->cle = -1;
@@ -130,6 +132,7 @@ void ajoutSimpleTrie(TrieHybride t, char mot[], int option) {
     }
     //Incrémentation du nombre de clés présents dans le Trie Hybride
     it->cle = ++nbMotsHybride;
+    strcpy(it->mot,original);
 }
 
 //Construit un Trie Hybride à partir d'un dictionnaire donné.
@@ -191,16 +194,13 @@ TrieHybride insertTrieHybride(TrieHybride t, TrieHybride ti, int i);
 int rechercheMotTrie(TrieHybride t, char mot[]) {
     //Au cas où le mot est vide
     if(!strlen(mot)) {
-        printf("Il faut un mot !\n");
-        return FAUX;
-    }
-    if(!t->nextChild) {
-        printf("Le Trie est vide !\n");
-        return FAUX;
+      printf("Il faut un mot !\n");
+      return FAUX;
     }
 
     int i;
-    TrieHybride it = t->nextChild;
+    TrieHybride it = t;
+    it = it->nextChild;
 
     for(i = 0; mot[i] != '\0'; i++) {
       while(it) {
@@ -211,22 +211,22 @@ int rechercheMotTrie(TrieHybride t, char mot[]) {
         }
         //Siinon si la lettre à ajouter est supérieure à la lettre du noeud
         else if(toupper(mot[i]) > toupper(it->val)) {
-            ++nb_operations;
+	  ++nb_operations;
             it = it->superiorChild;
         }
         //Sinon si la lettre à ajouter existe déjà. On passe à la lettre suivante, d'où le break
         else if(toupper(mot[i]) == toupper(it->val)) {
             //Cas particulier : L'existence de toutes les lettres mais pas de la clé
             if(mot[i+1] == '\0') {
-                //Pas de clé, on retourner FAUX
                 if(it->cle == -1) {
-                    printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
+                    //Incrémentation du nobmre de mots existants dans le Trie Hybirde
+		    printf("\nLe mot \'%s\' n'existe pas dans le Trie.\n",mot);
                     return FAUX;
                 }
             }
-            ++nb_operations;
             it = it->nextChild;
             if(!it) ++i;
+            ++nb_operations;
             break;
         }
       }
@@ -240,7 +240,7 @@ int rechercheMotTrie(TrieHybride t, char mot[]) {
         return FAUX;
       }
     }
-    printf("\nLe mot \'%s\' existe dans le Trie !!!\n",mot);
+    printf("\nLe mot \'%s\' existe dans le Trie !\n",mot);
     return VRAI;
 }
 
@@ -262,6 +262,7 @@ int comptageMotsTrie_V2(TrieHybride t) {
   return  comptageMotsTrie_V2(t->nextChild) + comptageMotsTrie_V2(t->inferiorChild) + comptageMotsTrie_V2(t->superiorChild); //Cas général
 }
 
+/*
 //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
 void listeMotsTrie(TrieHybride t, char mot[], int profondeur) {
   ++nb_operations;
@@ -277,6 +278,23 @@ void listeMotsTrie(TrieHybride t, char mot[], int profondeur) {
         listeMotsTrie(t->nextChild,mot,profondeur+1);
     if(t->superiorChild)
         listeMotsTrie(t->superiorChild,mot,profondeur);
+  }
+}
+*/
+
+//Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+void listeMotsTrie(TrieHybride t) {
+  ++nb_operations;
+  if(t) {
+    if(t->cle != -1) {
+      printf("\n%s",t->mot);
+    }
+    if(t->inferiorChild)
+        listeMotsTrie(t->inferiorChild);
+    if(t->nextChild)
+        listeMotsTrie(t->nextChild);
+    if(t->superiorChild)
+        listeMotsTrie(t->superiorChild);
   }
 }
 

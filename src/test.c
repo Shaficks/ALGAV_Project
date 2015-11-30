@@ -386,7 +386,7 @@ void testFusionBriandais() {
      - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
   demarrer_chrono(); nb_operations = 0;
   comptageMotsBriandais_V2(res->sibling);
-  printf("Comptage Mots : V1 %ld - V2 %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageMotsBriandais_V1(),
+  printf("Comptage Mots : V1(Total tmp) %ld - V2 %d | Nb d'opérations : %ld | Temps d'exécution : ",(long int)(comptageMotsBriandais_V1()-comptageMotsBriandais_V2(res->sibling)),
             comptageMotsBriandais_V2(res->sibling),nb_operations);
   stop_chrono(); printf("\n");
   demarrer_chrono(); nb_operations = 0;
@@ -557,14 +557,14 @@ void testShakespeareTrieHybride() {
   //Lister les mots
   printf("\nEntrez n'importe quel chiffre pour voir la liste des mots : "); scanf("%s",mot);
   demarrer_chrono(); nb_operations = 0;
-  listeMotsTrie(t->nextChild, mot, 0);
+  listeMotsTrie(t->nextChild);
   printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
   stop_chrono();
 
   //Et finalement, affichage de la structure
   printf("\nEntrez n'importe quel chiffre pour avoir un affichage de l'arbre : "); scanf("%s",mot);
   demarrer_chrono(); nb_operations = 0;
-  visualizeHybride(t->nextChild,0);
+  visualizeHybrideV2(t->nextChild,0);
   printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
   stop_chrono();
 }
@@ -572,13 +572,6 @@ void testShakespeareTrieHybride() {
 
 /* Construction d'un Trie Hybride à partir de tous les fichiers de Shakespeare afin d'y effectuer différentes opérations */
 void testBaseTrieHybride() {
-
-
-/* Construction d'un Trie Hybride et Conversion en un Arbre de la Briandais */
-void testConversionTrieHybride();
-
-/* Construction d'un Trie Hybride et affichage d'un aperçu visuel de ce dernier */
-void testVisualizeTrieHybride();
   demarrer_chrono(); nb_operations = 0;
   TrieHybride t = trieVide(); //Déclaration et initialisation du Trie Hybride
 
@@ -653,7 +646,7 @@ void testVisualizeTrieHybride();
   //Lister les mots
   printf("\nEntrez n'importe quel chiffre pour voir la liste des mots : "); scanf("%s",mot);
   demarrer_chrono(); nb_operations = 0;
-  listeMotsTrie(t->nextChild, mot, 0);
+  listeMotsTrie(t->nextChild);
   printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
   stop_chrono();
 
@@ -663,4 +656,31 @@ void testVisualizeTrieHybride();
   visualizeHybrideV2(t->nextChild,0);
   printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
   stop_chrono();
+}
+
+
+
+void testConversionTrieHybride() {
+  TrieHybride t = trieVide();
+  ArbreBriandais a = arbreVide();
+  char mot[50];
+  
+  constructTrieHybride(t,base,tailleBase);
+
+  printf("\nListe de mots Trie Hybride :\n");
+  listeMotsTrie(t->nextChild);
+
+
+  printf("\nComptage Mots Hybride : V1 %ld - V2 %d\n",comptageMotsTrie_V1(),comptageMotsTrie_V2(t->nextChild));
+
+
+  TrieHybrideToBriandaisV1(t->nextChild,a);
+  
+  printf("\nListe de mots Arbre de la Briandais :\n");
+  listeMotsBriandais(a->sibling, mot, 0);
+  
+  
+  printf("\nComptage Mots Briandais : V1 %ld - V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
+    
+  printf("\n\n");
 }

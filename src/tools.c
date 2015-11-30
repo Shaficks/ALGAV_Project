@@ -104,3 +104,26 @@ int max3(int a, int b, int c) {
     if(b>a && b>c) return b;
     return c;
 }
+
+
+//Fonction qui, à partir d'une racine d'un arbre de la briandais, supprime tout l'arbre en libérant l'espace mémoire.
+void freeBriandais(ArbreBriandais a) {
+  ++nb_operations;
+  if(!a) return;
+  ArbreBriandais to_del = a;
+  if(a->sibling) freeBriandais(a->sibling);
+  if(a->child) freeBriandais(a->child);
+  free(to_del);
+}
+
+
+//Fonction qui, à partir d'une racine d'un Trie Hybride, supprime tout le Trie en libérant l'espace mémoire.
+void freeHybride(TrieHybride t) {
+  ++nb_operations;
+  if(!t) return;
+  TrieHybride to_del = t;
+  if(t->inferiorChild) freeHybride(t->inferiorChild);
+  if(t->nextChild) freeHybride(t->nextChild);
+  if(t->superiorChild) freeHybride(t->superiorChild);
+  free(to_del);
+}

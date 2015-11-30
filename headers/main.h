@@ -67,6 +67,7 @@ typedef struct Hybride* TrieHybride;
  * \brief Structure représentant un noeud d'un Arbre de la Briandais
  */
 struct Hybride {
+  char mot[50]; /*!< Si le noeud représente une clé, le mot correspondant sera stocké ici.*/
   long int cle; /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
   char val; /*!< Champs représentant le caractère contenu dans le noeud. */
   TrieHybride superiorChild; /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
@@ -93,7 +94,7 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i);
 /* IV - Liste des primitives de base d'un Trie Hybride */
 TrieHybride trieVide(); //Retourne un Trie Hybride réduit à un noeud avec 3 liens vides.
 void ajoutMotTrie(TrieHybride t, char mot[]); //Ajoute un mot au Trie t et retourne le Trie résultat.
-void ajoutSimpleTrie(TrieHybride t, char mot[], int option); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines du Trie.
+void ajoutSimpleTrie(TrieHybride t, char mot[], char original[], int option); //Ajout simple d'un mot. Utilisée quand la ième lettre n'existe pas dans les racines du Trie.
 void constructTrieHybride(TrieHybride t, char** dictionnaire, int taille); //Construit un Trie Hybride à partir d'un dictionnaire donné.
 int estTrieVide(TrieHybride t); //Retourne 1(VRAI) si le Trie est vide, 0(FAUX) sinon.
 int estFeuilleTrie(TrieHybride t); //Retourne 1(VRAI) si le noeud est une feuille, 0(FAUX) sinon.
@@ -120,7 +121,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]); //Supprime un mot
 int rechercheMotTrie(TrieHybride t, char mot[]); //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
 long int comptageMotsTrie_V1(); //Retourne le nombre de mots présents dans le Trie t. Solution Simple | Complexité O(1)
 int comptageMotsTrie_V2(TrieHybride t); //Retourne le nombre de mots présents dans le Trie t. Solution Complexte | Appel récursif sur les noeuds du Trie Hybride.
-void listeMotsTrie(TrieHybride t, char mot[], int profondeur); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+void listeMotsTrie(TrieHybride t); //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
 int comptageNilTrie(TrieHybride t); //Retourne le nombre de pointeurs vers Nil présents dans le Trie t.
 int hauteurTrie(TrieHybride t); //Calcule et retourne la hauteur du Trie t.
 int profondeurTotaleTrie(TrieHybride t, int n); //Retourne la somme des profondeurs de toutes les feuilles du Trie. n = 0 lors de l'appel.
@@ -142,6 +143,9 @@ void *my_malloc(size_t size); //alloue de la memoire avec malloc mais quitte le 
 char* resteMot(char mot[], int i); //Renvoie le reste d'un mot à partir d'une position i - ième lettre incluse.
 int max2(int a, int b); //Fonction qui retourne l'entier le plus grand entre a et b
 int max3(int a, int b, int c); //Fonction qui retourne l'entier le plus grand entre a, b et c
+void freeBriandais(ArbreBriandais a); //Fonction qui, à partir d'une racine d'un arbre de la briandais, supprime tout l'arbre en libérant l'espace mémoire.
+void freeHybride(TrieHybride t); //Fonction qui, à partir d'une racine d'un Trie Hybride, supprime tout le Trie en libérant l'espace mémoire.
+
 
 
 /* IX - Fonctions d'affichage des Structures */
