@@ -26,33 +26,34 @@ ArbreBriandais arbreVide() {
 //Fonction d'ajout d'un mot dans un arbre de la Briandais. Elle ne retourne rien car elle modifie directement via les pointeurs.
 void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
   int n = strlen(mot);
+  ArbreBriandais it = a, prec;
 
   //Au cas où le mot est vide
   if(!strlen(mot)) {
-    printf("Il faut un mot !\n");
+    //printf("Il faut un mot !\n");
     return;
   }
 
   //Au cas où l'arbre est vide, faire un ajout simple en utilisant la fonction correspondante.
   if(a->sibling == NULL) {
     ajoutSimpleBriandais(a,mot);
-    printf("Mot \'%s\' ajouté avec succès !\n",mot);
+    //printf("Mot \'%s\' ajouté avec succès !\n",mot);
     nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
     return;
   }
   //Au cas où l'arbre n'est pas vide
   else {
     int i;
-    ArbreBriandais it = a, prec;
     prec = it; //Noeud précédant
     it = a->sibling; //Noeud courant
 
     //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
-    for(i = 0; i < n+1; i++) {
+    for(i = 0; i < n; i++) {
         //Boucle principale servant à parcourir les noeuds de l'arbre
         while(it) {
             //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
             while(toupper(mot[i]) > toupper(it->val)) {
+                ++nb_operations;
                 prec = it;
                 it = it->sibling;
                 if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
@@ -61,7 +62,7 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
             //Au cas où le neoud est vide, ça veut dire qu'on a atteint la fin de la liste des racines de la forêt lexicographique
             if(it == NULL) {
                 ajoutSimpleBriandais(prec,resteMot(mot,i)); //On effectue un ajout simple du reste du mot à partir de l'ième lettre incluse
-                printf("Mot \'%s\' ajouté avec succès !\n",mot);
+                //printf("Mot \'%s\' ajouté avec succès !\n",mot);
                 nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
                 return;
             }
@@ -69,6 +70,7 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
             else {
                 //Si le noeud courant contient la même lettre, passage direct au fils
                 if(toupper(mot[i]) == toupper(it->val)) {
+                    ++nb_operations;
                     prec = it;
                     it = it->child;
                     break;
@@ -77,6 +79,7 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
                 else {
                     //S'il s'agit du fils (La relation parent-fils sera gérée ici au niveau de la fonction principale)
                     if(prec->child == it) {
+                        ++nb_operations;
                         ArbreBriandais noeud = NULL;
                         noeud = my_malloc(sizeof(*noeud));
                         noeud->val = mot[i];
@@ -86,20 +89,21 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
                         it = prec->child;
                         int j;
                         for(j = i+1; j < n+1; j++, it = it->child) {
+                          ++nb_operations;
                           noeud = my_malloc(sizeof(*noeud));
                           noeud->val = mot[j];
                           noeud->sibling = NULL;
                           noeud->child = NULL;
                           it->child = noeud;
                         }
-                        printf("Mot \'%s\' ajouté avec succès !\n",mot);
+                        //printf("Mot \'%s\' ajouté avec succès !\n",mot);
                         nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
                         return;
                     }
                     //S'il s'agit d'un frère du fils, appel à la fonction d'ajout simple
                     else {
                         ajoutSimpleBriandais(prec,resteMot(mot,i));
-                        printf("Mot \'%s\' ajouté avec succès !\n",mot);
+                        //printf("Mot \'%s\' ajouté avec succès !\n",mot);
                         nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
                         return;
                     }
@@ -108,7 +112,34 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
         }
     }
   }
-  printf("Le mot \'%s\' existe déjà dans l'Arbre !!!\n",mot);
+  //Au cas où toutes les lettres existent mais pas le noeud représentant la fin du mot, dans ce cas on l'ajoute
+  if(prec) {
+    if(prec->child) {
+        if(prec->child->val != '\0') {
+            ++nb_operations;
+            ArbreBriandais noeud = my_malloc(sizeof(*noeud));
+            noeud->val = '\0';
+            noeud->sibling = prec->child;
+            noeud->child = NULL;
+            prec->child = noeud;
+            //printf("Mot \'%s\' ajouté avec succès !\n",mot);
+            nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
+            return;
+        }
+    }
+  }
+  else if(!prec->child) {
+        ++nb_operations;
+        ArbreBriandais noeud = my_malloc(sizeof(*noeud));
+        noeud->val = '\0';
+        noeud->sibling = NULL;
+        noeud->child = NULL;
+        prec->child = noeud;
+        //printf("Mot \'%s\' ajouté avec succès !\n",mot);
+        nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
+        return;
+  }
+  //printf("Le mot \'%s\' existe déjà dans l'Arbre !!!\n",mot);
 }
 
 //Fonction d'ajout simple d'un mot dans un arbre de la Briandais, utilisée quand l'arbre est vide. (Elle ne retourne rien car elle modifie via les pointeurs)
@@ -125,6 +156,7 @@ void ajoutSimpleBriandais(ArbreBriandais a, char mot[]) {
     noeud->child = NULL;
     it->sibling = noeud;
     it = it->sibling;
+    ++nb_operations;
 
     //Ajout des lettres suivantes
     for(i = 1; i < n+1; i++, it = it->child) {
@@ -133,6 +165,7 @@ void ajoutSimpleBriandais(ArbreBriandais a, char mot[]) {
         noeud->sibling = NULL;
         noeud->child = NULL;
         it->child = noeud;
+        ++nb_operations;
     }
 }
 
@@ -156,6 +189,7 @@ int estFeuilleBriandais(ArbreBriandais a) {
 
 //Retourne le nombre de feuilles de l'Arbre de la Briandais.
 int comptageFeuillesBriandais(ArbreBriandais a) {
+    ++nb_operations;
     if(!a) return 0;
     if(estFeuilleBriandais(a)) return 1;
     return comptageFeuillesBriandais(a->child) + comptageFeuillesBriandais(a->sibling);
@@ -251,7 +285,6 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
 /* V - Liste des fonctions avancées pour les Arbres de la Briandais */
 //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
 int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
-  int i, n = strlen(mot);
 
     ArbreBriandais it = a;
     it = a->sibling; //Noeud courant
@@ -271,9 +304,7 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
   }
   //Au cas où l'arbre n'est pas vide
   else {
-    //int i;
-    //ArbreBriandais it = a;
-    //it = a->sibling; //Noeud courant
+    int i;
 
     //Parcours du mot lettre par lettre - La lettre représentant la fin du mot sera prise en compte aussi
     for(i = 0; mot[i] != '\0'; i++) {
@@ -281,6 +312,7 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
         while(it) {
             //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
             while(toupper(mot[i]) > toupper(it->val)) {
+                ++nb_operations;
                 it = it->sibling;
                 if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
             }
@@ -293,15 +325,9 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
 
             //Au cas où le noeud n'est pas vide
             else {
-            /*
-                if(i == n) {
-                     printf("\nit->val : %d\n",it->val);
-                     printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
-                     return FAUX;
-                }
-            */
                 //Si le noeud courant contient la même lettre, passage direct au fils
                 if(toupper(mot[i]) == toupper(it->val)) {
+                    ++nb_operations;
                     it = it->child;
                     break;
                 }
@@ -315,13 +341,18 @@ int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
     }
   }
 
-  if(it) {
+  //Au cas où toutes les lettres existent mais pas le noeud représentant la fin du mot, dans ce cas le mot n'existe pas
+  if(!it) {
+    printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
+    return FAUX;
+  }
+  else {
     if(it->val != '\0') {
-        printf("\nit->val : %c\n",it->val);
-        printf("Le mot \'%s\' n'existe pas dans l'Arbre.",mot);
+        printf("Le mot \'%s\' n'existe pas dans l'Arbre\n",mot);
         return FAUX;
     }
   }
+  ++nb_operations;
   printf("Le mot \'%s\' existe dans l'Arbre !!!\n",mot);
   return VRAI;
 }
@@ -333,38 +364,51 @@ long int comptageMotsBriandais_V1() {
 
 //Retourne le nombre de mots présents dans l'Arbre a. Solution complexe | Appel récursif sur les noeuds de l'Arbre de la Briandais.
 int comptageMotsBriandais_V2(ArbreBriandais a) {
+  ++nb_operations;
   if(!a) return 0; //Si le noeud est NULL
+  if(estFeuilleBriandais(a)) {
+    if(a->val == '\0') return 1;
+    else return 0;
+  }
   else if(a->val == '\0') return 1 + comptageMotsBriandais_V2(a->sibling); //Si le noeud représente la fin d'un mot. Il peut aussi avoir un frère
   return comptageMotsBriandais_V2(a->sibling) + comptageMotsBriandais_V2(a->child); //Cas général
 }
 
 //Retourne la liste des mots présents dans l'Arbre a triés dans l'ordre alphabétique.
 void listeMotsBriandais(ArbreBriandais a, char mot[], int profondeur) {
+  ++nb_operations;
+  if(!a) return;
   if(a) {
     mot[profondeur] = a->val;
     if(a->val == '\0') {
-      mot[profondeur] = a->val;
       printf("\n%s",mot);
     }
-    listeMotsBriandais(a->child,mot,profondeur+1);
-    listeMotsBriandais(a->sibling,mot,profondeur);
+    if(a->child)
+        listeMotsBriandais(a->child,mot,profondeur+1);
+    if(a->sibling)
+        listeMotsBriandais(a->sibling,mot,profondeur);
   }
 }
 
 //Retourne le nombre de pointeurs vers Nil présents dans l'Arbre a.
 int comptageNilBriandais(ArbreBriandais a) {
+  ++nb_operations;
   if(!a) return 1; //Si le noeud est NULL
+  if(estFeuilleBriandais(a)) return 2;
   return comptageNilBriandais(a->sibling) + comptageNilBriandais(a->child); //Cas général
 }
 
 //Calcule et retourne la hauteur de l'Arbre a.
 int hauteurBriandais(ArbreBriandais a) {
+    ++nb_operations;
 	if(!a) return 0;
+	if(estFeuilleBriandais(a)) return 1;
     return max2(1+hauteurBriandais(a->child) , hauteurBriandais(a->sibling));
 }
 
 //Calcule et retourne la somme des profondeurs des feuilles de l'Arbre a. n départ = 0.
 int profondeurTotaleBriandais(ArbreBriandais a, int n) {
+    //++nb_operations;
     if(!a) return 0;
     if(estFeuilleBriandais(a)) return n+1;
     return profondeurTotaleBriandais(a->child,n+1) + profondeurTotaleBriandais(a->sibling,n);
@@ -374,6 +418,23 @@ int profondeurTotaleBriandais(ArbreBriandais a, int n) {
 float profondeurMoyenneBriandais(ArbreBriandais a) {
     if(!a) return 0;
     return ((float)profondeurTotaleBriandais(a,0)/(float)comptageFeuillesBriandais(a));
+}
+
+void profondeursFeuilles(ArbreBriandais a, int profondeur) {
+    ++nb_operations;
+    if(!a) return;
+    if(estFeuilleBriandais(a)) {
+        nb_feuilles++;
+        prof_totale_feuilles += profondeur+1;
+        return;
+    }
+    profondeursFeuilles(a->sibling,profondeur);
+    profondeursFeuilles(a->child,profondeur+1);
+}
+
+float profondeurMoyenneBriandaisV2(ArbreBriandais a) {
+    profondeursFeuilles(a, 0);
+    return prof_totale_feuilles / nb_feuilles;
 }
 
 //Retourne le nombre de mots présents dans l'Arbre a pour lesquels le mot donné est préfixe et les affiche.
@@ -400,6 +461,7 @@ int prefixeBriandais(ArbreBriandais a, char mot[]) {
         while(it) {
             //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
             while(toupper(mot[i]) > toupper(it->val)) {
+                ++nb_operations;
                 it = it->sibling;
                 if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
             }
@@ -414,6 +476,7 @@ int prefixeBriandais(ArbreBriandais a, char mot[]) {
             else {
                 //Si le noeud courant contient la même lettre, passage direct au fils
                 if(toupper(mot[i]) == toupper(it->val)) {
+                    ++nb_operations;
                     it = it->child;
                     break;
                 }
@@ -457,6 +520,7 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
       while(it) {
             //Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
         while(toupper(mot[i]) > toupper(it->val)) {
+            ++nb_operations;
             prec = it;
             it = it->sibling;
             if(!it) break; //Si it est NULL, c'est qu'on a atteint la fin de la liste, on fait donc un break;
@@ -471,6 +535,7 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
         else {
             //Si le noeud courant contient la même lettre, passage direct au fils
             if(toupper(mot[i]) == toupper(it->val)) {
+                ++nb_operations;
                 prec = it;
                 it = it->child;
                 break;
@@ -486,12 +551,13 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
   }
   prec->child = it->sibling;
 
-  free(it);
+
+  free(it); ++nb_operations;
   --nbMotsBriandais;
   printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
 }
 
-//Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
+//Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
   ArbreBriandais it = a, prec; //potentiel;
   int n = strlen(mot);
@@ -520,6 +586,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
       while(it) {
 	//Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
         while(toupper(mot[i]) > toupper(it->val)) {
+            ++nb_operations;
             prec = it;
 	    //potentiel = ()
             it = it->sibling;
@@ -535,7 +602,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
         else {
             //Si le noeud courant contient la même lettre, passage direct au fils
             if(toupper(mot[i]) == toupper(it->val)) {
-
+                ++nb_operations;
                 prec = it;
                 it = it->child;
                 break;
@@ -551,7 +618,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
   }
   prec->child = (it->sibling)?it->sibling:NULL;
 
-  free(it);
+  free(it); ++nb_operations;
   --nbMotsBriandais;
   printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
 
@@ -559,9 +626,11 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
 }
 
 /* Fonction qui affiche un aperçu visuel de l'Arbre de la Briandais a */
-void afficheStructureBriandais(ArbreBriandais a, int profondeur) {
+void visualizeBriandais(ArbreBriandais a, int profondeur) {
+    ++nb_operations;
     int i;
     for (i=0; i < profondeur; i++) {
+        ++nb_operations;
         fputs("|___ ", stdout);
     }
     if(a) {
@@ -569,6 +638,6 @@ void afficheStructureBriandais(ArbreBriandais a, int profondeur) {
 	  printf("[!][%d]\n",profondeur+1);
 	else printf("[%c]\n", a->val);
     }
-    if (a->child) afficheStructureBriandais(a->child, profondeur + 1); //Les fils sont affichés au niveau inféreieur, d'où le +1
-    if (a->sibling) afficheStructureBriandais(a->sibling, profondeur); //Les frère sont dans le même niveau
+    if (a->child) visualizeBriandais(a->child, profondeur + 1); //Les fils sont affichés au niveau inféreieur, d'où le +1
+    if (a->sibling) visualizeBriandais(a->sibling, profondeur); //Les frère sont dans le même niveau
 }

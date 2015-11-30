@@ -11,33 +11,63 @@
 
 #include "../headers/main.h"
 
-/*
 //Fusionne les Arbres a et b dans res.
-void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res) {
-    if(a)
-        if(a->sibling) ArbreBriandais ita = a->sibling;
-    if(b)
-        if(b->sibling) ArbreBriandais itb = b->sibling;
-    ArbreBriandais itres = res;
+void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, ArbreBriandais parent) {
+    if(a) ArbreBriandais ita = a;
+    if(b) ArbreBriandais itb = b;
+    ArbreBriandais prec = res, itres = res;
 
-    while(ita && itb) {
-        if(itres->sibling) {
-            itres = itres->sibling;
-            continue;
+    //On commence par parcourir les noeuds de la forêt lexicographique de a
+    while(ita) {
+        while(itres) {
+            if(toupper(itres->val) < toupper(ita->value)) {
+                prec = itres;
+                itres = itres->sibling;
+                break;
+            }
         }
-        if(ita->val <= itb->val) {
-            noeud = my_malloc(sizeof(*noeud));
-            noeud->val = ita->val;
-            noeud->sibling = NULL;
-            noeud->child = NULL;
-            itres->sibling = noeud;
+
+        //Si itres est NULL, c'est qu'on a atteint la fin de la liste ça veut dire que le noeud n'existe pas, on l'insère donc entièrement !
+        if(itres == NULL) {
+            prec->sibling = ita;
         }
-        else if(toupper(itb->val) < toupper(ita->val)) {
+
+        //Sinon, si on s'est arrêté au milieu de la liste ou au début
+        else {
+            if(toupper(itres->val) > toupper(ita->val)) {
+                //S'il s'agit du fils direct du parent
+                if(parent->child == itres) {
+                    ArbreBriandais noeud = my_malloc(sizeof(*noeud));
+                    noeud->val = ita->val;
+                    noeud->sibling = itres;
+                    noeud->child = ita->child;
+                    parent->child = noeud;
+                }
+                //S'il s'agit d'un fils se trouvant pas directement en dessous du parent
+                else {
+                    ArbreBriandais noeud = my_malloc(sizeof(*noeud));
+                    noeud->val = ita->val;
+                    noeud->sibling = prec->sibling;
+                    noeud->child = ita->child;
+                    prec->sibling = noeud;
+                }
+            }
+            else if(toupper(itres->val) == toupper(itra->val)) {
+                fusionBriandais(ita->child,NULL,itres->child,itres);
+            }
 
         }
     }
 }
-*/
+
+
+
+
+
+
+
+
+
 
 //Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
 void BriandaisToTrieHybrideV1(ArbreBriandais a, TrieHybride t, char mot[], int profondeur) {

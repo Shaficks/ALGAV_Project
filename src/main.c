@@ -20,78 +20,29 @@
 #include "tools.c"
 #include "test.c"
 
+int compteBriandais(ArbreBriandais a) {
+    if(!a) return 0;
+    return 1 + compteBriandais(a->child) + compteBriandais(a->sibling);
+}
 
-
-
-
-
+int compteHybride(TrieHybride t) {
+    if(!t) return 0;
+    return 1 + compteHybride(t->inferiorChild) + compteHybride(t->nextChild) + compteHybride(t->superiorChild);
+}
 
 
 int main(void) {
 
+  ArbreBriandais a, res;
+  a = arbreVide(); res = arbreVide();
 
-  testBaseBriandais();
-
-/*
-  //Construction d'un Arbre de la Briandais à partir de TOUS les fichiers de Shakespeare
-  //testShakespeareBriandais();
-  TrieHybride t = trieVide();
-  constructTrieHybride(t,base,tailleBase);
-  graphiz(t->nextChild,0);
-
-  int i;
-  for(i = 0; i < 100; i++)
-    printf("\n%s",graph[i]);
+  fusionBriandais(a,NULL,res,res)
 
 
 
-*/
+
 
   printf("\n\n");
-
-
-
-
-
-/*
-  printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
-  //rechercheMotBriandais(a,"dactylo");
-  suppressionMotBriandais_V1(a,"dactylographie");
-  printf("Comptage Mots : V1 %ld | V2 %d\n\n",comptageMotsBriandais_V1(),comptageMotsBriandais_V2(a->sibling));
-
-  rechercheMotBriandais(a,"dactylo");
-  rechercheMotBriandais(a,"dactylographie");
-
-
-
-  printf("\nHauteur Briandais : %d\n",hauteurBriandais(a));
-
-
-  printf("\nComptage Feuilles Briandais : %d\n",comptageFeuillesBriandais(a));
-
-  printf("\nProfondeur Totale Briandais : %d\n",profondeurTotaleBriandais(a,0));
-
-  printf("\nProfondeur Totale Briandais : %f --> %d\n",profondeurMoyenneBriandais(a),(int)profondeurMoyenneBriandais(a));
-
-*//*
-  //afficheStructureBriandais(a->sibling,0);
-  ArbreBriandais a = arbreVide();
-  //TrieHybride t = trieVide();
-  char mot[50];
-  constructArbreBriandais(a,base,tailleBase);
-
-  //listerBriandais(a->sibling,mot,0);
-  //BriandaisToTrieHybrideV1(a->sibling, t, mot, 0);
-
-  suppressionMotBriandais_V1(a,"dactylographie");
-  listerBriandais(a->sibling,mot,0);
-  rechercheMotBriandais(a,"dactyl");
-
-  //printf("\nComptage Mots : V1 %ld | V2 %d\n",comptageMotsTrie_V1(t->nextChild),comptageMotsTrie_V2(t->nextChild));
-*/
-  printf("\n\n");
-
-
 
   return EXIT_SUCCESS;
 }

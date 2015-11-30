@@ -15,6 +15,8 @@
 #define VRAI 1
 #define FAUX 0
 
+float nb_feuilles = 0;
+float prof_totale_feuilles = 0;
 
 long int nb_operations = 0; //Variable globale servant à calculer le nombre d'opérations effectuées par les fonctions.
 long int nbMotsBriandais = 0; //Entier représentant le nombre de mots de l'Arbre de la Briandais
@@ -75,8 +77,6 @@ struct Hybride {
 
 
 
-
-
 /* III - Liste des primitives de base d'un Arbre de la Briandais */
 ArbreBriandais arbreVide(); //Retourne un Arbre de la Briandais réduit à un noeud avec 2 liens vides.
 void ajoutMotBriandais(ArbreBriandais a, char mot[]); //Ajoute un mot à l'arbre a et retourne l'Arbre résultat.
@@ -130,7 +130,7 @@ void suppressionMotTrie_V1(TrieHybride t, char mot[]); //Supprime un mot du Trie
 void suppressionMotTrie_V2(TrieHybride t, char mot[]); //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
 
 /* VII - Liste des fonctions complextes pour les 2 structures */
-void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res); //Fusionne les Arbres a et b dans res.
+void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, ArbreBriandais parent); //Fusionne les Arbres a et b dans res.
 TrieHybride BriandaisToTrieHybride(ArbreBriandais a); //Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
 ArbreBriandais TrieHybrideToBriandais(TrieHybride t); //Convertit un Trie Hybride en Arbre de la Briandais et retourne ce dernier.
 TrieHybride ajoutAvecReequilibrage(TrieHybride t, char mot[]); //Ajout d'un mot dans un Trie suivi par un rééquilibrage si nécessaire.
@@ -145,8 +145,8 @@ int max3(int a, int b, int c); //Fonction qui retourne l'entier le plus grand en
 
 
 /* IX - Fonctions d'affichage des Structures */
-void afficheStructureBriandais(ArbreBriandais a, int profondeur); //Fonction qui affiche un aperçu visuel d'un arbre de la Briandais.
-void afficheStructureHybride(TrieHybride t, int profondeur); //Fonction qui affiche un aperçu visuel d'un Trie Hybride.
+void visualizeBriandais(ArbreBriandais a, int profondeur); //Fonction qui affiche un aperçu visuel d'un arbre de la Briandais.
+void visualizeHybride(TrieHybride t, int profondeur); //Fonction qui affiche un aperçu visuel d'un Trie Hybride.
 
 
 void visualize_recTrie(TrieHybride t, FILE* fichier, char res[]);
