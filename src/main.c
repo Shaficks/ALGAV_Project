@@ -33,14 +33,9 @@ int compteHybride(TrieHybride t) {
 
 int main(void) {
 
-  ArbreBriandais a, res;
-  a = arbreVide(); res = arbreVide();
-
-  fusionBriandais(a,NULL,res,res)
 
 
-
-
+  testFusionBriandais();
 
   printf("\n\n");
 

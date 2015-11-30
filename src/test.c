@@ -302,7 +302,111 @@ void testBaseBriandais() {
 }
 
 /* Construction par Fusion d'arbres */
-void testFusionBriandais();
+void testFusionBriandais() {
+  ArbreBriandais tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8,tmp9,tmp10,tmp11,tmp12,tmp13,tmp14,tmp15,tmp16,tmp17,tmp18,tmp19,tmp20;
+  ArbreBriandais tmp21,tmp22,tmp23,tmp24,tmp25,tmp26,tmp27,tmp28,tmp29,tmp30,tmp31,tmp32,tmp33,tmp34,tmp35,tmp36,tmp37,res;
+  tmp1=arbreVide();tmp2=arbreVide();tmp3=arbreVide();tmp4=arbreVide();tmp5=arbreVide();tmp6=arbreVide();tmp7=arbreVide();
+  tmp8=arbreVide();tmp9=arbreVide();tmp10=arbreVide();tmp11=arbreVide();tmp12=arbreVide();tmp13=arbreVide();tmp14=arbreVide();
+  tmp15=arbreVide();tmp16=arbreVide();tmp17=arbreVide();tmp18=arbreVide();tmp19=arbreVide();tmp20=arbreVide();tmp21=arbreVide();
+  tmp22=arbreVide();tmp23=arbreVide();tmp24=arbreVide();tmp25=arbreVide();tmp26=arbreVide();tmp27=arbreVide();tmp28=arbreVide();
+  tmp29=arbreVide();tmp30=arbreVide();tmp31=arbreVide();tmp32=arbreVide();tmp33=arbreVide();tmp34=arbreVide();tmp35=arbreVide();
+  tmp36=arbreVide();tmp37=arbreVide();res=arbreVide();
+
+  
+  //Construction de l'Arbre de la Briandais à partir de tous les fichiers de Skahespeare
+  demarrer_chrono(); nb_operations = 0;
+  constructShakespeareBriandais(tmp1,"../files/Shakespeare/1henryiv.txt");
+  printf("\n1 : "); stop_chrono();
+  constructShakespeareBriandais(tmp2,"../files/Shakespeare/1henryvi.txt");
+  printf("\n2 : "); stop_chrono();
+  constructShakespeareBriandais(tmp3,"../files/Shakespeare/2henryiv.txt");
+  constructShakespeareBriandais(tmp4,"../files/Shakespeare/2henryvi.txt");
+  printf("\n4 : "); stop_chrono();
+  constructShakespeareBriandais(tmp5,"../files/Shakespeare/3henryvi.txt");
+  constructShakespeareBriandais(tmp6,"../files/Shakespeare/allswell.txt");
+  printf("\n6 : "); stop_chrono();
+  constructShakespeareBriandais(tmp7,"../files/Shakespeare/asyoulikeit.txt");
+  constructShakespeareBriandais(tmp8,"../files/Shakespeare/cleopatra.txt");
+  printf("\n8 : "); stop_chrono();
+  constructShakespeareBriandais(tmp9,"../files/Shakespeare/comedy_errors.txt");
+  constructShakespeareBriandais(tmp10,"../files/Shakespeare/coriolanus.txt");
+  printf("\n10 : "); stop_chrono();
+  constructShakespeareBriandais(tmp11,"../files/Shakespeare/cymbeline.txt");
+  constructShakespeareBriandais(tmp12,"../files/Shakespeare/hamlet.txt");
+  printf("\n12 : "); stop_chrono();
+  constructShakespeareBriandais(tmp13,"../files/Shakespeare/henryv.txt");
+  constructShakespeareBriandais(tmp14,"../files/Shakespeare/henryviii.txt");
+  printf("\n14 : "); stop_chrono();
+  constructShakespeareBriandais(tmp15,"../files/Shakespeare/john.txt");
+  constructShakespeareBriandais(tmp16,"../files/Shakespeare/julius_caesar.txt");
+  printf("\n16 : "); stop_chrono();
+  constructShakespeareBriandais(tmp17,"../files/Shakespeare/lear.txt");
+  constructShakespeareBriandais(tmp18,"../files/Shakespeare/macbeth.txt");
+  printf("\n18 : "); stop_chrono();
+  constructShakespeareBriandais(tmp19,"../files/Shakespeare/measure.txt");
+  constructShakespeareBriandais(tmp20,"../files/Shakespeare/merchant.txt");
+  printf("\n20 : "); stop_chrono();
+  constructShakespeareBriandais(tmp21,"../files/Shakespeare/merry_wives.txt");
+  constructShakespeareBriandais(tmp22,"../files/Shakespeare/midsummer.txt");
+  printf("\n22 : "); stop_chrono();
+  constructShakespeareBriandais(tmp23,"../files/Shakespeare/much_ado.txt");
+  constructShakespeareBriandais(tmp24,"../files/Shakespeare/othello.txt");
+  printf("\n24 : "); stop_chrono();
+  constructShakespeareBriandais(tmp25,"../files/Shakespeare/pericles.txt");
+  constructShakespeareBriandais(tmp26,"../files/Shakespeare/richardii.txt");
+  printf("\n26 : "); stop_chrono();
+  constructShakespeareBriandais(tmp27,"../files/Shakespeare/richardiii.txt");
+  constructShakespeareBriandais(tmp28,"../files/Shakespeare/romeo_juliet.txt");
+  printf("\n28 : "); stop_chrono();
+  constructShakespeareBriandais(tmp29,"../files/Shakespeare/taming_shrew.txt");
+  constructShakespeareBriandais(tmp30,"../files/Shakespeare/tempest.txt");
+  printf("\n30 : "); stop_chrono();
+  constructShakespeareBriandais(tmp31,"../files/Shakespeare/timon.txt");
+  constructShakespeareBriandais(tmp32,"../files/Shakespeare/titus.txt");
+  printf("\n32 : "); stop_chrono();
+  constructShakespeareBriandais(tmp33,"../files/Shakespeare/troilus_cressida.txt");
+  constructShakespeareBriandais(tmp34,"../files/Shakespeare/twelfth_night.txt");
+  printf("\n34 : "); stop_chrono();
+  constructShakespeareBriandais(tmp35,"../files/Shakespeare/two_gentlemen.txt");
+  constructShakespeareBriandais(tmp36,"../files/Shakespeare/winters_tale.txt");
+  printf("\n36 : "); stop_chrono();
+  constructShakespeareBriandais(tmp37,"../files/Shakespeare/lll.txt");
+  printf("\n37 : "); stop_chrono();
+
+  demarrer_chrono(); nb_operations = 0;
+  fusionBriandaisV2(tmp1,tmp2,res);fusionBriandaisV2(tmp3,tmp4,res);fusionBriandaisV2(tmp5,tmp6,res);fusionBriandaisV2(tmp7,tmp8,res);fusionBriandaisV2(tmp9,tmp10,res);
+  fusionBriandaisV2(tmp11,tmp12,res);fusionBriandaisV2(tmp13,tmp14,res);fusionBriandaisV2(tmp15,tmp16,res);fusionBriandaisV2(tmp17,tmp18,res);fusionBriandaisV2(tmp19,tmp20,res);
+  fusionBriandaisV2(tmp21,tmp22,res);fusionBriandaisV2(tmp23,tmp24,res);fusionBriandaisV2(tmp25,tmp26,res);fusionBriandaisV2(tmp27,tmp28,res);fusionBriandaisV2(tmp29,tmp30,res);
+  fusionBriandaisV2(tmp31,tmp32,res);fusionBriandaisV2(tmp33,tmp34,res);fusionBriandaisV2(tmp35,tmp36,res);fusionBriandaisV2(tmp37,NULL,res);
+
+  
+  printf("\nConstruction par fusion réussie ! Nombre d'opérations : %ld | Temps d'exécution : ",nb_operations); stop_chrono(); printf("\n\n");
+
+  /* Affichage des différentes informations de l'arbre :
+     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
+  demarrer_chrono(); nb_operations = 0;
+  comptageMotsBriandais_V2(res->sibling);
+  printf("Comptage Mots : V1 %ld - V2 %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageMotsBriandais_V1(),
+            comptageMotsBriandais_V2(res->sibling),nb_operations);
+  stop_chrono(); printf("\n");
+  demarrer_chrono(); nb_operations = 0;
+  comptageNilBriandais(res->sibling);
+  printf("Comptage Pointeurs vers Nil : %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageNilBriandais(res->sibling),nb_operations);
+  stop_chrono(); printf("\n");
+  demarrer_chrono(); nb_operations = 0;
+  hauteurBriandais(res->sibling);
+  printf("Hauteur de l'Arbre : %d | Nb d'opérations : %ld | Temps d'exécution : ",hauteurBriandais(res->sibling),nb_operations);
+  stop_chrono(); printf("\n");
+  demarrer_chrono(); nb_operations = 0;
+  comptageFeuillesBriandais(res->sibling);
+  printf("Comptage Feuilles : %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageFeuillesBriandais(res->sibling),nb_operations);
+  stop_chrono(); printf("\n");
+  demarrer_chrono(); nb_operations = 0;
+  profondeurMoyenneBriandaisV2(res->sibling);
+  printf("Profondeur Moyenne de l'Arbre : %f --> %d | Nb d'opérations : %ld | Temps d'exécution : ",profondeurMoyenneBriandaisV2(res->sibling),
+            (int)profondeurMoyenneBriandaisV2(res->sibling),nb_operations);
+  stop_chrono(); printf("\n");    
+}
 
 /* Construction d'un Arbre de la Briandais et Conversion en Trie Hybride */
 void testConversionBriandais();
@@ -311,7 +415,7 @@ void testConversionBriandais();
 void testVisualizeBriandais() {
   ArbreBriandais a = arbreVide();
   constructArbreBriandais(a,base,tailleBase);
-  visualizeBriandais(a->sibling);
+  visualizeBriandais(a->sibling,0);
 }
 
 
