@@ -53,6 +53,7 @@ void listeMotsTrieTab(TrieHybride t) {
 
 
 void reequilibrageRec(TrieHybride res, char tab[5000][50], int t_min, int t_max) {
+  if(t_min >= t_max) return; 
        ajoutMotTrie(res,tab[t_min+((t_max-t_min)/2)]);
        reequilibrageRec(res,tab,t_min,((t_max-t_min)/2)-1);
        reequilibrageRec(res,tab,((t_max-t_min)/2)+1,t_max);
@@ -75,13 +76,27 @@ void suppressionListeHybride(TrieHybride t, char** liste, int taille) {
 
 int main(void) {
   printf("\n\n");
-/*
+  
   //Test rééquilibirage
   TrieHybride t = trieVide(), res = trieVide();
   constructTrieHybride(t,base,tailleBase);
   listeMotsTrieTab(t);
+
+
+  printf("\nListe Tab :");
+  int i;
+  for(i = 0; i < tailleTab; i++) {
+    printf("\n%s",tab[i]);
+  }
+  
   reequilibrageRec(res,tab,0,tailleTab-1);
-*/
+
+  
+  
+  listeMotsTrieTab(res);
+
+  
+
 /*
  //Test suppression d'une liste de mots
  ArbreBriandais a = arbreVide(); constructArbreBriandais(a,base,tailleBase);
@@ -107,7 +122,7 @@ int main(void) {
 
 
   /********** Menu Principal **********/
-  system("clear");
+  /*system("clear");
 
 
 
@@ -156,7 +171,7 @@ int main(void) {
         default : break;
         }
     }
-
+  */
   printf("\n\n");
   return EXIT_SUCCESS;
 }

@@ -564,6 +564,57 @@ void testConversionBriandais() {
             (int)profondeurMoyenneTrieV2(t->nextChild),nb_operations);
   stop_chrono(); printf("\n");
 
+
+  //char mot[50];
+  //Ajout d'un mot
+  printf("\nEntrez un mot à ajouter : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  ajoutMotTrie(t,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();printf("\n");
+
+  //Test de la fonction préfixe
+  printf("Entrez une chaine afin de voir de combien de mots elle est préfixe : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  prefixeTrie(t,mot);
+  printf("\nNb de mots qui ont \'%s\' comme préfixe : %d | Nb d'opérations : %ld | Temps d'exécution : ",mot,prefixeTrie(t,mot),nb_operations);
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  rechercheMotTrie(t,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Suppression d'un mot
+  printf("\nEntrez un mot à supprimer : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  suppressionMotTrie_V1(t,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  rechercheMotTrie(t,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Lister les mots
+  printf("\nEntrez n'importe quel chiffre pour voir la liste des mots : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  listeMotsTrie(t->nextChild);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Et finalement, affichage de la structure
+  printf("\nEntrez n'importe quel chiffre pour avoir un affichage de l'arbre : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  visualizeHybrideV2(t->nextChild,0);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
 }
 
 /* Construction d'un Arbre de la Briandais à partir de tous les fichiers de Shakespeare et affichage d'un aperçu visuel de ce dernier */
@@ -914,4 +965,56 @@ void testConversionTrieHybride() {
   printf("Profondeur Moyenne de l'Arbre : %f --> %d | Nb d'opérations : %ld | Temps d'exécution : ",profondeurMoyenneBriandaisV2(a->sibling),
             (int)profondeurMoyenneBriandaisV2(a->sibling),nb_operations);
   stop_chrono(); printf("\n");
+
+
+  
+  char mot[50];
+  //Ajout d'un mot
+  printf("\nEntrez un mot à ajouter : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  ajoutMotBriandais(a,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();printf("\n");
+
+  //Test de la fonction préfixe
+  printf("Entrez une chaine afin de voir de combien de mots elle est préfixe : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  prefixeBriandais(a,mot);
+  printf("\nNb de mots qui ont \'%s\' comme préfixe : %d | Nb d'opérations : %ld | Temps d'exécution : ",mot,prefixeBriandais(a,mot),nb_operations);
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  rechercheMotBriandais(a,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Suppression d'un mot
+  printf("\nEntrez un mot à supprimer : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  suppressionMotBriandais_V1(a,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  rechercheMotBriandais(a,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Lister les mots
+  printf("\nEntrez n'importe quel chiffre pour voir la liste des mots : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  listeMotsBriandais(a->sibling, mot, 0);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Et finalement, affichage de la structure
+  printf("\nEntrez n'importe quel chiffre pour avoir un affichage de l'arbre : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  visualizeBriandais(a->sibling,0);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
 }
