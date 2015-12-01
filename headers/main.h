@@ -67,16 +67,13 @@ typedef struct Hybride* TrieHybride;
  * \brief Structure représentant un noeud d'un Arbre de la Briandais
  */
 struct Hybride {
-  char mot[50]; /*!< Si le noeud représente une clé, le mot correspondant sera stocké ici.*/
-  long int cle; /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
-  char val; /*!< Champs représentant le caractère contenu dans le noeud. */
-  TrieHybride superiorChild; /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
-  TrieHybride inferiorChild; /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
-  TrieHybride nextChild; /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
+  char mot[50]; /*!< Mot correspondant si le noeud contient une clé.*/
+  long int cle; /*!< Clé du mot - sinon -1. */                             /*!< Champs indiquant si le noeud représente une clé ou pas. (-1 si le noeud ne représente pas une clé, le n° de la clé sinon.)*/
+  char val; /*!< Valeur cotenue dans le noeud. */                          /*!< Champs représentant le caractère contenu dans le noeud. */
+  TrieHybride superiorChild; /*!< Pointeur vers le fils supérieur. */      /*!< Pointeur sur le noeud fils supérieur. (Représente le caractère supérieur remplaçant le noeud courant)*/
+  TrieHybride inferiorChild; /*!< Pointeur vers le fils inférieur. */      /*!< Pointeur sur le noeud fils inférieur. (Représente le caractère inférieur remplaçant le noeud courant)*/
+  TrieHybride nextChild; /*!< Pointeur vers le vils suivant. */            /*!< Pointeur sur le noeud fils suivant. (Représente le caractère i+1 d'un mot contenant le parent en position i)*/
 };
-
-
-
 
 /* III - Liste des primitives de base d'un Arbre de la Briandais */
 ArbreBriandais arbreVide(); //Retourne un Arbre de la Briandais réduit à un noeud avec 2 liens vides.

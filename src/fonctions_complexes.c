@@ -16,7 +16,7 @@ void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, Arb
   ArbreBriandais ita, itb, prec = res, itres = res;
   if(a) ita = a;
   if(b) itb = b;
-  
+
   //On commence par parcourir les noeuds de la forêt lexicographique de a
   while(ita) {
     while(itres) {
@@ -27,7 +27,7 @@ void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, Arb
       else break;
       if(!itres) break;
     }
-    
+
     //Si itres est NULL, c'est qu'on a atteint la fin de la liste ça veut dire que le noeud n'existe pas, on l'insère donc entièrement !
     if(itres == NULL) {
       prec->sibling = ita;
@@ -56,16 +56,11 @@ void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, Arb
       else if(toupper(itres->val) == toupper(ita->val)) {
 	fusionBriandais(ita->child,NULL,itres->child,itres);
       }
-      
+
     }
   }
 }
 */
-
-
-
-
-
 
 
 void fusionBriandaisRec(ArbreBriandais a, ArbreBriandais res, char mot[], int profondeur) {
