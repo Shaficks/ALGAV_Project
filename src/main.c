@@ -40,14 +40,15 @@ void listeMotsTrieTab(TrieHybride t) {
   ++nb_operations;
   if(t) {
     if(t->cle != -1) {
+      //while(strlen(tab[tailleTab]) == 0) tailleTab++;
       strcpy(tab[tailleTab++],t->mot);
     }
     if(t->inferiorChild)
-        listeMotsTrie(t->inferiorChild);
+        listeMotsTrieTab(t->inferiorChild);
     if(t->nextChild)
-        listeMotsTrie(t->nextChild);
+        listeMotsTrieTab(t->nextChild);
     if(t->superiorChild)
-        listeMotsTrie(t->superiorChild);
+        listeMotsTrieTab(t->superiorChild);
   }
 }
 
@@ -74,14 +75,69 @@ void suppressionListeHybride(TrieHybride t, char** liste, int taille) {
 }
 
 
+
+
+
+/* Programme de recherche dichotomique d'un élément dans une liste d'entiers */
+int reequilibrageDichotomique() {
+  /* DECLARATION DES VARIABLES */
+  int iTableau[]={1,2,3,5,6,8,9}; /* Tableau TRIE d’entiers */
+  int iRecherche; /* Elément recherché */
+  int iPremier; /* Indice du premier élément du sous-tableau analysé */
+  int iDernier; /* Indice du dernier élément du sous-tableau analysé */
+  int iMilieu; /* Indice de l'élément du milieu du sous-tableau analysé */
+  int iTrouve; /* Booléen indiquant si l'élément est trouvé */
+  int iFin=1; /* Indication de fin de saisie (0=fin) */
+  /* Tant que l'utilisateur souhaite faire des recherches */
+  while(iFin) {
+    printf("Quel élément recherchez-vous ? ");
+    scanf("%d",&iRecherche);
+    /* Initialisation des variables*/
+    iPremier=0;
+    iDernier=6;
+    iTrouve=0;
+    /* Tant qu'on a pas trouve l'élément recherché ou que le sous-tableau */
+    /* contient plus de 1 élément */
+    while((iPremier <= iDernier)&&(iTrouve==0)) {
+      /* Calcul de la position de l'élément du milieu */
+      iMilieu=(iPremier+iDernier)/2;
+      /* Si l'élément du milieu est l'élément recherché */
+      if(iTableau[iMilieu]==iRecherche) iTrouve =1;
+      else {
+	/* Si la valeur recherchée est plus petite */
+	/* que la valeur du l'élément du milieu */
+	/* Alors on regarde le sous-tableau de gauche */
+	if(iTableau[iMilieu]>iRecherche) iDernier = iMilieu -1;
+	/* sinon on regarde le sous-tableau de droite*/
+	else iPremier = iMilieu +1;
+      }
+    }
+    if(!iTrouve) printf("Cette valeur n'appartient pas à la liste\n");
+    else printf("Cette valeur appartient à la liste\n");
+    printf("Voulez-vous continuer ? (Taper 0 pour sortir du programme) : ");
+    scanf("%d",&iFin);
+    /* Si l'utilisateur ne saisait pas un nombre, on sort du programme */
+    if(!isalpha(iFin)) iFin=0;
+    
+    /* reprise d'une recherche */
+    iTrouve=0;
+  } /* Fin du while */
+} /* Fin du main */
+
+
+
+
+
+
 int main(void) {
   printf("\n\n");
   
   //Test rééquilibirage
   TrieHybride t = trieVide(), res = trieVide();
   constructTrieHybride(t,base,tailleBase);
-  listeMotsTrieTab(t);
+  listeMotsTrieTab(t->nextChild);
 
+  printf("\nTest 1\n");
 
   printf("\nListe Tab :");
   int i;
@@ -89,7 +145,7 @@ int main(void) {
     printf("\n%s",tab[i]);
   }
   
-  reequilibrageRec(res,tab,0,tailleTab-1);
+  //reequilibrageRec(res,tab,0,tailleTab-1);
 
   
   
