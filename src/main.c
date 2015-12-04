@@ -52,12 +52,19 @@ void listeMotsTrieTab(TrieHybride t) {
   }
 }
 
+int cmpt = 0;
 
 void reequilibrageRec(TrieHybride res, char tab[5000][50], int t_min, int t_max) {
-  if(t_min >= t_max) return; 
-       ajoutMotTrie(res,tab[t_min+((t_max-t_min)/2)]);
-       reequilibrageRec(res,tab,t_min,((t_max-t_min)/2)-1);
-       reequilibrageRec(res,tab,((t_max-t_min)/2)+1,t_max);
+  if(t_min > t_max) return;
+  if(t_max == t_min) {
+    ajoutMotTrie(res,tab[t_min]);
+    return;
+  }
+  int milieu = (t_min+t_max)/2;
+  printf("\n%s | %d",tab[milieu],++cmpt);
+  ajoutMotTrie(res,tab[milieu]);
+  reequilibrageRec(res,tab,t_min,milieu-1);
+  reequilibrageRec(res,tab,milieu+1,t_max);
 }
 
 
@@ -77,52 +84,104 @@ void suppressionListeHybride(TrieHybride t, char** liste, int taille) {
 
 
 
+/* Construction d'un Trie Hybride à partir de tous les fichiers de Shakespeare et Rééquilibrage */
+void testReequilibrageTrieHybride() {
+  TrieHybride t = trieVide(); //Déclaration et initialisation du Trie Hybride
 
-/* Programme de recherche dichotomique d'un élément dans une liste d'entiers */
-int reequilibrageDichotomique() {
-  /* DECLARATION DES VARIABLES */
-  int iTableau[]={1,2,3,5,6,8,9}; /* Tableau TRIE d’entiers */
-  int iRecherche; /* Elément recherché */
-  int iPremier; /* Indice du premier élément du sous-tableau analysé */
-  int iDernier; /* Indice du dernier élément du sous-tableau analysé */
-  int iMilieu; /* Indice de l'élément du milieu du sous-tableau analysé */
-  int iTrouve; /* Booléen indiquant si l'élément est trouvé */
-  int iFin=1; /* Indication de fin de saisie (0=fin) */
-  /* Tant que l'utilisateur souhaite faire des recherches */
-  while(iFin) {
-    printf("Quel élément recherchez-vous ? ");
-    scanf("%d",&iRecherche);
-    /* Initialisation des variables*/
-    iPremier=0;
-    iDernier=6;
-    iTrouve=0;
-    /* Tant qu'on a pas trouve l'élément recherché ou que le sous-tableau */
-    /* contient plus de 1 élément */
-    while((iPremier <= iDernier)&&(iTrouve==0)) {
-      /* Calcul de la position de l'élément du milieu */
-      iMilieu=(iPremier+iDernier)/2;
-      /* Si l'élément du milieu est l'élément recherché */
-      if(iTableau[iMilieu]==iRecherche) iTrouve =1;
-      else {
-	/* Si la valeur recherchée est plus petite */
-	/* que la valeur du l'élément du milieu */
-	/* Alors on regarde le sous-tableau de gauche */
-	if(iTableau[iMilieu]>iRecherche) iDernier = iMilieu -1;
-	/* sinon on regarde le sous-tableau de droite*/
-	else iPremier = iMilieu +1;
-      }
-    }
-    if(!iTrouve) printf("Cette valeur n'appartient pas à la liste\n");
-    else printf("Cette valeur appartient à la liste\n");
-    printf("Voulez-vous continuer ? (Taper 0 pour sortir du programme) : ");
-    scanf("%d",&iFin);
-    /* Si l'utilisateur ne saisait pas un nombre, on sort du programme */
-    if(!isalpha(iFin)) iFin=0;
-    
-    /* reprise d'une recherche */
-    iTrouve=0;
-  } /* Fin du while */
-} /* Fin du main */
+  //Construction de l'Arbre de la Briandais à partir de tous les fichiers de Skahespeare
+  demarrer_chrono(); nb_operations = 0;
+  constructShakespeareTrie(t,"../files/Shakespeare/1henryiv.txt");
+  printf("\n1 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/1henryvi.txt");
+  printf("\n2 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/2henryiv.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/2henryvi.txt");
+  printf("\n4 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/3henryvi.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/allswell.txt");
+  printf("\n6 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/asyoulikeit.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/cleopatra.txt");
+  printf("\n8 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/comedy_errors.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/coriolanus.txt");
+  printf("\n10 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/cymbeline.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/hamlet.txt");
+  printf("\n12 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/henryv.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/henryviii.txt");
+  printf("\n14 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/john.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/julius_caesar.txt");
+  printf("\n16 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/lear.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/winters_tale.txt");
+  printf("\n18 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/macbeth.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/measure.txt");
+  printf("\n20 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/merchant.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/merry_wives.txt");
+  printf("\n22 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/midsummer.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/much_ado.txt");
+  printf("\n24 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/othello.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/pericles.txt");
+  printf("\n26 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/richardii.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/richardiii.txt");
+  printf("\n28 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/romeo_juliet.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/taming_shrew.txt");
+  printf("\n30 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/tempest.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/timon.txt");
+  printf("\n32 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/titus.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/troilus_cressida.txt");
+  printf("\n34 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/twelfth_night.txt");
+  constructShakespeareTrie(t,"../files/Shakespeare/two_gentlemen.txt");
+  printf("\n36 : "); stop_chrono();
+  constructShakespeareTrie(t,"../files/Shakespeare/lll.txt");
+  printf("\n37 : "); stop_chrono();
+
+  printf("\nConstruction à partir de TOUS les fichiers de Shakespeare : Nb opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono(); printf("\n");
+  
+  TrieHybride res = trieVide();
+
+  printf("\nRééquilibrage en cours...\n");
+  listeMotsTrieTab(t->nextChild);
+  
+  demarrer_chrono(); nb_operations = 0;
+  reequilibrageRec(res,tab,0,tailleTab-1);
+  printf("\nDone !\nRééquilibrage Shakespeare - Trie Hybride : Nb opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono(); printf("\n\n");
+
+
+  /*   Comparaison du Trie initial et du Trie résultat
+     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
+
+  printf("Comptage Mots : t-%d - res-%d\n", comptageMotsTrie_V2(t->nextChild),comptageMotsTrie_V2(res->nextChild));
+
+  printf("Comptage Pointeurs vers Nil : t-%d res-%d\n",comptageNilTrie(t->nextChild),comptageNilTrie(res->nextChild));
+
+  printf("Hauteur de l'Arbre : t-%d res-%d\n",hauteurTrie(t->nextChild),hauteurTrie(res->nextChild));
+
+  printf("Comptage Feuilles : t-%d res-%d\n",comptageFeuillesTrie(t->nextChild),comptageFeuillesTrie(res->nextChild));
+
+  printf("Profondeur Moyenne du Trie t : %f --> %d\n",profondeurMoyenneTrieV2(t->nextChild),
+            (int)profondeurMoyenneTrieV2(t->nextChild));
+
+  printf("Profondeur Moyenne du Trie res : %f --> %d\n",profondeurMoyenneTrieV2(res->nextChild),
+	 (int)profondeurMoyenneTrieV2(res->nextChild));
+  printf("\n");
+}
+
+
 
 
 
@@ -131,26 +190,43 @@ int reequilibrageDichotomique() {
 
 int main(void) {
   printf("\n\n");
+
+
+
+  //testReequilibrageTrieHybride();
+
+  
   
   //Test rééquilibirage
-  TrieHybride t = trieVide(), res = trieVide();
+  TrieHybride t = trieVide(), t2 = trieVide(), res = trieVide();
   constructTrieHybride(t,base,tailleBase);
+
+  printf("\nMots t :\n");
   listeMotsTrieTab(t->nextChild);
 
+  
   printf("\nTest 1\n");
 
   printf("\nListe Tab :");
   int i;
   for(i = 0; i < tailleTab; i++) {
     printf("\n%s",tab[i]);
+    //ajoutMotTrie(t2,tab[i]);
   }
-  
-  //reequilibrageRec(res,tab,0,tailleTab-1);
 
-  
-  
-  listeMotsTrieTab(res);
 
+  printf("\nListe mots rééquilibrage\n");
+  
+  reequilibrageRec(res,tab,0,tailleTab);
+
+
+  printf("\nListe Trie res :");
+  listeMotsTrie(res->nextChild);
+
+
+  printf("\nHauteur t : %d | Hauteur res : %d\n",hauteurTrie(t->nextChild),hauteurTrie(res->nextChild));
+  printf("Nombre mots t : %d | Nombe mots res : %d\n",comptageMotsTrie_V2(t->nextChild),comptageMotsTrie_V2(res->nextChild));
+  
   
 
 /*

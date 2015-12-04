@@ -132,7 +132,7 @@ void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, Arb
 TrieHybride BriandaisToTrieHybride(ArbreBriandais a); //Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
 ArbreBriandais TrieHybrideToBriandais(TrieHybride t); //Convertit un Trie Hybride en Arbre de la Briandais et retourne ce dernier.
 TrieHybride ajoutAvecReequilibrage(TrieHybride t, char mot[]); //Ajout d'un mot dans un Trie suivi par un rééquilibrage si nécessaire.
-
+void reequilibrageRec(TrieHybride res, char tab[5000][50], int t_min, int t_max); //Rééquilibrage façon dichotomique 
 
 /* VIII - Fonction utilitaires */
 void chargerMots(); //Charge la liste des mots du fichier donné dans la liste de mots globale. (A REPARER)

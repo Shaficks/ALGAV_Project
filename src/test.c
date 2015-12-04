@@ -1018,3 +1018,7 @@ void testConversionTrieHybride() {
   printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
   stop_chrono();
 }
+
+
+
+
