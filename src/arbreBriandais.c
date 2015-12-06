@@ -12,7 +12,7 @@
 #include "../headers/main.h"
 
 
-/* III - Liste des primitives de base d'un Arbre de la Briandais */
+/********** III - Liste des primitives de base d'un Arbre de la Briandais **********/
 //Fonction qui retourne un arbre vide
 ArbreBriandais arbreVide() {
   ArbreBriandais a;
@@ -126,7 +126,7 @@ void ajoutMotBriandais(ArbreBriandais a, char mot[]) {
             nbMotsBriandais++; //Incrémentation du nombre de mots dans l'Arbre de la Briandais
             return;
         }
-    }  
+    }
     else if(!prec->child) {
       ++nb_operations;
       ArbreBriandais noeud = my_malloc(sizeof(*noeud));
@@ -282,7 +282,7 @@ ArbreBriandais insertArbreBriandais(ArbreBriandais a, ArbreBriandais ai, int i) 
 }
 
 
-/* V - Liste des fonctions avancées pour les Arbres de la Briandais */
+/********** V - Liste des fonctions avancées pour les Arbres de la Briandais **********/
 //Retourne 1(VRAI) si le mot existe dans l'Arbre a, 0(FAUX) sinon.
 int rechercheMotBriandais(ArbreBriandais a, char mot[]) {
 
@@ -420,6 +420,8 @@ float profondeurMoyenneBriandais(ArbreBriandais a) {
     return ((float)profondeurTotaleBriandais(a,0)/(float)comptageFeuillesBriandais(a));
 }
 
+/* Calcule le nombre de feuilles du Trie et la somme de leurs profondeurs et stocke les résultats dans des variables globales.
+  nb_feuilles et prof_totale_feuilles */
 void profondeursFeuilles(ArbreBriandais a, int profondeur) {
     ++nb_operations;
     if(!a) return;
@@ -432,6 +434,7 @@ void profondeursFeuilles(ArbreBriandais a, int profondeur) {
     profondeursFeuilles(a->child,profondeur+1);
 }
 
+/* Calcule et retourne le résultat de la division de nb_feuilles par prof_totale_feuilles */
 float profondeurMoyenneBriandaisV2(ArbreBriandais a) {
     profondeursFeuilles(a, 0);
     return prof_totale_feuilles / nb_feuilles;
@@ -557,7 +560,7 @@ void suppressionMotBriandais_V1(ArbreBriandais a, char mot[]) {
   printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
 }
 
-//Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//Supprime un mot de l'Arbre a et retourne l'Arbre résultat | Version Complexe
 void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
   ArbreBriandais it = a, prec, potentiel, prec_potentiel;
   int n = strlen(mot);
@@ -584,7 +587,7 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
     for(i = 0; mot[i] <= n; i++) {
       //Boucle principale servant à parcourir les noeuds de l'arbre
       while(it) {
-	
+
 	//Parcours de la liste des racines de la i-ème forêt lexicographique afin de trouver la position de la i-ème lettre du mot
         while(toupper(mot[i]) > toupper(it->val)) {
             ++nb_operations;
@@ -644,11 +647,18 @@ void suppressionMotBriandais_V2(ArbreBriandais a, char mot[]) {
   }
 
 
-  
+
   --nbMotsBriandais;
   printf("Le mot \'%s\' a été supprimé de l'Arbre de la Briandais !!!\n",mot);
 
 
+}
+
+//Suppression d'un ensemble de mots(liste) d'un Arbre de la Briandais a.
+void suppressionListeBriandais(ArbreBriandais a, char** liste, int taille) {
+    int i;
+    for(i = 0; i < taille; i++)
+        suppressionMotBriandais_V1(a,liste[i]);
 }
 
 /* Fonction qui affiche un aperçu visuel de l'Arbre de la Briandais a */
@@ -666,4 +676,10 @@ void visualizeBriandais(ArbreBriandais a, int profondeur) {
     }
     if (a->child) visualizeBriandais(a->child, profondeur + 1); //Les fils sont affichés au niveau inféreieur, d'où le +1
     if (a->sibling) visualizeBriandais(a->sibling, profondeur); //Les frère sont dans le même niveau
+}
+
+//Calcule et retourne le nombre de noeuds d'un Arbre de la Briandais
+int compteBriandais(ArbreBriandais a) {
+    if(!a) return 0;
+    return 1 + compteBriandais(a->child) + compteBriandais(a->sibling);
 }

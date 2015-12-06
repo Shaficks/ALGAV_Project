@@ -11,9 +11,7 @@
 
 #include "../headers/main.h"
 
-
-
-/* IV - Liste des primitives de base d'un Trie Hybride */
+/********** IV - Liste des primitives de base d'un Trie Hybride **********/
 //Retourne un Trie Hybride réduit à un noeud avec 3 liens vides.
 TrieHybride trieVide() {
   TrieHybride t;
@@ -153,6 +151,16 @@ int estFeuilleTrie(TrieHybride t) {
     return (!t->nextChild && (!t->inferiorChild && !t->superiorChild))?VRAI:FAUX;
 }
 
+/* Retourne 1(VRAI) si le Trie t est déséquilibré, 0(FAUX) sinon.
+  (Un écart maximal autorisé demandé par la fonction doit être saisi au clavier)*/
+int estDesequilibre(TrieHybride t) {
+    int n;
+    printf("\nEntrez l'écart maximal autorisé entre les profondeurs de 2 feuilles : "); scanf("%d",&n);
+    if(abs(hauteurTrie(t->nextChild)-minProfondeurTrie(t->nextChild)) > n)
+        return VRAI;
+    return FAUX;
+}
+
 //Retourne le nombre de feuilles du Trie Hybride.
 int comptageFeuillesTrie(TrieHybride t) {
     ++nb_operations;
@@ -186,10 +194,7 @@ TrieHybride tousFilsSauf(TrieHybride t, int i); //On en a vraiment besoin ??
 TrieHybride insertTrieHybride(TrieHybride t, TrieHybride ti, int i);
 
 
-
-
-/* VI - Liste des fonctions avancées pour les Tries Hybrides */
-
+/********** VI - Liste des fonctions avancées pour les Tries Hybrides **********/
 //Retourne 1(VRAI) si le mot existe dans le Trie a, 0(FAUX) sinon.
 int rechercheMotTrie(TrieHybride t, char mot[]) {
     //Au cas où le mot est vide
@@ -262,8 +267,8 @@ int comptageMotsTrie_V2(TrieHybride t) {
   return  comptageMotsTrie_V2(t->nextChild) + comptageMotsTrie_V2(t->inferiorChild) + comptageMotsTrie_V2(t->superiorChild); //Cas général
 }
 
-/*
 //Retourne la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+/*
 void listeMotsTrie(TrieHybride t, char mot[], int profondeur) {
   ++nb_operations;
   if(t) {
@@ -314,6 +319,14 @@ int hauteurTrie(TrieHybride t) {
     return max3(1+hauteurTrie(t->nextChild), 1+hauteurTrie(t->superiorChild), 1+hauteurTrie(t->inferiorChild));
 }
 
+//Calcule et retourne la profondeur minimale du Trie t
+int minProfondeurTrie(TrieHybride t) {
+    ++nb_operations;
+	if(!t) return 0;
+	if(estFeuilleTrie(t)) return 1;
+    return min3(1+hauteurTrie(t->nextChild), 1+hauteurTrie(t->superiorChild), 1+hauteurTrie(t->inferiorChild));
+}
+
 //Retourne la somme des profondeurs de toutes les feuilles du Trie. n = 0 lors de l'appel.
 int profondeurTotaleTrie(TrieHybride t, int n) {
     if(!t) return 0;
@@ -327,6 +340,8 @@ float profondeurMoyenneTrie(TrieHybride t) {
     return ((float)profondeurTotaleTrie(t,0)/(float)comptageFeuillesTrie(t));
 }
 
+/*Calcule le nombre de feuilles du Trie et la somme de leurs profondeurs et stocke les résultats dans des variables globales.
+  nb_feuilles et prof_totale_feuilles */
 void profondeursFeuillesTrie(TrieHybride t, int profondeur) {
     ++nb_operations;
     if(!t) return;
@@ -340,6 +355,7 @@ void profondeursFeuillesTrie(TrieHybride t, int profondeur) {
     profondeursFeuillesTrie(t->superiorChild,profondeur+1);
 }
 
+/* Calcule et retourne le résultat de la division de nb_feuilles par prof_totale_feuilles */
 float profondeurMoyenneTrieV2(TrieHybride t) {
     profondeursFeuillesTrie(t, 0);
     return prof_totale_feuilles / nb_feuilles;
@@ -460,8 +476,16 @@ void suppressionMotTrie_V1(TrieHybride t, char mot[]) {
 //Supprime un mot du Trie t et retourne le Trie résultat | Version Complexe
 void suppressionMotTrie_V2(TrieHybride t, char mot[]);
 
-/* Fonction qui affiche un aperçu visuel du Trie Hybride t */
-void visualizeHybride(TrieHybride t, int profondeur) {
+//Suppression d'un ensemble de mots(liste) d'un Trie Hybride t.
+void suppressionListeHybride(TrieHybride t, char** liste, int taille) {
+    int i;
+    for(i = 0; i < taille; i++)
+        suppressionMotTrie_V1(t,liste[i]);
+}
+
+/* Fonction qui affiche un aperçu visuel du Trie Hybride t et stocke le code XML correspondant à l'arbre dans le fichier Trie.xml */
+/* Servira à visualiser le Trie plus tard en visualisant l'hiérarchie du fichier Trie.xml */
+void visualizeHybrideXML(TrieHybride t, int profondeur) {
     ++nb_operations;
     int i;
     FILE* fichier = fopen("Trie.xml","w+");
@@ -478,22 +502,21 @@ void visualizeHybride(TrieHybride t, int profondeur) {
     }
     if (t->inferiorChild) {
         fprintf(fichier,"<%c>\n",t->inferiorChild->val);
-        visualizeHybride(t->inferiorChild, profondeur);
+        visualizeHybrideXML(t->inferiorChild, profondeur);
         fprintf(fichier,"</%c>\n",t->inferiorChild->val);
     }
     if (t->nextChild) {
         fprintf(fichier,"<%c>\n",t->nextChild->val);
-        visualizeHybride(t->nextChild, profondeur+1);
+        visualizeHybrideXML(t->nextChild, profondeur+1);
         fprintf(fichier,"</%c>\n",t->nextChild->val);
     }
     if (t->superiorChild) {
         fprintf(fichier,"<%c>\n",t->superiorChild->val);
-        visualizeHybride(t->superiorChild, profondeur);
+        visualizeHybrideXML(t->superiorChild, profondeur);
         fprintf(fichier,"</%c>\n",t->superiorChild->val);
     }
     //fclose(fichier);
 }
-
 
 /* Fonction qui affiche un aperçu visuel du Trie Hybride t */
 void visualizeHybrideV2(TrieHybride t, int profondeur) {
@@ -513,3 +536,26 @@ void visualizeHybrideV2(TrieHybride t, int profondeur) {
     if (t->nextChild) visualizeHybrideV2(t->nextChild, profondeur+1);
     if (t->superiorChild) visualizeHybrideV2(t->superiorChild, profondeur);
 }
+
+//Stocke dans le tableau global tab la liste des mots présents dans le Trie t triés dans l'ordre alphabétique.
+void listeMotsTrieTab(TrieHybride t) {
+  ++nb_operations;
+  if(t) {
+    if(t->cle != -1) {
+      strcpy(tab[tailleTab++],t->mot);
+    }
+    if(t->inferiorChild)
+        listeMotsTrieTab(t->inferiorChild);
+    if(t->nextChild)
+        listeMotsTrieTab(t->nextChild);
+    if(t->superiorChild)
+        listeMotsTrieTab(t->superiorChild);
+  }
+}
+
+//Calcule et retourne le nombre de noeuds d'un Trie Hybride.
+int compteHybride(TrieHybride t) {
+    if(!t) return 0;
+    return 1 + compteHybride(t->inferiorChild) + compteHybride(t->nextChild) + compteHybride(t->superiorChild);
+}
+

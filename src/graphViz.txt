@@ -1,0 +1,26 @@
+digraph { 
+  subgraph cluster_0 {
+    a0[label = "a 0"]; p0[label = "p"] ;  p1[label = "p"] ;  e0[label = "e"] ;  l0[label = "L 1"];
+    a0->p0; p0->p1; p1->e0; e0->l0;
+  }
+  subgraph cluster_1 {
+    c0[label = "c"];  a1[label="a"]; c1[label = "c"]; u0[label="u"]; n0[label = "n"]; e1[label="e 2"];
+    a0->c0; c0->h; h->a1; a1->c1; c1->u0; u0->n0; n0->e1;
+  }
+  subgraph cluster_2 {
+    i0[label = "i 3"]; h->i0; 
+    i0->NULL;
+  }
+  subgraph cluster_3 {
+    l1[label = "L"];  a2[label="a"]; i1[label = "i"]; e2[label="e"]; r0[label = "r 4"];
+    i0->l1; l1->a2; a2->v; v->i1; i1->e2; e2->r0;
+  }
+  subgraph cluster_4 {
+    e3[label="e"]; u1[label="u"]; r1[label="r 5"];
+    l1->o; o->e3; e3->u1; u1->r1; 
+  }
+  subgraph cluster_5 {
+    n1[label="n"]; n2[label="n"]; a3[label="a"]; i2[label="i"];t[label="t 6"]
+    e3->n1; n1->n2; n2->a3; a3->i2;i2->t;
+  }
+}

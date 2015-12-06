@@ -62,7 +62,7 @@ void fusionBriandais(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res, Arb
 }
 */
 
-
+//Fonction qui copie un Arbre de la Briandais a dans un autre b
 void fusionBriandaisRec(ArbreBriandais a, ArbreBriandais res, char mot[], int profondeur) {
   ++nb_operations;
   if(!a) return;
@@ -78,7 +78,7 @@ void fusionBriandaisRec(ArbreBriandais a, ArbreBriandais res, char mot[], int pr
   }
 }
 
-
+//Fusion 2 Arbres de la Briandais a et b dans res
 void fusionBriandaisV2(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res) {
   char mot[50];
   if(a)
@@ -87,8 +87,7 @@ void fusionBriandaisV2(ArbreBriandais a, ArbreBriandais b, ArbreBriandais res) {
     fusionBriandaisRec(b->sibling,res,mot,0);
 }
 
-
-//Convertit un Arbre de la Briandais en Trie Hybride et retourne ce dernier.
+//Convertit un Arbre de la Briandais a en un Trie Hybride t et retourne ce dernier.
 void BriandaisToTrieHybrideV1(ArbreBriandais a, TrieHybride t, char mot[], int profondeur) {
   if(!a) return;
   if(a) {
@@ -104,10 +103,7 @@ void BriandaisToTrieHybrideV1(ArbreBriandais a, TrieHybride t, char mot[], int p
   }
 }
 
-
-
-
-//Convertit un Trie Hybride en Arbre de la Briandais et retourne ce dernier.
+//Convertit un Trie Hybridet t en un Arbre de la Briandais a et retourne ce dernier.
 void TrieHybrideToBriandaisV1(TrieHybride t, ArbreBriandais a) {
   ++nb_operations;
   if(t) {
@@ -125,3 +121,18 @@ void TrieHybrideToBriandaisV1(TrieHybride t, ArbreBriandais a) {
 
 //Ajout d'un mot dans un Trie suivi par un rééquilibrage si nécessaire.
 TrieHybride ajoutAvecReequilibrage(TrieHybride t, char mot[]);
+
+/* Construction d'un Trie Hybride le plus équilibré possible à partir d'une liste de mots
+   Cette solution est inspirée de la Recherche Dichotomique */
+void reequilibrageDichotomique(TrieHybride res, char tab[5000][50], int t_min, int t_max) {
+  nb_operations++;
+  if(t_max == t_min) {
+    ajoutMotTrie(res,tab[t_min]);
+    return;
+  }
+  if(t_min > t_max) return;
+  int milieu = (t_min+t_max)/2;
+  ajoutMotTrie(res,tab[milieu]);
+  reequilibrageDichotomique(res,tab,t_min,milieu-1);
+  reequilibrageDichotomique(res,tab,milieu+1,t_max);
+}

@@ -10,9 +10,9 @@
  */
 #include "../headers/main.h"
 
-/*=======================================================*/
-/*        Fonctions de Calcul de temps d'exécution       */
-/*=======================================================*/
+/**======================================================**/
+/**       Fonctions de Calcul de temps d'exécution       **/
+/**======================================================**/
 clock_t top_chrono;
 
 void demarrer_chrono() {
@@ -64,9 +64,9 @@ void constructShakespeareTrie(TrieHybride t, char chemin[]) {
 
 
 
-/*=======================================================*/
-/*             Tests Arbre de la Briandais               */
-/*=======================================================*/
+/**=======================================================**/
+/**             Tests Arbre de la Briandais               **/
+/**=======================================================**/
 
 /* Construction d'un Arbre de la Briandais à partir de tous les fichiers de Shakespeare afin d'y effectuer différentes opérations */
 void testShakespeareBriandais() {
@@ -539,34 +539,25 @@ void testConversionBriandais() {
   stop_chrono(); printf("\n\n");
 
 
-    /* Affichage des différentes informations de l'arbre :
-     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
-  demarrer_chrono(); nb_operations = 0;
-  comptageMotsTrie_V2(t->nextChild);
-  printf("Comptage Mots : V1 %ld - V2 %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageMotsTrie_V1(),
-            comptageMotsTrie_V2(t->nextChild),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  comptageNilTrie(t->nextChild);
-  printf("Comptage Pointeurs vers Nil : %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageNilTrie(t->nextChild),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  hauteurTrie(t->nextChild);
-  printf("Hauteur de l'Arbre : %d | Nb d'opérations : %ld | Temps d'exécution : ",hauteurTrie(t->nextChild),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  comptageFeuillesTrie(t->nextChild);
-  printf("Comptage Feuilles : %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageFeuillesTrie(t->nextChild),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  profondeurMoyenneTrie(t->nextChild);
-  printf("Profondeur Moyenne de l'Arbre : %f --> %d | Nb d'opérations : %ld | Temps d'exécution : ",profondeurMoyenneTrieV2(t->nextChild),
-            (int)profondeurMoyenneTrieV2(t->nextChild),nb_operations);
-  stop_chrono(); printf("\n");
+    /* Comparaison des différentes informations de l'Arbre de la Briandais et le Trie Hybride résultat :
+     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne, nombre de noeuds, ... */
+  printf("********** Comparaison de l'Arbre de la Briandais Initial A et Le Trie Hybride Résultat T **********\n");
+  printf("Comptage Mots - A : %d | T : %d\n",comptageMotsBriandais_V2(a->sibling),comptageMotsTrie_V2(t->nextChild));
+  printf("Comptage Pointeurs vers Nil - A %d | T : %d\n", comptageNilBriandais(a->sibling), comptageNilTrie(t->nextChild));
+  printf("Hauteur - A : %d | T : %d\n",hauteurBriandais(a->sibling), hauteurTrie(t->nextChild));
+  printf("Comptage Feuilles - A : %d | T : %d\n",comptageFeuillesBriandais(a->sibling), comptageFeuillesTrie(t->nextChild));
+  printf("Comptage Noeuds - A : %d | T : %d\n",compteBriandais(a), compteHybride(t));
+  printf("Profondeur Moyenne de A : %f --> %d\n",profondeurMoyenneBriandaisV2(a->sibling),
+            (int)profondeurMoyenneBriandaisV2(a->sibling));
+  nb_feuilles = 0; prof_totale_feuilles = 0;
+  printf("Profondeur Moyenne de T : %f --> %d\n",profondeurMoyenneTrieV2(t->nextChild),
+            (int)profondeurMoyenneTrieV2(t->nextChild));
+
 
 
   //char mot[50];
   //Ajout d'un mot
+  printf("\n********** Opérations sur Le Trie Hybride Résultat **********");
   printf("\nEntrez un mot à ajouter : "); scanf("%s",mot);
   demarrer_chrono(); nb_operations = 0;
   ajoutMotTrie(t,mot);
@@ -626,10 +617,9 @@ void testVisualizeBriandais() {
 
 
 
-/*=======================================================*/
-/*                  Tests Trie Hybride                   */
-/*=======================================================*/
-
+/**=======================================================**/
+/**                  Tests Trie Hybride                   **/
+/**=======================================================**/
 
 /* Construction d'un Trie Hybride à partir de tous les fichiers de Shakespeare afin d'y effectuer différentes opérations */
 void testShakespeareTrieHybride() {
@@ -941,34 +931,23 @@ void testConversionTrieHybride() {
 
 
 
-    /* Affichage des différentes informations de l'arbre :
-     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
-  demarrer_chrono(); nb_operations = 0;
-  comptageMotsBriandais_V2(a->sibling);
-  printf("Comptage Mots : V1 %ld - V2 %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageMotsBriandais_V1(),
-            comptageMotsBriandais_V2(a->sibling),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  comptageNilBriandais(a->sibling);
-  printf("Comptage Pointeurs vers Nil : %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageNilBriandais(a->sibling),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  hauteurBriandais(a->sibling);
-  printf("Hauteur de l'Arbre : %d | Nb d'opérations : %ld | Temps d'exécution : ",hauteurBriandais(a->sibling),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  comptageFeuillesBriandais(a->sibling);
-  printf("Comptage Feuilles : %d | Nb d'opérations : %ld | Temps d'exécution : ",comptageFeuillesBriandais(a->sibling),nb_operations);
-  stop_chrono(); printf("\n");
-  demarrer_chrono(); nb_operations = 0;
-  profondeurMoyenneBriandaisV2(a->sibling);
-  printf("Profondeur Moyenne de l'Arbre : %f --> %d | Nb d'opérations : %ld | Temps d'exécution : ",profondeurMoyenneBriandaisV2(a->sibling),
-            (int)profondeurMoyenneBriandaisV2(a->sibling),nb_operations);
-  stop_chrono(); printf("\n");
+    /* Comparaison des différentes informations du Trie Hybride et l'arbre de la Briandais résultat :
+     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne, nombre de noeuds, ... */
+  printf("********** Comparaison du Trie Hybride Initial T et de l'Arbre de la Briandais Résultat A **********\n");
+  printf("Comptage Mots - T : %d | A : %d\n",comptageMotsTrie_V2(t->nextChild), comptageMotsBriandais_V2(a->sibling));
+  printf("Comptage Pointeurs vers Nil - T %d | A : %d\n",comptageNilTrie(t->nextChild), comptageNilBriandais(a->sibling));
+  printf("Hauteur - T : %d | A : %d\n",hauteurTrie(t->nextChild), hauteurBriandais(a->sibling));
+  printf("Comptage Feuilles - T : %d | A : %d\n",comptageFeuillesTrie(t->nextChild),comptageFeuillesBriandais(a->sibling));
+  printf("Comptage Noeuds - T : %d | A : %d\n",compteHybride(t),compteBriandais(a));
+  printf("Profondeur Moyenne de T : %f --> %d\n",profondeurMoyenneTrieV2(t->nextChild),
+            (int)profondeurMoyenneTrieV2(t->nextChild));
+  nb_feuilles = 0; prof_totale_feuilles = 0;
+  printf("Profondeur Moyenne de A : %f --> %d\n",profondeurMoyenneBriandaisV2(a->sibling),
+            (int)profondeurMoyenneBriandaisV2(a->sibling));
 
 
-  
   char mot[50];
+  printf("\n********** Opérations sur l'Arbre de la Briandais Résultat **********");
   //Ajout d'un mot
   printf("\nEntrez un mot à ajouter : "); scanf("%s",mot);
   demarrer_chrono(); nb_operations = 0;
@@ -1017,6 +996,109 @@ void testConversionTrieHybride() {
   visualizeBriandais(a->sibling,0);
   printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
   stop_chrono();
+}
+
+/* Construction d'un Trie Hybride à partir de l'Exemple de Base et Rééquilibrage du Trie en utilisant le rééquilibrage façon dichotomique */
+void testReequilibrageDichotomiqueTrieHybride() {
+  //Test rééquilibirage
+  TrieHybride t = trieVide(), res = trieVide();
+  constructTrieHybride(t,base,tailleBase);
+
+  printf("****** Test de rééquilibrage de l'Exemple de Base en utilisant le Rééquilibrage Dichotomique ******");
+
+  printf("\nRééquilibrage Dichotomique en cours ...");
+  demarrer_chrono(); nb_operations = 0;
+  listeMotsTrieTab(t->nextChild);
+  reequilibrageDichotomique(res,tab,0,tailleTab);
+  printf("\nRééquilibrage Dichotomoque effectué avec succès! Nb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono(); printf("\n\n");
+
+
+  /*   Comparaison du Trie initial et du Trie résultat
+     - Nombre de mots, Nombre de pointeurs vers Nil, Hauteur, Profondeur moyenne */
+  printf("\n********** Comparaison du Trie Initial T et Le Trie Résultat RES **********\n");
+  printf("Comptage Mots - T : %d | RES : %d\n", comptageMotsTrie_V2(t->nextChild),comptageMotsTrie_V2(res->nextChild));
+
+  printf("Comptage Pointeurs vers Nil - T : %d | RES : %d\n",comptageNilTrie(t->nextChild),comptageNilTrie(res->nextChild));
+
+  printf("Hauteur de l'Arbre - T : %d | RES : %d\n",hauteurTrie(t->nextChild),hauteurTrie(res->nextChild));
+
+  printf("Comptage Feuilles - T : %d | RES : %d\n",comptageFeuillesTrie(t->nextChild),comptageFeuillesTrie(res->nextChild));
+
+  printf("Profondeur Moyenne du Trie T : %f --> %d\n",profondeurMoyenneTrieV2(t->nextChild),
+            (int)profondeurMoyenneTrieV2(t->nextChild));
+
+  printf("Profondeur Moyenne du Trie RES : %f --> %d\n",profondeurMoyenneTrieV2(res->nextChild),
+	 (int)profondeurMoyenneTrieV2(res->nextChild));
+  printf("\n");
+
+
+  char mot[50];
+  //Ajout d'un mot
+  printf("\n********** Opérations sur Le Trie Hybride Résultat **********");
+  printf("\nEntrez un mot à ajouter : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  ajoutMotTrie(res,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();printf("\n");
+
+  //Test de la fonction préfixe
+  printf("Entrez une chaine afin de voir de combien de mots elle est préfixe : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  prefixeTrie(res,mot);
+  printf("\nNb de mots qui ont \'%s\' comme préfixe : %d | Nb d'opérations : %ld | Temps d'exécution : ",mot,prefixeTrie(res,mot),nb_operations);
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  rechercheMotTrie(res,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Suppression d'un mot
+  printf("\nEntrez un mot à supprimer : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  suppressionMotTrie_V1(res,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Recherche d'un mot
+  printf("\nEntrez un mot à chercher : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  rechercheMotTrie(res,mot);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Lister les mots
+  printf("\nEntrez n'importe quel chiffre pour voir la liste des mots : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  listeMotsTrie(res->nextChild);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+
+  //Et finalement, affichage de la structure
+  printf("\nEntrez n'importe quel chiffre pour avoir un affichage de l'arbre : "); scanf("%s",mot);
+  demarrer_chrono(); nb_operations = 0;
+  visualizeHybrideV2(res->nextChild,0);
+  printf("\nNb d'opérations : %ld | Temps d'exécution : ",nb_operations);
+  stop_chrono();
+}
+
+/* Construction d'un Trie Hybride à partir de l'Exemple de Base et vérification s'il est déséquilibré ou pas */
+void testDesequilibreTrieHybride() {
+  //Test rééquilibirage
+  TrieHybride t = trieVide();
+  constructTrieHybride(t,base,tailleBase);
+
+
+  int n = estDesequilibre(t->nextChild);
+
+  if(n)
+    printf("\nLe Trie t est déséquilibré\n");
+  else
+    printf("\nLe Trie t n'est pas déséquilibré\n");
+
 }
 
 
