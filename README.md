@@ -1,16 +1,5 @@
 #ALGAV_Project<br/>
 
-###TODO :<br/>
-####ListeMotsBriandais<br/>
-####ListeMorsTrie<br/>
-####SuppressionMotBriandaisV2<br/>
-####SuppressionMotTrieV2<br/>
-####Correction de AjoutMotBriandais, RechercheMotBriandais avec le cas du mot Dactylographie<br/>
-####Comparaison des structures + Captures d'écran<br/>
-####Chargement d'une oeuvre de Shakespeare afin de faire des tests avec<br/>
-####Affichage d'un aperçu visuel de la structure du Trie Hybride<br/>
-####Implémentations des fonctions complexes<br/>
-
 #####Devoir de Programmation ALGAV<br/>
 #####Auteur - Chafik NOUIRA<br/><br/>
 
